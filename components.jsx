@@ -321,6 +321,13 @@ const Block = ({ block, data, onDone, onOpenProject, onOpenResume }) => {
           </a>
         </div>
       );
+    case 'aiStream':
+      return (
+        <p className="msg-text">
+          {block.content ? renderInline(block.content) : null}
+          {!block.done && <span className="caret"/>}
+        </p>
+      );
     default:
       return null;
   }

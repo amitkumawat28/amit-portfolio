@@ -159,6 +159,67 @@ app.put('/api/cms/responses', requireAuth, (req, res) => {
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
+// ── AI chat ───────────────────────────────────────────────────────────────────
+
+app.post('/api/chat', async (req, res) => {
+  const { message } = req.body || {};
+  if (!message) return res.status(400).json({ error: 'Message required' });
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return res.status(503).json({ error: 'AI not configured. Add GEMINI_API_KEY to environment.' });
+
+  const data = readData();
+  const systemPrompt = `You are an AI assistant on ${data.identity.name}'s portfolio website. Answer questions about ${data.identity.name} based only on the portfolio information below. Be concise, friendly, and conversational. Use **bold** sparingly for emphasis. If asked something not in the data, say you don't have that info.
+
+${JSON.stringify(data)}`;
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  try {
+    const geminiRes = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent?key=${apiKey}&alt=sse`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: 'user', parts: [{ text: message }] }],
+          generationConfig: { maxOutputTokens: 400, temperature: 0.7 }
+        })
+      }
+    );
+
+    const reader = geminiRes.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop() ?? '';
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const raw = line.slice(6).trim();
+        if (!raw) continue;
+        try {
+          const json = JSON.parse(raw);
+          const text = json.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (text) res.write(`data: ${JSON.stringify({ text })}\n\n`);
+        } catch {}
+      }
+    }
+    res.write('data: [DONE]\n\n');
+    res.end();
+  } catch (err) {
+    res.write(`data: ${JSON.stringify({ error: err.message })}\n\n`);
+    res.end();
+  }
+});
+
 // ── Dynamic data.js (replaces static file) ───────────────────────────────────
 
 app.get('/data.js', (req, res) => {

@@ -46,15 +46,70 @@ const App = () => {
     return null;
   };
 
+  const streamAI = async (text, aiId) => {
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setMessages(m => m.map(msg => msg.id !== aiId ? msg : {
+          ...msg, blocks: [{ type: 'aiStream', content: err.error || 'Something went wrong.', done: true }]
+        }));
+        return;
+      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buf = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        const lines = buf.split('\n');
+        buf = lines.pop() ?? '';
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const raw = line.slice(6);
+          if (raw === '[DONE]') {
+            setMessages(m => m.map(msg => msg.id !== aiId ? msg : {
+              ...msg, blocks: msg.blocks.map(b => b.type === 'aiStream' ? { ...b, done: true } : b)
+            }));
+            return;
+          }
+          try {
+            const { text: chunk, error } = JSON.parse(raw);
+            if (error) throw new Error(error);
+            if (chunk) setMessages(m => m.map(msg => msg.id !== aiId ? msg : {
+              ...msg, blocks: msg.blocks.map(b => b.type === 'aiStream' ? { ...b, content: b.content + chunk } : b)
+            }));
+          } catch {}
+        }
+      }
+      setMessages(m => m.map(msg => msg.id !== aiId ? msg : {
+        ...msg, blocks: msg.blocks.map(b => b.type === 'aiStream' ? { ...b, done: true } : b)
+      }));
+    } catch {
+      setMessages(m => m.map(msg => msg.id !== aiId ? msg : {
+        ...msg, blocks: [{ type: 'aiStream', content: 'Sorry, something went wrong. Try again.', done: true }]
+      }));
+    }
+  };
+
   const sendMessage = (text) => {
     const userMsg = { id: Date.now(), role: "user", text };
     const key = resolveResponseKey(text);
-    const responseKey = key || "fallback";
-    const blocks = data.responses[responseKey];
-    const aiMsg = { id: Date.now() + 1, role: "assistant", blocks, key: responseKey };
-    setMessages(m => [...m, userMsg, aiMsg]);
-    if (key && data.conversations.find(c => c.id === key)) setActiveId(key);
-    if (responseKey === "resume") setArtifact({ kind: "resume" });
+    if (key === null) {
+      const aiId = Date.now() + 1;
+      setMessages(m => [...m, userMsg, { id: aiId, role: "assistant", blocks: [{ type: 'aiStream', content: '', done: false }] }]);
+      streamAI(text, aiId);
+    } else {
+      const blocks = data.responses[key] || data.responses.fallback;
+      setMessages(m => [...m, userMsg, { id: Date.now() + 1, role: "assistant", blocks, key }]);
+      if (data.conversations.find(c => c.id === key)) setActiveId(key);
+      if (key === "resume") setArtifact({ kind: "resume" });
+    }
   };
 
   const pickConversation = (id) => {
@@ -104,7 +159,7 @@ const App = () => {
             <span>{activeId ? data.conversations.find(c => c.id === activeId)?.title : "New conversation"}</span>
           </div>
           <div className="chat-head-meta">
-            <span className="meta-chip desktop-only"><span className="dot live"/>canned · offline</span>
+            <span className="meta-chip desktop-only"><span className="dot live"/>AI · live</span>
             <a className="meta-chip link" href={"mailto:" + data.identity.links.email}>
               <Icon name="mail" size={12}/><span className="meta-chip-text">Hire Amit</span>
             </a>
