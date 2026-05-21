@@ -1,0 +1,6 @@
+node_modules/
+data/admin.json
+data/secret.key
+.env
+.vercel
+.claude/

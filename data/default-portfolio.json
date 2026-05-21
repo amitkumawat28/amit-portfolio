@@ -1,0 +1,201 @@
+{
+  "identity": {
+    "name": "Amit Kumawat",
+    "handle": "@amitkumawat",
+    "role": "Growth Marketer · AI Product Builder",
+    "location": "Jaipur, India",
+    "years": 10,
+    "tagline": "10 years at the intersection of growth, product, and AI.",
+    "cvPath": "assets/Amit_Kumawat_CV.pdf",
+    "links": {
+      "linkedin": "https://www.linkedin.com/in/kumawatamit/",
+      "github": "https://github.com/amitkumawat28/",
+      "email": "kumawatamit28@gmail.com"
+    }
+  },
+  "suggestions": [
+    { "icon": "spark",  "label": "Why should I hire Amit?", "prompt": "Why should I hire you?" },
+    { "icon": "folder", "label": "Show me your projects",   "prompt": "Show me your projects" },
+    { "icon": "user",   "label": "Tell me about yourself",  "prompt": "Tell me about yourself" },
+    { "icon": "wrench", "label": "What's your AI stack?",   "prompt": "What's your AI stack?" }
+  ],
+  "conversations": [
+    { "id": "about",      "title": "About Amit",              "preview": "10 years growth + AI…",          "icon": "user" },
+    { "id": "projects",   "title": "Projects & case studies", "preview": "Traveleva, Prompt Masterclass…", "icon": "folder" },
+    { "id": "experience", "title": "Experience timeline",     "preview": "Founder, marketer, builder",     "icon": "briefcase" },
+    { "id": "skills",     "title": "Skills & AI stack",       "preview": "Claude, GPT, automations…",     "icon": "wrench" },
+    { "id": "hire",       "title": "Why hire Amit",           "preview": "The pitch in 60 seconds",        "icon": "spark" },
+    { "id": "fun",        "title": "Off the clock",           "preview": "Travel, books, side quests",     "icon": "compass" },
+    { "id": "contact",    "title": "Get in touch",            "preview": "Email, LinkedIn, GitHub",        "icon": "mail" }
+  ],
+  "projects": [
+    {
+      "id": "traveleva",
+      "name": "Traveleva",
+      "tag": "Co-founder · Solo operator",
+      "blurb": "International travel agency built and run solo with AI-driven ops and automation.",
+      "stack": ["AI ops", "Automation workflows", "Growth", "Product"],
+      "highlights": [
+        "Wore every hat: strategy, product, marketing, ops",
+        "Used AI agents to compress execution time across the business",
+        "End-to-end customer journey designed and shipped solo"
+      ],
+      "link": null
+    },
+    {
+      "id": "prompt-masterclass",
+      "name": "Prompt Masterclass",
+      "tag": "Public product",
+      "blurb": "A public library of 3,000+ prompts. Built, designed, and launched solo in 3–4 hours.",
+      "stack": ["Claude", "ChatGPT", "Prompt architecture"],
+      "highlights": [
+        "3,000+ curated prompts across categories",
+        "Zero-to-launch in a single sitting",
+        "Live at promptmasterclass.in"
+      ],
+      "link": "https://promptmasterclass.in"
+    },
+    {
+      "id": "agent-5",
+      "name": "Agent 5 — Medium pipeline",
+      "tag": "Multi-agent automation",
+      "blurb": "End-to-end automated content system. Picks topics overnight, writes, SEOs, humanizes, outputs PDF. 10-minute morning effort.",
+      "stack": ["Claude", "ChatGPT", "Multi-agent workflow"],
+      "highlights": [
+        "Nightly topic selection from trend signals",
+        "Multi-agent chain: writer → SEO → humanizer → formatter",
+        "Cuts daily content effort to ~10 minutes"
+      ],
+      "link": null
+    },
+    {
+      "id": "prompt-trainer",
+      "name": "ChatGPT Prompt Training System",
+      "tag": "Custom GPT project",
+      "blurb": "A ChatGPT Project trained on 4,000–5,000 prompts that generates context-aware prompts in seconds.",
+      "stack": ["ChatGPT Projects", "Prompt engineering", "Personal corpus"],
+      "highlights": [
+        "Trained progressively on 4–5K prompt corpus",
+        "Context-aware prompt generation",
+        "Powers daily work across writing, research, ops"
+      ],
+      "link": null
+    },
+    {
+      "id": "pinterest",
+      "name": "Pinterest Affiliate System",
+      "tag": "Growth automation",
+      "blurb": "Automated 30-day pin calendar with batch image generation. Hit 5K monthly impressions within weeks of launch.",
+      "stack": ["ChatGPT image gen", "Strategy automation", "Pinterest growth"],
+      "highlights": [
+        "30-day calendar generated in one batch",
+        "AI image generation for visual consistency",
+        "5K monthly impressions in weeks"
+      ],
+      "link": null
+    },
+    {
+      "id": "coloring-book",
+      "name": "Coloring Book on Kindle",
+      "tag": "Side quest",
+      "blurb": "Wrote, designed, and published a coloring book on Kindle Distribution. Anyone can buy it today.",
+      "stack": ["KDP", "Design", "Self-publishing"],
+      "highlights": [
+        "From idea to live listing, solo",
+        "Tested distribution and self-publishing end-to-end",
+        "Because shipping is the only skill that compounds"
+      ],
+      "link": null
+    }
+  ],
+  "responses": {
+    "about": [
+      { "type": "tools", "steps": ["Searching portfolio…", "Reading /about.md", "Drafting response"] },
+      { "type": "text", "content": "Hey — I'm Amit. Growth marketer, product builder, and recovering jack-of-all-trades based in Jaipur." },
+      { "type": "text", "content": "I've spent the last decade at the **intersection of growth, product, and tech** — most recently co-founding **Traveleva**, where I ran strategy, product, marketing, and ops all at once (founders will get it)." },
+      { "type": "text", "content": "The last 6 months I've gone deep on AI — building automation systems, prompt pipelines, and AI-driven workflows that compress execution time dramatically. 3,000+ prompts curated, a standalone product live at promptmasterclass.in, a fully automated Medium pipeline, and a handful of side quests shipped solo." },
+      { "type": "callout", "tone": "accent", "title": "TL;DR", "content": "I'm adaptable, I learn fast, and I help teams ship 10× faster by knowing exactly where and how to apply AI." }
+    ],
+    "projects": [
+      { "type": "tools", "steps": ["Searching portfolio…", "Opening /projects", "Loading 6 artifacts"] },
+      { "type": "text", "content": "Here are the projects I'd lead with. Click any card to open the full case study in the side panel →" },
+      { "type": "projectGrid", "ids": ["traveleva", "prompt-masterclass", "agent-5", "prompt-trainer", "pinterest", "coloring-book"] },
+      { "type": "text", "content": "Want me to go deep on any of these? Just ask — or use **/projects** to jump back here." }
+    ],
+    "experience": [
+      { "type": "tools", "steps": ["Indexing experience", "Building timeline"] },
+      { "type": "text", "content": "10 years, mostly spent ignoring job titles and chasing problems. Quick timeline:" },
+      { "type": "timeline", "items": [
+        { "period": "2024 — Now",  "role": "AI Product Builder (solo)",     "detail": "Shipping AI tools, prompt systems, and automations. Multiple launches in <6 months." },
+        { "period": "2020 — 2024", "role": "Co-founder, Traveleva",         "detail": "Built and ran an international travel agency solo with AI-driven ops." },
+        { "period": "2015 — 2020", "role": "Growth & marketing leadership", "detail": "Performance, content, and product-led growth across early-stage businesses." },
+        { "period": "2014 — 2015", "role": "Started in marketing",          "detail": "Learned the craft the old-fashioned way — campaigns, analytics, customer obsession." }
+      ]},
+      { "type": "text", "content": "Full CV is in the side panel. Use **/resume** to download a copy." }
+    ],
+    "skills": [
+      { "type": "tools", "steps": ["Loading skill matrix", "Sorting by depth"] },
+      { "type": "text", "content": "Here's the honest map of where I'm strong, where I'm building, and what I lean on AI for:" },
+      { "type": "skillGroups", "groups": [
+        { "name": "Growth & marketing",  "level": 95, "items": ["Performance marketing", "Content strategy", "Funnel design", "Analytics", "SEO"] },
+        { "name": "AI & automation",     "level": 90, "items": ["Prompt engineering", "Multi-agent workflows", "Claude · ChatGPT", "Content pipelines", "Workflow automation"] },
+        { "name": "Product & ops",       "level": 85, "items": ["0→1 product", "Roadmap", "Customer research", "Ops design", "Solo execution"] },
+        { "name": "Building & shipping", "level": 75, "items": ["No-code / low-code", "AI-assisted dev", "Self-publishing", "Rapid prototyping"] }
+      ]}
+    ],
+    "hire": [
+      { "type": "tools", "steps": ["Compiling pitch", "Removing buzzwords", "Adding receipts"] },
+      { "type": "text", "content": "Short version: **I help teams ship 10× faster** because I know exactly where AI belongs in the workflow — and where it doesn't." },
+      { "type": "callout", "tone": "accent", "title": "What you actually get", "content": "A senior operator who's been a founder, a marketer, and a builder. I don't need translation between strategy and execution." },
+      { "type": "list", "items": [
+        "**Adaptable** — 10 years, 4 disciplines, still learning weekly",
+        "**Fast** — Prompt Masterclass: idea to launch in 3–4 hours",
+        "**Finisher** — if I pick it up, I don't drop it mid-way",
+        "**AI-native** — not a buzzword user, a daily builder"
+      ]},
+      { "type": "text", "content": "If you're a founder, recruiter, or VP looking for someone who closes loops — let's talk. **/contact**" }
+    ],
+    "fun": [
+      { "type": "tools", "steps": ["Switching tone to off-the-clock", "Opening /personal"] },
+      { "type": "text", "content": "Outside of work? Travel freak — I've been to a lot of places and that's where most of my ideas come from. Sarcastic by default. Allergic to half-finished projects." },
+      { "type": "text", "content": "Recent side quest I'm weirdly proud of: I wrote and published a **coloring book on Kindle**. Anyone can buy it. Why? Because shipping anything end-to-end teaches you more than reading about it." },
+      { "type": "callout", "tone": "muted", "title": "Personal rule", "content": "If I pick something up, I don't leave it in the middle. Even if it's a coloring book." }
+    ],
+    "contact": [
+      { "type": "tools", "steps": ["Resolving contact handles"] },
+      { "type": "text", "content": "Easiest ways to reach me:" },
+      { "type": "contactCards" },
+      { "type": "text", "content": "I read everything. I reply to most things within a day." }
+    ],
+    "resume": [
+      { "type": "tools", "steps": ["Locating /assets/Amit_Kumawat_CV.pdf", "Preparing download"] },
+      { "type": "text", "content": "Here's my CV — opening it in the side panel. You can also download a copy below." },
+      { "type": "resumeCard" }
+    ],
+    "fallback": [
+      { "type": "tools", "steps": ["Searching portfolio…", "No exact match found"] },
+      { "type": "text", "content": "Good question — but I don't have a canned answer for that one yet. Try one of these instead:" },
+      { "type": "list", "items": [
+        "**Tell me about yourself**",
+        "**Show me your projects**",
+        "**Why should I hire you?**",
+        "**What's your AI stack?**"
+      ]},
+      { "type": "text", "content": "Or skip the formalities: **kumawatamit28@gmail.com**" }
+    ]
+  },
+  "intents": [
+    { "keys": ["about", "yourself", "who are you", "bio", "intro"], "to": "about" },
+    { "keys": ["project", "work", "portfolio", "case stud", "build", "shipped"], "to": "projects" },
+    { "keys": ["experience", "background", "timeline", "history", "career"], "to": "experience" },
+    { "keys": ["skill", "stack", "tool", "tech", "what do you use", "ai stack"], "to": "skills" },
+    { "keys": ["hire", "why you", "pitch", "fit", "join"], "to": "hire" },
+    { "keys": ["fun", "hobby", "personal", "off the clock", "travel", "coloring", "book"], "to": "fun" },
+    { "keys": ["contact", "reach", "email", "linkedin", "github", "get in touch"], "to": "contact" },
+    { "keys": ["resume", "cv", "download"], "to": "resume" },
+    { "keys": ["traveleva"], "to": "projects" },
+    { "keys": ["prompt masterclass", "promptmasterclass"], "to": "projects" },
+    { "keys": ["agent 5", "medium", "pipeline"], "to": "projects" },
+    { "keys": ["pinterest", "affiliate"], "to": "projects" }
+  ]
+}

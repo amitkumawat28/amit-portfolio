@@ -1,0 +1,974 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Portfolio CMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:        #f7f5f2;
+  --surface:   #ffffff;
+  --s2:        #f3f0ec;
+  --border:    #e5ddd5;
+  --border-2:  #ede8e1;
+  --text:      #1a1510;
+  --text-2:    #6b6358;
+  --text-3:    #a09990;
+  --accent:    #c4703a;
+  --acc-soft:  #fdf2eb;
+  --acc-text:  #a35a27;
+  --success:   #16a34a;
+  --danger:    #dc2626;
+  --r:         9px;
+  --r-sm:      6px;
+  --shadow:    0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+input, textarea, select {
+  font-family: inherit;
+  font-size: 13.5px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  width: 100%;
+  outline: none;
+  transition: border-color 140ms, box-shadow 140ms;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+textarea { resize: vertical; line-height: 1.55; }
+select { cursor: pointer; }
+label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-3);
+  margin-bottom: 5px;
+}
+
+/* ── Login ───────────────────────────────────────────────────── */
+#login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--bg);
+}
+.login-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 40px 36px 36px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--shadow);
+}
+.login-logo {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent), #e8935c);
+  border-radius: 10px;
+  display: grid; place-items: center;
+  margin-bottom: 20px;
+  color: white;
+  font-size: 18px;
+}
+.login-card h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+.login-card p  { font-size: 13px; color: var(--text-2); margin: 0 0 28px; }
+.login-card .field { margin-bottom: 14px; }
+.login-error {
+  background: #fef2f2; border: 1px solid #fecaca;
+  color: var(--danger); font-size: 13px;
+  padding: 9px 12px; border-radius: var(--r-sm);
+  margin-bottom: 14px; display: none;
+}
+.btn-primary {
+  background: var(--accent); color: white; border: none;
+  padding: 10px 18px; border-radius: var(--r-sm);
+  font-size: 13.5px; font-weight: 500;
+  transition: opacity 140ms, transform 140ms;
+}
+.btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+.btn-primary:active { transform: none; }
+.btn-primary:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.btn-secondary {
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 14px; border-radius: var(--r-sm);
+  font-size: 13px; font-weight: 500;
+  transition: background 130ms;
+}
+.btn-secondary:hover { background: var(--s2); }
+.btn-danger {
+  background: #fef2f2; color: var(--danger);
+  border: 1px solid #fecaca;
+  padding: 8px 12px; border-radius: var(--r-sm);
+  font-size: 12.5px; font-weight: 500;
+}
+.btn-danger:hover { background: #fee2e2; }
+.btn-icon {
+  background: transparent; border: none;
+  color: var(--text-3); padding: 4px 6px;
+  border-radius: 5px; font-size: 13px;
+  transition: all 130ms;
+}
+.btn-icon:hover { background: var(--s2); color: var(--text); }
+.btn-icon.danger:hover { background: #fef2f2; color: var(--danger); }
+#login-btn { width: 100%; margin-top: 4px; padding: 11px; }
+
+/* ── CMS shell ───────────────────────────────────────────────── */
+#cms-page { display: flex; flex-direction: column; height: 100vh; }
+#cms-header {
+  height: 54px; flex-shrink: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 20px; gap: 12px;
+  position: sticky; top: 0; z-index: 10;
+}
+.hdr-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 600; font-size: 13.5px;
+}
+.hdr-logo {
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, var(--accent), #e8935c);
+  border-radius: 7px;
+  display: grid; place-items: center;
+  color: white; font-size: 13px;
+}
+.hdr-spacer { flex: 1; }
+.hdr-preview {
+  font-size: 12.5px; color: var(--text-2);
+  border: 1px solid var(--border-2);
+  padding: 5px 11px; border-radius: 999px;
+  text-decoration: none; transition: all 130ms;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.hdr-preview:hover { border-color: var(--accent); color: var(--accent); }
+.hdr-email {
+  font-size: 12.5px; color: var(--text-2);
+  font-family: 'JetBrains Mono', monospace;
+}
+.hdr-logout {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-2); padding: 5px 11px;
+  border-radius: 6px; font-size: 12.5px;
+  transition: all 130ms;
+}
+.hdr-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+.cms-body { display: flex; flex: 1; overflow: hidden; }
+
+/* ── Sidebar nav ─────────────────────────────────────────────── */
+#cms-nav {
+  width: 210px; flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 12px 8px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 12px; border-radius: var(--r-sm);
+  background: transparent; border: none;
+  text-align: left; color: var(--text-2);
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 130ms;
+  width: 100%;
+}
+.nav-item:hover { background: var(--s2); color: var(--text); }
+.nav-item.active { background: var(--acc-soft); color: var(--acc-text); }
+.nav-icon { font-size: 15px; flex-shrink: 0; }
+.nav-sep { height: 1px; background: var(--border-2); margin: 6px 0; }
+
+/* ── Content area ────────────────────────────────────────────── */
+#cms-content {
+  flex: 1; overflow-y: auto;
+  padding: 28px 36px 60px;
+}
+.section-header { margin-bottom: 24px; }
+.section-header h2 { font-size: 18px; font-weight: 600; margin: 0 0 4px; }
+.section-header p  { font-size: 13px; color: var(--text-2); margin: 0; }
+.sub-heading { font-size: 13.5px; font-weight: 600; margin: 24px 0 12px; padding-top: 20px; border-top: 1px solid var(--border-2); }
+
+/* ── Form grid ───────────────────────────────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+}
+.form-grid .field { display: flex; flex-direction: column; }
+.form-grid .field.full { grid-column: 1 / -1; }
+.form-stack { display: flex; flex-direction: column; gap: 12px; }
+
+.section-footer {
+  margin-top: 24px; padding-top: 20px;
+  border-top: 1px solid var(--border-2);
+  display: flex; gap: 10px; align-items: center;
+}
+
+/* ── Cards / panels ──────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px 22px;
+  margin-bottom: 14px;
+}
+.settings-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px 24px;
+  margin-bottom: 16px;
+  max-width: 480px;
+}
+.settings-card h3 { font-size: 14px; font-weight: 600; margin: 0 0 16px; }
+
+/* ── Suggestions grid ────────────────────────────────────────── */
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.sug-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.sug-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--text-3);
+  text-transform: uppercase; letter-spacing: .07em;
+}
+
+/* ── Conversations table ─────────────────────────────────────── */
+.table-wrapper { overflow-x: auto; }
+table.data-table { width: 100%; border-collapse: collapse; }
+table.data-table th {
+  text-align: left; font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--text-3); padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+table.data-table td { padding: 7px 10px; border-bottom: 1px solid var(--border-2); vertical-align: middle; }
+table.data-table tr:last-child td { border-bottom: none; }
+table.data-table select { width: auto; min-width: 110px; }
+
+/* ── Project cards ───────────────────────────────────────────── */
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.project-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer; user-select: none;
+  transition: background 120ms;
+}
+.project-header:hover { background: var(--s2); }
+.project-name { font-weight: 600; font-size: 13.5px; flex: 1; }
+.project-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; color: var(--text-3);
+  background: var(--s2); border: 1px solid var(--border-2);
+  padding: 2px 8px; border-radius: 999px;
+}
+.toggle-arrow { color: var(--text-3); font-size: 13px; transition: transform 200ms; }
+.project-body { padding: 16px 18px 20px; border-top: 1px solid var(--border-2); display: none; }
+
+/* ── Response cards ──────────────────────────────────────────── */
+.response-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.response-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 16px;
+  cursor: pointer; user-select: none;
+  transition: background 120ms;
+}
+.response-header:hover { background: var(--s2); }
+.response-label { font-weight: 600; font-size: 13.5px; flex: 1; }
+.response-key {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--acc-text);
+  background: var(--acc-soft); padding: 2px 8px;
+  border-radius: 999px;
+}
+.response-body { padding: 4px 16px 16px; border-top: 1px solid var(--border-2); display: none; }
+.response-footer { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-2); }
+
+/* ── Blocks inside responses ─────────────────────────────────── */
+.block { margin: 12px 0; }
+.block-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--text-3);
+  margin-bottom: 6px;
+}
+.block-note { font-size: 11.5px; color: var(--text-3); margin: 4px 0 0; }
+.block-system {
+  background: var(--s2); border: 1px dashed var(--border);
+  border-radius: var(--r-sm); padding: 10px 12px;
+}
+.block-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.block-chips .chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-2);
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 999px;
+}
+.callout-fields { display: flex; flex-direction: column; gap: 8px; }
+.field-row { display: flex; gap: 10px; align-items: flex-start; }
+.field-row .field { flex: 1; }
+.field-row .field.grow { flex: 3; }
+.timeline-row {
+  display: grid; grid-template-columns: 160px 1fr 2fr;
+  gap: 8px; margin-bottom: 7px;
+}
+.skill-row { margin-bottom: 12px; }
+.skill-head { display: flex; gap: 8px; margin-bottom: 6px; }
+.skill-head input:first-child { flex: 1; }
+.skill-level-wrap { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--text-2); }
+.skill-level-wrap input { width: 64px; }
+
+/* ── Toast ───────────────────────────────────────────────────── */
+#toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  padding: 10px 18px; border-radius: 8px;
+  font-size: 13.5px; font-weight: 500;
+  opacity: 0; pointer-events: none;
+  transition: opacity 220ms, transform 220ms;
+  z-index: 99;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; }
+#toast.success { background: #f0fdf4; border: 1px solid #86efac; color: var(--success); }
+#toast.error   { background: #fef2f2; border: 1px solid #fca5a5; color: var(--danger); }
+
+/* ── Loading spinner ─────────────────────────────────────────── */
+.spinner-wrap { display: grid; place-items: center; padding: 80px 0; }
+.spinner {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2.5px solid var(--border);
+  border-top-color: var(--accent);
+  animation: spin 700ms linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- ── Login page ──────────────────────────────────────────────── -->
+<div id="login-page">
+  <div class="login-card">
+    <div class="login-logo">⚡</div>
+    <h1>Portfolio CMS</h1>
+    <p>Sign in to manage your portfolio content.</p>
+    <div class="login-error" id="login-error"></div>
+    <div class="field"><label>Email</label><input type="email" id="l-email" autocomplete="email" placeholder="you@example.com"/></div>
+    <div class="field"><label>Password</label><input type="password" id="l-pass" autocomplete="current-password" placeholder="••••••••"/></div>
+    <button class="btn-primary" id="login-btn" onclick="login()">Sign in</button>
+  </div>
+</div>
+
+<!-- ── CMS page ────────────────────────────────────────────────── -->
+<div id="cms-page" hidden>
+  <header id="cms-header">
+    <div class="hdr-brand">
+      <div class="hdr-logo">⚡</div>
+      Portfolio CMS
+    </div>
+    <div class="hdr-spacer"></div>
+    <a class="hdr-preview" href="/" target="_blank">↗ View portfolio</a>
+    <span class="hdr-email" id="hdr-email"></span>
+    <button class="hdr-logout" onclick="logout()">Sign out</button>
+  </header>
+  <div class="cms-body">
+    <nav id="cms-nav">
+      <button class="nav-item active" data-tab="identity"      onclick="switchTab('identity')">     <span class="nav-icon">👤</span> Identity</button>
+      <button class="nav-item"        data-tab="suggestions"   onclick="switchTab('suggestions')">  <span class="nav-icon">✨</span> Suggestions</button>
+      <button class="nav-item"        data-tab="conversations" onclick="switchTab('conversations')"><span class="nav-icon">💬</span> Conversations</button>
+      <button class="nav-item"        data-tab="projects"      onclick="switchTab('projects')">     <span class="nav-icon">📁</span> Projects</button>
+      <button class="nav-item"        data-tab="responses"     onclick="switchTab('responses')">    <span class="nav-icon">🤖</span> AI Responses</button>
+      <div class="nav-sep"></div>
+      <button class="nav-item"        data-tab="settings"      onclick="switchTab('settings')">     <span class="nav-icon">⚙️</span> Settings</button>
+    </nav>
+    <main id="cms-content">
+      <div class="spinner-wrap"><div class="spinner"></div></div>
+    </main>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+const S = {
+  token: localStorage.getItem('cms_token'),
+  data:  null,
+  tab:   'identity',
+};
+
+const esc = s => String(s == null ? '' : s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+// ── API ────────────────────────────────────────────────────────────────────
+async function api(method, url, body, skipAuth) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (!skipAuth) headers['Authorization'] = 'Bearer ' + S.token;
+  const r = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  const json = await r.json();
+  if (!r.ok) throw json;
+  return json;
+}
+const apiGet  = url       => api('GET',  url);
+const apiPut  = (url, b)  => api('PUT',  url, b);
+const apiPost = (url, b, s) => api('POST', url, b, s);
+
+// ── Init ───────────────────────────────────────────────────────────────────
+async function init() {
+  const emailEl = document.getElementById('l-email');
+  if (emailEl) emailEl.addEventListener('keydown', e => e.key === 'Enter' && login());
+  document.getElementById('l-pass').addEventListener('keydown', e => e.key === 'Enter' && login());
+
+  if (!S.token) { showLogin(); return; }
+  try {
+    S.data = await apiGet('/api/cms/data');
+    showCms();
+  } catch {
+    S.token = null; localStorage.removeItem('cms_token');
+    showLogin();
+  }
+}
+
+// ── Auth ───────────────────────────────────────────────────────────────────
+async function login() {
+  const email = document.getElementById('l-email').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+  const errEl = document.getElementById('login-error');
+  const btn   = document.getElementById('login-btn');
+  errEl.style.display = 'none';
+  if (!email || !pass) { showErr(errEl, 'Please enter your email and password.'); return; }
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  try {
+    const res = await apiPost('/api/auth/login', { email, password: pass }, true);
+    S.token = res.token;
+    localStorage.setItem('cms_token', S.token);
+    localStorage.setItem('cms_email', res.email);
+    S.data = await apiGet('/api/cms/data');
+    showCms();
+  } catch(e) {
+    showErr(errEl, e.error || 'Login failed.');
+    btn.disabled = false; btn.textContent = 'Sign in';
+  }
+}
+
+function logout() {
+  S.token = null; S.data = null;
+  localStorage.removeItem('cms_token');
+  showLogin();
+}
+
+function showErr(el, msg) { el.textContent = msg; el.style.display = 'block'; }
+
+// ── Navigation ─────────────────────────────────────────────────────────────
+function showLogin() {
+  document.getElementById('login-page').hidden = false;
+  document.getElementById('cms-page').hidden   = true;
+}
+
+function showCms() {
+  document.getElementById('login-page').hidden = true;
+  document.getElementById('cms-page').hidden   = false;
+  document.getElementById('hdr-email').textContent = localStorage.getItem('cms_email') || '';
+  switchTab(S.tab);
+}
+
+function switchTab(tab) {
+  S.tab = tab;
+  document.querySelectorAll('.nav-item').forEach(el =>
+    el.classList.toggle('active', el.dataset.tab === tab));
+  const c = document.getElementById('cms-content');
+  c.innerHTML = '';
+  c.appendChild(buildTab(tab));
+}
+
+// ── Tab builder ────────────────────────────────────────────────────────────
+function buildTab(tab) {
+  const div = document.createElement('div');
+  div.innerHTML = {
+    identity:      buildIdentity,
+    suggestions:   buildSuggestions,
+    conversations: buildConversations,
+    projects:      buildProjects,
+    responses:     buildResponses,
+    settings:      buildSettings,
+  }[tab]?.() ?? '<p>Not found</p>';
+  return div;
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg, kind = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + kind;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.className = '', 2800);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IDENTITY
+// ─────────────────────────────────────────────────────────────────────────────
+function buildIdentity() {
+  const id = S.data.identity;
+  return `
+    <div class="section-header">
+      <h2>Identity</h2>
+      <p>Your profile information shown throughout the portfolio.</p>
+    </div>
+    <div class="card">
+      <div class="form-grid">
+        <div class="field"><label>Full name</label><input id="id-name" value="${esc(id.name)}"/></div>
+        <div class="field"><label>Handle</label><input id="id-handle" value="${esc(id.handle)}"/></div>
+        <div class="field full"><label>Role line</label><input id="id-role" value="${esc(id.role)}"/></div>
+        <div class="field full"><label>Tagline (hero sub-text)</label><input id="id-tagline" value="${esc(id.tagline)}"/></div>
+        <div class="field"><label>Location</label><input id="id-location" value="${esc(id.location)}"/></div>
+        <div class="field"><label>Years of experience</label><input type="number" id="id-years" value="${esc(id.years)}"/></div>
+        <div class="field full"><label>CV / Resume file path</label><input id="id-cvPath" value="${esc(id.cvPath)}"/></div>
+      </div>
+      <div class="sub-heading">Social links</div>
+      <div class="form-grid">
+        <div class="field full"><label>Email address</label><input type="email" id="id-email" value="${esc(id.links.email)}"/></div>
+        <div class="field full"><label>LinkedIn URL</label><input type="url" id="id-linkedin" value="${esc(id.links.linkedin)}"/></div>
+        <div class="field full"><label>GitHub URL</label><input type="url" id="id-github" value="${esc(id.links.github)}"/></div>
+      </div>
+    </div>
+    <div class="section-footer">
+      <button class="btn-primary" onclick="saveIdentity()">Save Identity</button>
+    </div>`;
+}
+
+async function saveIdentity() {
+  const id = {
+    ...S.data.identity,
+    name: v('id-name'), handle: v('id-handle'), role: v('id-role'),
+    tagline: v('id-tagline'), location: v('id-location'),
+    years: parseInt(v('id-years')) || S.data.identity.years,
+    cvPath: v('id-cvPath'),
+    links: { email: v('id-email'), linkedin: v('id-linkedin'), github: v('id-github') },
+  };
+  try { await apiPut('/api/cms/identity', id); S.data.identity = id; toast('Identity saved ✓'); }
+  catch(e) { toast(e.error || 'Save failed', 'error'); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SUGGESTIONS
+// ─────────────────────────────────────────────────────────────────────────────
+const ICONS = ['spark','folder','user','wrench','briefcase','compass','mail','sparkles','bot','arrow'];
+
+function buildSuggestions() {
+  const s = S.data.suggestions;
+  return `
+    <div class="section-header">
+      <h2>Welcome suggestions</h2>
+      <p>The 4 prompt cards shown on the welcome screen when someone first opens your portfolio.</p>
+    </div>
+    <div class="suggestions-grid">
+      ${s.map((sg, i) => `
+        <div class="sug-card">
+          <div class="sug-num">Card ${i + 1}</div>
+          <div><label>Icon</label>
+            <select id="sg-icon-${i}">${ICONS.map(ic => `<option value="${ic}"${sg.icon===ic?' selected':''}>${ic}</option>`).join('')}</select>
+          </div>
+          <div><label>Label (shown on card)</label><input id="sg-label-${i}" value="${esc(sg.label)}"/></div>
+          <div><label>Prompt (sent to chat)</label><input id="sg-prompt-${i}" value="${esc(sg.prompt)}"/></div>
+        </div>`).join('')}
+    </div>
+    <div class="section-footer">
+      <button class="btn-primary" onclick="saveSuggestions()">Save Suggestions</button>
+    </div>`;
+}
+
+async function saveSuggestions() {
+  const suggestions = S.data.suggestions.map((_, i) => ({
+    icon: v(`sg-icon-${i}`), label: v(`sg-label-${i}`), prompt: v(`sg-prompt-${i}`),
+  }));
+  try { await apiPut('/api/cms/suggestions', suggestions); S.data.suggestions = suggestions; toast('Suggestions saved ✓'); }
+  catch(e) { toast(e.error || 'Save failed', 'error'); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONVERSATIONS
+// ─────────────────────────────────────────────────────────────────────────────
+function buildConversations() {
+  const c = S.data.conversations;
+  return `
+    <div class="section-header">
+      <h2>Sidebar conversations</h2>
+      <p>Navigation items pinned in the left sidebar.</p>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Icon</th><th>Title</th><th>Preview text</th></tr></thead>
+          <tbody>
+            ${c.map((cv, i) => `
+              <tr>
+                <td><select id="cv-icon-${i}" style="min-width:110px">${ICONS.map(ic=>`<option value="${ic}"${cv.icon===ic?' selected':''}>${ic}</option>`).join('')}</select></td>
+                <td><input id="cv-title-${i}" value="${esc(cv.title)}"/></td>
+                <td><input id="cv-prev-${i}" value="${esc(cv.preview)}"/></td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="section-footer">
+      <button class="btn-primary" onclick="saveConversations()">Save Conversations</button>
+    </div>`;
+}
+
+async function saveConversations() {
+  const conversations = S.data.conversations.map((c, i) => ({
+    ...c, icon: v(`cv-icon-${i}`), title: v(`cv-title-${i}`), preview: v(`cv-prev-${i}`),
+  }));
+  try { await apiPut('/api/cms/conversations', conversations); S.data.conversations = conversations; toast('Conversations saved ✓'); }
+  catch(e) { toast(e.error || 'Save failed', 'error'); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PROJECTS
+// ─────────────────────────────────────────────────────────────────────────────
+function buildProjects() {
+  return `
+    <div class="section-header">
+      <h2>Projects</h2>
+      <p>Your case studies shown in chat cards and the artifact panel. Click a project to expand it.</p>
+    </div>
+    <div id="proj-list">
+      ${S.data.projects.map((p, i) => projectCard(p, i)).join('')}
+    </div>
+    <div class="section-footer">
+      <button class="btn-secondary" onclick="addProject()">+ Add project</button>
+      <button class="btn-primary" onclick="saveProjects()">Save all projects</button>
+    </div>`;
+}
+
+function projectCard(p, i) {
+  return `
+    <div class="project-card" id="proj-${i}">
+      <div class="project-header" onclick="toggleEl('proj-${i}-body','proj-${i}-arrow')">
+        <span class="project-name" id="proj-${i}-dispname">${esc(p.name) || 'New Project'}</span>
+        <span class="project-tag"  id="proj-${i}-disptag">${esc(p.tag)}</span>
+        <button class="btn-icon danger" onclick="removeProject(event,${i})" title="Remove">✕</button>
+        <span class="toggle-arrow" id="proj-${i}-arrow">▾</span>
+      </div>
+      <div class="project-body" id="proj-${i}-body" style="display:none">
+        <div class="form-grid">
+          <div class="field">
+            <label>Project name</label>
+            <input id="proj-${i}-name" value="${esc(p.name)}"
+              oninput="document.getElementById('proj-${i}-dispname').textContent=this.value||'New Project'"/>
+          </div>
+          <div class="field">
+            <label>Tag / Role</label>
+            <input id="proj-${i}-tag" value="${esc(p.tag)}"
+              oninput="document.getElementById('proj-${i}-disptag').textContent=this.value"/>
+          </div>
+          <div class="field full">
+            <label>Short description (blurb)</label>
+            <textarea id="proj-${i}-blurb" rows="2">${esc(p.blurb)}</textarea>
+          </div>
+          <div class="field">
+            <label>Tech stack (comma-separated)</label>
+            <input id="proj-${i}-stack" value="${esc(p.stack.join(', '))}"/>
+          </div>
+          <div class="field">
+            <label>Live link (leave blank if none)</label>
+            <input type="url" id="proj-${i}-link" value="${esc(p.link || '')}" placeholder="https://…"/>
+          </div>
+          <div class="field full">
+            <label>Highlights — one per line</label>
+            <textarea id="proj-${i}-hi" rows="4">${esc(p.highlights.join('\n'))}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function addProject() {
+  S.data.projects.push({ id: 'proj-' + Date.now(), name: '', tag: '', blurb: '', stack: [], highlights: [], link: null });
+  switchTab('projects');
+  setTimeout(() => {
+    const idx = S.data.projects.length - 1;
+    const body = document.getElementById(`proj-${idx}-body`);
+    if (body) { body.style.display = 'block'; body.scrollIntoView({ behavior: 'smooth' }); }
+  }, 60);
+}
+
+function removeProject(e, i) {
+  e.stopPropagation();
+  if (!confirm(`Remove "${S.data.projects[i].name || 'this project'}"?`)) return;
+  S.data.projects.splice(i, 1);
+  switchTab('projects');
+}
+
+async function saveProjects() {
+  const projects = S.data.projects.map((p, i) => ({
+    ...p,
+    name: v(`proj-${i}-name`),
+    tag:  v(`proj-${i}-tag`),
+    blurb: v(`proj-${i}-blurb`),
+    stack: v(`proj-${i}-stack`).split(',').map(s=>s.trim()).filter(Boolean),
+    link:  v(`proj-${i}-link`) || null,
+    highlights: v(`proj-${i}-hi`).split('\n').map(s=>s.trim()).filter(Boolean),
+  }));
+  try { await apiPut('/api/cms/projects', projects); S.data.projects = projects; toast('Projects saved ✓'); }
+  catch(e) { toast(e.error || 'Save failed', 'error'); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RESPONSES
+// ─────────────────────────────────────────────────────────────────────────────
+const RESP_LABELS = {
+  about: 'About Amit', projects: 'Projects list', experience: 'Experience timeline',
+  skills: 'Skills & AI stack', hire: 'Why hire Amit', fun: 'Off the clock',
+  contact: 'Get in touch', resume: 'Resume / CV', fallback: 'Default fallback',
+};
+
+function buildResponses() {
+  return `
+    <div class="section-header">
+      <h2>AI Responses</h2>
+      <p>Edit what the AI says for each question. Click a response to expand and edit its text blocks.</p>
+    </div>
+    ${Object.entries(S.data.responses).map(([key, blocks]) => `
+      <div class="response-card" id="resp-${key}">
+        <div class="response-header" onclick="toggleEl('resp-${key}-body','resp-${key}-arrow')">
+          <span class="response-label">${esc(RESP_LABELS[key] || key)}</span>
+          <span class="response-key">/${key}</span>
+          <span class="toggle-arrow" id="resp-${key}-arrow">▾</span>
+        </div>
+        <div class="response-body" id="resp-${key}-body" style="display:none">
+          ${blocks.map((b, i) => buildBlock(b, i, key)).join('')}
+          <div class="response-footer">
+            <button class="btn-primary" onclick="saveResponse('${key}')">Save "${esc(RESP_LABELS[key] || key)}"</button>
+          </div>
+        </div>
+      </div>`).join('')}`;
+}
+
+function buildBlock(b, i, key) {
+  const p = `${key}-b${i}`;
+
+  if (b.type === 'tools') return `
+    <div class="block block-system">
+      <div class="block-label">Loading steps (cosmetic — not editable)</div>
+      <div class="block-chips">${b.steps.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</div>
+    </div>`;
+
+  if (b.type === 'text') return `
+    <div class="block">
+      <div class="block-label">Text block</div>
+      <textarea id="${p}-content" rows="3">${esc(b.content)}</textarea>
+      <p class="block-note">Use **text** for bold.</p>
+    </div>`;
+
+  if (b.type === 'list') return `
+    <div class="block">
+      <div class="block-label">Bullet list — one item per line</div>
+      <textarea id="${p}-items" rows="${Math.max(3, b.items.length + 1)}">${b.items.map(esc).join('\n')}</textarea>
+      <p class="block-note">Use **text** for bold.</p>
+    </div>`;
+
+  if (b.type === 'callout') return `
+    <div class="block">
+      <div class="block-label">Callout box</div>
+      <div class="callout-fields">
+        <div class="field-row">
+          <div class="field" style="max-width:140px">
+            <label>Style</label>
+            <select id="${p}-tone">
+              <option value="accent"${b.tone==='accent'?' selected':''}>Accent (orange)</option>
+              <option value="muted"${b.tone==='muted'?' selected':''}>Muted (grey)</option>
+            </select>
+          </div>
+          <div class="field grow"><label>Title</label><input id="${p}-title" value="${esc(b.title)}"/></div>
+        </div>
+        <div><label>Body text</label><textarea id="${p}-content" rows="2">${esc(b.content)}</textarea></div>
+      </div>
+    </div>`;
+
+  if (b.type === 'timeline') return `
+    <div class="block">
+      <div class="block-label">Experience timeline</div>
+      ${b.items.map((it,j) => `
+        <div class="timeline-row">
+          <input id="${p}-period${j}" value="${esc(it.period)}" placeholder="Period"/>
+          <input id="${p}-role${j}"   value="${esc(it.role)}"   placeholder="Role / Title"/>
+          <input id="${p}-detail${j}" value="${esc(it.detail)}" placeholder="Detail text"/>
+        </div>`).join('')}
+    </div>`;
+
+  if (b.type === 'skillGroups') return `
+    <div class="block">
+      <div class="block-label">Skill groups</div>
+      ${b.groups.map((g,j) => `
+        <div class="skill-row">
+          <div class="skill-head">
+            <input id="${p}-name${j}" value="${esc(g.name)}" placeholder="Group name"/>
+            <div class="skill-level-wrap">
+              <input type="number" id="${p}-lvl${j}" value="${g.level}" min="0" max="100"/>
+              <span>%</span>
+            </div>
+          </div>
+          <input id="${p}-items${j}" value="${esc(g.items.join(', '))}" placeholder="Skills (comma-separated)"/>
+        </div>`).join('')}
+    </div>`;
+
+  if (b.type === 'projectGrid') return `
+    <div class="block block-system">
+      <div class="block-label">Project grid (auto — edit in Projects tab)</div>
+    </div>`;
+
+  if (b.type === 'contactCards') return `
+    <div class="block block-system">
+      <div class="block-label">Contact cards (auto — edit in Identity tab)</div>
+    </div>`;
+
+  if (b.type === 'resumeCard') return `
+    <div class="block block-system">
+      <div class="block-label">Resume card (auto — CV path from Identity tab)</div>
+    </div>`;
+
+  return `<div class="block block-system"><div class="block-label">Block: ${esc(b.type)}</div></div>`;
+}
+
+function collectBlocks(key) {
+  return S.data.responses[key].map((b, i) => {
+    const p = `${key}-b${i}`;
+    if (b.type === 'text')
+      return { ...b, content: v(`${p}-content`) };
+    if (b.type === 'list')
+      return { ...b, items: v(`${p}-items`).split('\n').map(s=>s.trim()).filter(Boolean) };
+    if (b.type === 'callout')
+      return { ...b, tone: v(`${p}-tone`), title: v(`${p}-title`), content: v(`${p}-content`) };
+    if (b.type === 'timeline')
+      return { ...b, items: b.items.map((_,j) => ({
+        period: v(`${p}-period${j}`), role: v(`${p}-role${j}`), detail: v(`${p}-detail${j}`) })) };
+    if (b.type === 'skillGroups')
+      return { ...b, groups: b.groups.map((_,j) => ({
+        name:  v(`${p}-name${j}`),
+        level: parseInt(v(`${p}-lvl${j}`)) || 0,
+        items: v(`${p}-items${j}`).split(',').map(s=>s.trim()).filter(Boolean) })) };
+    return b;
+  });
+}
+
+async function saveResponse(key) {
+  const updated = { ...S.data.responses, [key]: collectBlocks(key) };
+  try { await apiPut('/api/cms/responses', updated); S.data.responses = updated; toast(`"${RESP_LABELS[key]}" saved ✓`); }
+  catch(e) { toast(e.error || 'Save failed', 'error'); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SETTINGS
+// ─────────────────────────────────────────────────────────────────────────────
+function buildSettings() {
+  return `
+    <div class="section-header">
+      <h2>Admin settings</h2>
+      <p>Manage your CMS login credentials.</p>
+    </div>
+    <div class="settings-card">
+      <h3>Change password</h3>
+      <div class="form-stack">
+        <div><label>Current password</label><input type="password" id="s-cur" autocomplete="current-password"/></div>
+        <div><label>New password (min. 6 chars)</label><input type="password" id="s-new" autocomplete="new-password"/></div>
+        <div><label>Confirm new password</label><input type="password" id="s-cnf" autocomplete="new-password"/></div>
+        <div><button class="btn-primary" onclick="changePassword()">Update password</button></div>
+      </div>
+    </div>
+    <div class="settings-card">
+      <h3>Change admin email</h3>
+      <div class="form-stack">
+        <div><label>New email address</label><input type="email" id="s-email" autocomplete="email"/></div>
+        <div><label>Current password (to confirm)</label><input type="password" id="s-epass"/></div>
+        <div><button class="btn-primary" onclick="changeEmail()">Update email</button></div>
+      </div>
+    </div>`;
+}
+
+async function changePassword() {
+  const cur = v('s-cur'), nw = v('s-new'), cnf = v('s-cnf');
+  if (!cur || !nw) { toast('Fill in all fields', 'error'); return; }
+  if (nw !== cnf)  { toast('Passwords do not match', 'error'); return; }
+  if (nw.length < 6) { toast('Min. 6 characters', 'error'); return; }
+  try {
+    await apiPost('/api/auth/change-password', { currentPassword: cur, newPassword: nw });
+    document.getElementById('s-cur').value = '';
+    document.getElementById('s-new').value = '';
+    document.getElementById('s-cnf').value = '';
+    toast('Password updated ✓');
+  } catch(e) { toast(e.error || 'Update failed', 'error'); }
+}
+
+async function changeEmail() {
+  const email = v('s-email'), pass = v('s-epass');
+  if (!email || !pass) { toast('Fill in all fields', 'error'); return; }
+  try {
+    await apiPost('/api/auth/change-email', { newEmail: email, password: pass });
+    localStorage.setItem('cms_email', email);
+    document.getElementById('hdr-email').textContent = email;
+    document.getElementById('s-email').value = '';
+    document.getElementById('s-epass').value = '';
+    toast('Email updated ✓');
+  } catch(e) { toast(e.error || 'Update failed', 'error'); }
+}
+
+// ── Utilities ──────────────────────────────────────────────────────────────
+const v = id => (document.getElementById(id)?.value ?? '');
+
+function toggleEl(bodyId, arrowId) {
+  const body  = document.getElementById(bodyId);
+  const arrow = document.getElementById(arrowId);
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display  = open ? 'none' : 'block';
+  if (arrow) arrow.textContent = open ? '▾' : '▴';
+}
+
+init();
+</script>
+</body>
+</html>
