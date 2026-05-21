@@ -12,6 +12,11 @@ const App = () => {
   const [activeId, setActiveId] = useState(null);
   const [artifact, setArtifact] = useState(null);
   const threadRef = useRef(null);
+  const msgsRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight;
+  };
 
   const isMobile = () => window.matchMedia("(max-width: 900px)").matches;
 
@@ -25,9 +30,17 @@ const App = () => {
     localStorage.setItem("ak-palette", palette);
   }, [palette]);
 
+  // Scroll on new message
+  useEffect(scrollToBottom, [messages]);
+
+  // Scroll as content grows (typewriter, block reveals)
   useEffect(() => {
-    if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight;
-  }, [messages]);
+    const el = msgsRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(scrollToBottom);
+    ro.observe(el);
+    return () => ro.disconnect();
+  });
 
   // Intent resolution
   const resolveResponseKey = (text) => {
@@ -119,7 +132,7 @@ const App = () => {
           {messages.length === 0 ? (
             <Welcome data={data} onPick={sendMessage}/>
           ) : (
-            <div className="msgs">
+            <div className="msgs" ref={msgsRef}>
               {messages.map(m => (
                 <Message
                   key={m.id}
