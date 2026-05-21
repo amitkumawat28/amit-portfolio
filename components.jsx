@@ -418,6 +418,24 @@ const Composer = ({ onSend }) => {
 // ----- Artifact panel -----
 const ArtifactPanel = ({ artifact, data, onClose }) => {
   if (!artifact) return null;
+
+  const onDragStart = (e) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--artifact-w')) || 420;
+    document.documentElement.style.setProperty('--speed', '0s'); // disable transition during drag
+    const onMove = (e) => {
+      const newW = Math.min(Math.max(startW + (startX - e.clientX), 280), 760);
+      document.documentElement.style.setProperty('--artifact-w', newW + 'px');
+    };
+    const onUp = () => {
+      document.documentElement.style.removeProperty('--speed');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  };
   const renderBody = () => {
     if (artifact.kind === "project") {
       const p = data.projects.find(x => x.id === artifact.id);
@@ -469,6 +487,7 @@ const ArtifactPanel = ({ artifact, data, onClose }) => {
 
   return (
     <aside className="artifact">
+      <div className="art-resize-handle" onMouseDown={onDragStart}/>
       <div className="art-head">
         <div className="art-head-label">
           <Icon name="file" size={14}/>
