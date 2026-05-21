@@ -113,23 +113,6 @@ const Sidebar = ({ data, collapsed, onCollapse, activeId, onPick, onNew, theme, 
       </nav>
 
       <div className="sb-foot">
-        {!collapsed && (
-          <div className="palette-row" role="group" aria-label="Color palette">
-            {palettes.map(p => (
-              <button
-                key={p.id}
-                className={"palette-swatch " + (palette === p.id ? "active" : "")}
-                style={{ "--sw": p.swatch }}
-                onClick={() => onPalette(p.id)}
-                title={p.name}
-                aria-label={"Use " + p.name + " palette"}
-              >
-                <span className="sw-dot"/>
-                <span className="sw-name">{p.name}</span>
-              </button>
-            ))}
-          </div>
-        )}
         <button className="theme-toggle" onClick={onTheme} title="Toggle theme">
           <Icon name={theme === "dark" ? "sun" : "moon"} size={15}/>
           {!collapsed && <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>}

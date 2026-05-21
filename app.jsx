@@ -5,7 +5,7 @@ const { useState, useEffect, useRef } = React;
 const App = () => {
   const data = window.PORTFOLIO_DATA;
   const [theme, setTheme] = useState(() => localStorage.getItem("ak-theme") || "light");
-  const [palette, setPalette] = useState(() => localStorage.getItem("ak-palette") || "terracotta");
+  const [palette, setPalette] = useState("cobalt");
   const [collapsed, setCollapsed] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const [messages, setMessages] = useState([]);
