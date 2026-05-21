@@ -191,6 +191,13 @@ ${JSON.stringify(data)}`;
       }
     );
 
+    if (!geminiRes.ok) {
+      const errText = await geminiRes.text();
+      res.write(`data: ${JSON.stringify({ error: `Gemini error ${geminiRes.status}: ${errText.slice(0, 200)}` })}\n\n`);
+      res.write('data: [DONE]\n\n');
+      return res.end();
+    }
+
     const reader = geminiRes.body.getReader();
     const decoder = new TextDecoder();
     let buf = '';
