@@ -50,35 +50,39 @@ if (!fs.existsSync(DATA_FILE)) {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-const readData  = () => {
+// ── Supabase helpers ──────────────────────────────────────────────────────────
+
+const sbHeaders = () => ({
+  'apikey': process.env.SUPABASE_KEY,
+  'Authorization': `Bearer ${process.env.SUPABASE_KEY}`,
+  'Content-Type': 'application/json'
+});
+const sbUrl = () => `${process.env.SUPABASE_URL}/rest/v1/portfolio_data?id=eq.1`;
+const useSupabase = () => !!(process.env.SUPABASE_URL && process.env.SUPABASE_KEY);
+
+const readData = () => {
   if (fs.existsSync(DATA_FILE)) return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
   return JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'default-portfolio.json'), 'utf8'));
 };
+
+const readDataRemote = async () => {
+  if (!useSupabase()) return readData();
+  const res = await fetch(`${sbUrl()}&select=data`, { headers: sbHeaders() });
+  const rows = await res.json();
+  return rows[0]?.data || readData();
+};
+
 const writeData = async (d) => {
-  // On Vercel: commit via GitHub API so changes persist across deploys
-  if (process.env.VERCEL && process.env.GITHUB_TOKEN) {
-    const repo    = process.env.GITHUB_REPO || 'amitkumawat28/amit-portfolio';
-    const filePath = 'data/portfolio.json';
-    const content  = Buffer.from(JSON.stringify(d, null, 2)).toString('base64');
-    const headers  = {
-      'Authorization': `token ${process.env.GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    };
-    // Get current file SHA
-    const getRes  = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, { headers });
-    const getJson = await getRes.json();
-    // Commit updated file
-    const putRes  = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
-      method: 'PUT', headers,
-      body: JSON.stringify({ message: 'Update portfolio data via CMS', content, sha: getJson.sha })
+  if (useSupabase()) {
+    const res = await fetch(sbUrl(), {
+      method: 'PATCH', headers: { ...sbHeaders(), 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ data: d, updated_at: new Date().toISOString() })
     });
-    if (!putRes.ok) { const e = await putRes.json(); throw new Error(e.message || 'GitHub write failed'); }
+    if (!res.ok) throw new Error(`Supabase error: ${await res.text()}`);
     return;
   }
-  // Local: write to file directly
   try { fs.writeFileSync(DATA_FILE, JSON.stringify(d, null, 2)); }
-  catch { throw new Error('Data persistence unavailable. Add GITHUB_TOKEN to Vercel env vars.'); }
+  catch { throw new Error('Set SUPABASE_URL and SUPABASE_KEY env vars for production saves.'); }
 };
 const readAdmin = () => {
   if (fs.existsSync(ADMIN_FILE)) return JSON.parse(fs.readFileSync(ADMIN_FILE, 'utf8'));
@@ -147,7 +151,10 @@ app.post('/api/auth/change-email', requireAuth, (req, res) => {
 
 // ── CMS data routes ───────────────────────────────────────────────────────────
 
-app.get('/api/cms/data', requireAuth, (req, res) => res.json(readData()));
+app.get('/api/cms/data', requireAuth, async (req, res) => {
+  try { res.json(await readDataRemote()); }
+  catch (e) { res.status(503).json({ error: e.message }); }
+});
 
 app.put('/api/cms/data', requireAuth, async (req, res) => {
   if (!req.body || typeof req.body !== 'object') return res.status(400).json({ error: 'Invalid payload' });
@@ -190,7 +197,7 @@ app.post('/api/chat', async (req, res) => {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return res.status(503).json({ error: 'AI not configured. Add GEMINI_API_KEY to environment.' });
 
-  const data = readData();
+  const data = await readDataRemote();
   const systemPrompt = `You are an AI assistant on ${data.identity.name}'s portfolio website. Answer questions about ${data.identity.name} based only on the portfolio information below. Be concise, friendly, and conversational. Use **bold** sparingly for emphasis. If asked something not in the data, say you don't have that info.
 
 ${JSON.stringify(data)}`;
@@ -251,10 +258,14 @@ ${JSON.stringify(data)}`;
 
 // ── Dynamic data.js (replaces static file) ───────────────────────────────────
 
-app.get('/data.js', (req, res) => {
-  const data = readData();
-  res.type('application/javascript');
-  res.send(`window.PORTFOLIO_DATA = ${JSON.stringify(data)};`);
+app.get('/data.js', async (req, res) => {
+  try {
+    const data = await readDataRemote();
+    res.type('application/javascript');
+    res.send(`window.PORTFOLIO_DATA = ${JSON.stringify(data)};`);
+  } catch (e) {
+    res.status(503).type('application/javascript').send(`window.PORTFOLIO_DATA = null; console.error("Data load failed: ${e.message}");`);
+  }
 });
 
 // ── Admin panel ───────────────────────────────────────────────────────────────
