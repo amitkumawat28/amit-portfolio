@@ -33,14 +33,28 @@ const Icon = ({ name, size = 18 }) => {
   return <svg viewBox="0 0 24 24" {...s}>{paths[name] || null}</svg>;
 };
 
-// ----- Markdown-lite (just bold + line breaks) -----
+// ----- Markdown renderer (bold, italic, links, images) -----
 const renderInline = (text) => {
   if (!text) return null;
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((p, i) => {
-    if (p.startsWith("**") && p.endsWith("**")) return <strong key={i}>{p.slice(2, -2)}</strong>;
-    return <React.Fragment key={i}>{p}</React.Fragment>;
-  });
+  // Split on bold, italic, image, link tokens
+  const re = /(\!\[([^\]]*)\]\(([^)]+)\)|\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*)/g;
+  const parts = []; let last = 0; let m;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) parts.push(<React.Fragment key={last}>{text.slice(last, m.index)}</React.Fragment>);
+    const full = m[0];
+    if (full.startsWith('![')) {
+      parts.push(<img key={m.index} src={m[3]} alt={m[2]} style={{maxWidth:'100%',borderRadius:8,margin:'8px 0',display:'block'}}/>);
+    } else if (full.startsWith('[')) {
+      parts.push(<a key={m.index} href={m[5]} target="_blank" rel="noreferrer" style={{color:'var(--accent)',textDecoration:'underline'}}>{m[4]}</a>);
+    } else if (full.startsWith('**')) {
+      parts.push(<strong key={m.index}>{m[6]}</strong>);
+    } else {
+      parts.push(<em key={m.index}>{m[7]}</em>);
+    }
+    last = m.index + full.length;
+  }
+  if (last < text.length) parts.push(<React.Fragment key={last}>{text.slice(last)}</React.Fragment>);
+  return parts;
 };
 
 // ----- Streaming text hook (typewriter) -----
@@ -447,14 +461,14 @@ const ArtifactPanel = ({ artifact, data, onClose }) => {
             <div className="art-tag">{p.tag}</div>
           </div>
           <h2 className="art-title">{p.name}</h2>
-          <p className="art-blurb">{p.blurb}</p>
+          <p className="art-blurb">{renderInline(p.blurb)}</p>
           <div className="art-section-label">Stack</div>
           <div className="art-chips">
             {p.stack.map((s, i) => <span key={i} className="art-chip">{s}</span>)}
           </div>
           <div className="art-section-label">Highlights</div>
           <ul className="art-list">
-            {p.highlights.map((h, i) => <li key={i}>{h}</li>)}
+            {p.highlights.map((h, i) => <li key={i}>{renderInline(h)}</li>)}
           </ul>
           {p.link && (
             <a className="art-link" href={p.link} target="_blank" rel="noreferrer">
