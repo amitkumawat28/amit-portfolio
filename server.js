@@ -54,9 +54,31 @@ const readData  = () => {
   if (fs.existsSync(DATA_FILE)) return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
   return JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'default-portfolio.json'), 'utf8'));
 };
-const writeData = (d) => {
+const writeData = async (d) => {
+  // On Vercel: commit via GitHub API so changes persist across deploys
+  if (process.env.VERCEL && process.env.GITHUB_TOKEN) {
+    const repo    = process.env.GITHUB_REPO || 'amitkumawat28/amit-portfolio';
+    const filePath = 'data/portfolio.json';
+    const content  = Buffer.from(JSON.stringify(d, null, 2)).toString('base64');
+    const headers  = {
+      'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+    // Get current file SHA
+    const getRes  = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, { headers });
+    const getJson = await getRes.json();
+    // Commit updated file
+    const putRes  = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
+      method: 'PUT', headers,
+      body: JSON.stringify({ message: 'Update portfolio data via CMS', content, sha: getJson.sha })
+    });
+    if (!putRes.ok) { const e = await putRes.json(); throw new Error(e.message || 'GitHub write failed'); }
+    return;
+  }
+  // Local: write to file directly
   try { fs.writeFileSync(DATA_FILE, JSON.stringify(d, null, 2)); }
-  catch { throw new Error('Data persistence is not available in this environment. Run the CMS locally.'); }
+  catch { throw new Error('Data persistence unavailable. Add GITHUB_TOKEN to Vercel env vars.'); }
 };
 const readAdmin = () => {
   if (fs.existsSync(ADMIN_FILE)) return JSON.parse(fs.readFileSync(ADMIN_FILE, 'utf8'));
@@ -127,35 +149,35 @@ app.post('/api/auth/change-email', requireAuth, (req, res) => {
 
 app.get('/api/cms/data', requireAuth, (req, res) => res.json(readData()));
 
-app.put('/api/cms/data', requireAuth, (req, res) => {
+app.put('/api/cms/data', requireAuth, async (req, res) => {
   if (!req.body || typeof req.body !== 'object') return res.status(400).json({ error: 'Invalid payload' });
-  try { writeData(req.body); res.json({ ok: true }); }
+  try { await writeData(req.body); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
 // Granular section endpoints
-app.put('/api/cms/identity', requireAuth, (req, res) => {
-  try { const d = readData(); d.identity = { ...d.identity, ...req.body }; writeData(d); res.json({ ok: true }); }
+app.put('/api/cms/identity', requireAuth, async (req, res) => {
+  try { const d = readData(); d.identity = { ...d.identity, ...req.body }; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
-app.put('/api/cms/suggestions', requireAuth, (req, res) => {
-  try { const d = readData(); d.suggestions = req.body; writeData(d); res.json({ ok: true }); }
+app.put('/api/cms/suggestions', requireAuth, async (req, res) => {
+  try { const d = readData(); d.suggestions = req.body; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
-app.put('/api/cms/conversations', requireAuth, (req, res) => {
-  try { const d = readData(); d.conversations = req.body; writeData(d); res.json({ ok: true }); }
+app.put('/api/cms/conversations', requireAuth, async (req, res) => {
+  try { const d = readData(); d.conversations = req.body; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
-app.put('/api/cms/projects', requireAuth, (req, res) => {
-  try { const d = readData(); d.projects = req.body; writeData(d); res.json({ ok: true }); }
+app.put('/api/cms/projects', requireAuth, async (req, res) => {
+  try { const d = readData(); d.projects = req.body; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
-app.put('/api/cms/responses', requireAuth, (req, res) => {
-  try { const d = readData(); d.responses = req.body; writeData(d); res.json({ ok: true }); }
+app.put('/api/cms/responses', requireAuth, async (req, res) => {
+  try { const d = readData(); d.responses = req.body; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
