@@ -164,27 +164,27 @@ app.put('/api/cms/data', requireAuth, async (req, res) => {
 
 // Granular section endpoints
 app.put('/api/cms/identity', requireAuth, async (req, res) => {
-  try { const d = readData(); d.identity = { ...d.identity, ...req.body }; await writeData(d); res.json({ ok: true }); }
+  try { const d = await readDataRemote(); d.identity = { ...d.identity, ...req.body }; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
 app.put('/api/cms/suggestions', requireAuth, async (req, res) => {
-  try { const d = readData(); d.suggestions = req.body; await writeData(d); res.json({ ok: true }); }
+  try { const d = await readDataRemote(); d.suggestions = req.body; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
 app.put('/api/cms/conversations', requireAuth, async (req, res) => {
-  try { const d = readData(); d.conversations = req.body; await writeData(d); res.json({ ok: true }); }
+  try { const d = await readDataRemote(); d.conversations = req.body; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
 app.put('/api/cms/projects', requireAuth, async (req, res) => {
-  try { const d = readData(); d.projects = req.body; await writeData(d); res.json({ ok: true }); }
+  try { const d = await readDataRemote(); d.projects = req.body; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
 app.put('/api/cms/responses', requireAuth, async (req, res) => {
-  try { const d = readData(); d.responses = req.body; await writeData(d); res.json({ ok: true }); }
+  try { const d = await readDataRemote(); d.responses = req.body; await writeData(d); res.json({ ok: true }); }
   catch (e) { res.status(503).json({ error: e.message }); }
 });
 
