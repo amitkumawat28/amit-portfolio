@@ -78,12 +78,8 @@ const syncProjectGrid = (d) => {
   for (const blocks of Object.values(d.responses || {})) {
     for (const block of blocks) {
       if (block.type === 'projectGrid') {
-        // Keep only IDs that still exist, preserve order
-        block.ids = block.ids.filter(id => ids.includes(id));
-        // Add any new project IDs not yet in the grid
-        for (const id of ids) {
-          if (!block.ids.includes(id)) block.ids.push(id);
-        }
+        // Always match the order of the projects array
+        block.ids = ids;
       }
     }
   }
