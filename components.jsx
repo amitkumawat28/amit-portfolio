@@ -219,7 +219,7 @@ const ProjectMini = ({ project, onOpen }) => (
     <div className="proj-mini-body">
       <div className="proj-mini-name">{project.name}</div>
       <div className="proj-mini-tag">{project.tag}</div>
-      <div className="proj-mini-blurb">{project.blurb}</div>
+      <div className="proj-mini-blurb">{renderInline(project.blurb)}</div>
     </div>
     <div className="proj-mini-arrow"><Icon name="arrow" size={14}/></div>
   </button>
