@@ -72,7 +72,26 @@ const readDataRemote = async () => {
   return rows[0]?.data || readData();
 };
 
+// Keep projectGrid in sync with actual project IDs
+const syncProjectGrid = (d) => {
+  const ids = (d.projects || []).map(p => p.id);
+  for (const blocks of Object.values(d.responses || {})) {
+    for (const block of blocks) {
+      if (block.type === 'projectGrid') {
+        // Keep only IDs that still exist, preserve order
+        block.ids = block.ids.filter(id => ids.includes(id));
+        // Add any new project IDs not yet in the grid
+        for (const id of ids) {
+          if (!block.ids.includes(id)) block.ids.push(id);
+        }
+      }
+    }
+  }
+  return d;
+};
+
 const writeData = async (d) => {
+  d = syncProjectGrid(d);
   if (useSupabase()) {
     const res = await fetch(sbUrl(), {
       method: 'PATCH', headers: { ...sbHeaders(), 'Prefer': 'return=minimal' },
