@@ -461,7 +461,7 @@ const ArtifactPanel = ({ artifact, data, onClose }) => {
             <div className="art-tag">{p.tag}</div>
           </div>
           <h2 className="art-title">{p.name}</h2>
-          <div className="art-blurb">{p.blurb.split('\n').map((line, i) => <p key={i}>{renderInline(line)}</p>)}</div>
+          <div className="art-blurb">{(p.blurb || '').split('\n').map((line, i) => <p key={i}>{renderInline(line)}</p>)}</div>
           <div className="art-section-label">Stack</div>
           <div className="art-chips">
             {p.stack.map((s, i) => <span key={i} className="art-chip">{s}</span>)}
