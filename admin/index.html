@@ -54,6 +54,11 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .del-btn:hover{background:#3a1a1a}
 .add-btn{width:100%;padding:9px;background:transparent;border:1px dashed #333;border-radius:6px;color:#666;font-size:13px;cursor:pointer;margin-top:6px}
 .add-btn:hover{border-color:#555;color:#aaa}
+/* Drag handle */
+.drag-handle{cursor:grab;color:#444;padding:2px 6px;font-size:18px;line-height:1;user-select:none}
+.drag-handle:hover{color:#888}
+.section.dragging{opacity:.4}
+.section.drag-over{border-color:#4ade80}
 /* Tags input */
 .tags-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;background:#111;border:1px solid #2a2a2a;border-radius:6px;min-height:38px;align-items:center;cursor:text}
 .tags-wrap:focus-within{border-color:#444}
@@ -273,14 +278,18 @@ function collectIdentity(){
 }
 
 /* ══ PROJECTS ══ */
+let dragSrc = null;
 function renderProjects(){
   const el=document.getElementById('projects-list');
   el.innerHTML='';
   (DATA.projects||[]).forEach((p,i)=>{
     el.insertAdjacentHTML('beforeend',`
-    <div class="section" id="proj-${i}">
+    <div class="section" id="proj-${i}" draggable="true" ondragstart="onDragStart(event,${i})" ondragover="onDragOver(event,${i})" ondrop="onDrop(event,${i})" ondragend="onDragEnd()">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <strong style="font-size:14px;color:#ccc">${p.name||'New project'}</strong>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="drag-handle" title="Drag to reorder">⠿</span>
+          <strong style="font-size:14px;color:#ccc">${p.name||'New project'}</strong>
+        </div>
         <button class="del-btn" onclick="deleteProject(${i})">Remove</button>
       </div>
       <div class="row">
@@ -316,6 +325,10 @@ function removeTag(idx,field,ti){
   renderProjects();
 }
 function updateProjectTitle(i,val){const h=document.querySelector(`#proj-${i} strong`);if(h)h.textContent=val||'New project';}
+function onDragStart(e,i){collectProjects();dragSrc=i;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function onDragOver(e,i){e.preventDefault();if(dragSrc===i)return;document.querySelectorAll('.section').forEach(s=>s.classList.remove('drag-over'));e.currentTarget.classList.add('drag-over');}
+function onDrop(e,i){e.preventDefault();if(dragSrc===null||dragSrc===i)return;const moved=DATA.projects.splice(dragSrc,1)[0];DATA.projects.splice(i,0,moved);dragSrc=null;renderProjects();}
+function onDragEnd(){dragSrc=null;document.querySelectorAll('.section').forEach(s=>s.classList.remove('dragging','drag-over'));}
 function collectProjects(){
   DATA.projects=(DATA.projects||[]).map((p,i)=>{
     const get=(f)=>{const el=document.querySelector(`.pf[data-f="${f}"][data-i="${i}"]`);return el?el.value:p[f];};
