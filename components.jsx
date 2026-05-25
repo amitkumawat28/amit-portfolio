@@ -33,6 +33,11 @@ const Icon = ({ name, size = 18 }) => {
   return <svg viewBox="0 0 24 24" {...s}>{paths[name] || null}</svg>;
 };
 
+// ----- GA4 helper -----
+const track = (event, params = {}) => {
+  if (typeof gtag !== "undefined") gtag("event", event, params);
+};
+
 // ----- Markdown renderer (bold, italic, links, images) -----
 const renderInline = (text) => {
   if (!text) return null;
@@ -164,7 +169,7 @@ const Welcome = ({ data, onPick }) => {
 
         <div className="suggestions">
           {data.suggestions.map((s, i) => (
-            <button key={i} className="suggestion" onClick={() => onPick(s.prompt)}>
+            <button key={i} className="suggestion" onClick={() => { track("suggestion_click", {label: s.label}); onPick(s.prompt); }}>
               <span className="sug-icon"><Icon name={s.icon} size={16}/></span>
               <span className="sug-label">{s.label}</span>
               <span className="sug-arrow"><Icon name="arrow" size={14}/></span>
@@ -288,17 +293,17 @@ const Block = ({ block, data, onDone, onOpenProject, onOpenResume }) => {
     case "contactCards":
       return (
         <div className="contact-cards">
-          <a className="contact-card" href={"mailto:" + data.identity.links.email}>
+          <a className="contact-card" href={"mailto:" + data.identity.links.email} onClick={() => track("contact_click", {channel:"email"})}>
             <Icon name="mail" size={16}/>
             <div><div className="cc-label">Email</div><div className="cc-value">{data.identity.links.email}</div></div>
             <Icon name="external" size={13}/>
           </a>
-          <a className="contact-card" href={data.identity.links.linkedin} target="_blank" rel="noreferrer">
+          <a className="contact-card" href={data.identity.links.linkedin} target="_blank" rel="noreferrer" onClick={() => track("contact_click", {channel:"linkedin"})}>
             <Icon name="user" size={16}/>
             <div><div className="cc-label">LinkedIn</div><div className="cc-value">/in/kumawatamit</div></div>
             <Icon name="external" size={13}/>
           </a>
-          <a className="contact-card" href={data.identity.links.github} target="_blank" rel="noreferrer">
+          <a className="contact-card" href={data.identity.links.github} target="_blank" rel="noreferrer" onClick={() => track("contact_click", {channel:"github"})}>
             <Icon name="folder" size={16}/>
             <div><div className="cc-label">GitHub</div><div className="cc-value">@amitkumawat28</div></div>
             <Icon name="external" size={13}/>
@@ -313,7 +318,7 @@ const Block = ({ block, data, onDone, onOpenProject, onOpenResume }) => {
             <div className="rc-name">Amit_Kumawat_CV.pdf</div>
             <div className="rc-meta">PDF · click to preview</div>
           </div>
-          <a className="rc-download" href={data.identity.cvPath} download onClick={e => e.stopPropagation()}>
+          <a className="rc-download" href={data.identity.cvPath} download onClick={e => { e.stopPropagation(); track("cv_download"); }}>
             <Icon name="download" size={15}/>
           </a>
         </div>
@@ -471,7 +476,7 @@ const ArtifactPanel = ({ artifact, data, onClose }) => {
             {p.highlights.map((h, i) => <li key={i}>{renderInline(h)}</li>)}
           </ul>
           {p.link && (
-            <a className="art-link" href={p.link} target="_blank" rel="noreferrer">
+            <a className="art-link" href={p.link} target="_blank" rel="noreferrer" onClick={() => track("project_link_click", {project_id: p.id})}>
               <span>Open live</span><Icon name="external" size={14}/>
             </a>
           )}

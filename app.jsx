@@ -63,6 +63,10 @@ const App = () => {
   const streamAI = async (text, aiId) => { ... };
   */
 
+  const track = (event, params = {}) => {
+    if (typeof gtag !== "undefined") gtag("event", event, params);
+  };
+
   const sendMessage = (text) => {
     const userMsg = { id: Date.now(), role: "user", text };
     const key = resolveResponseKey(text);
@@ -72,6 +76,7 @@ const App = () => {
     setMessages(m => [...m, userMsg, aiMsg]);
     if (key && data.conversations.find(c => c.id === key)) setActiveId(key);
     if (responseKey === "resume") setArtifact({ kind: "resume" });
+    track("chat_message", { response_key: responseKey, message: text.slice(0, 100) });
   };
 
   const pickConversation = (id) => {
@@ -79,6 +84,7 @@ const App = () => {
     const conv = data.conversations.find(c => c.id === id);
     if (!conv) return;
     sendMessage(conv.title);
+    track("sidebar_conversation", { conversation_id: id });
     if (isMobile()) setMobileNav(false);
   };
 
@@ -86,11 +92,18 @@ const App = () => {
     setMessages([]);
     setActiveId(null);
     setArtifact(null);
+    track("new_chat");
     if (isMobile()) setMobileNav(false);
   };
 
-  const openProject = (id) => setArtifact({ kind: "project", id });
-  const openResume = () => setArtifact({ kind: "resume" });
+  const openProject = (id) => {
+    setArtifact({ kind: "project", id });
+    track("project_opened", { project_id: id });
+  };
+  const openResume = () => {
+    setArtifact({ kind: "resume" });
+    track("resume_opened");
+  };
 
   return (
     <div className={"app" + (mobileNav ? " mobile-nav-open" : "")}>
