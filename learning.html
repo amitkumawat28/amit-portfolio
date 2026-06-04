@@ -11,13 +11,11 @@
   :root {
     --font-sans: "DM Sans", system-ui, sans-serif;
     --font-mono: "JetBrains Mono", ui-monospace, monospace;
-    --font-serif: "Instrument Serif", Georgia, serif;
     --radius: 14px;
     --radius-sm: 10px;
     --radius-lg: 20px;
-    --speed: 240ms;
+    --speed: 220ms;
   }
-
   html[data-theme="light"] {
     --bg:          oklch(0.985 0.004 75);
     --surface:     oklch(1 0 0);
@@ -68,11 +66,11 @@
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; border: 2px solid var(--bg); }
   ::-webkit-scrollbar-track { background: transparent; }
 
-  /* ── Page layout ── */
+  /* ── Shell ── */
   .page {
-    max-width: 780px;
+    max-width: 860px;
     margin: 0 auto;
-    padding: 40px 24px 80px;
+    padding: 36px 24px 80px;
   }
 
   /* ── Top bar ── */
@@ -80,111 +78,156 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 36px;
   }
-  .topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .back-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--text-3);
-    padding: 6px 10px;
-    border-radius: var(--radius-sm);
-    transition: background var(--speed), color var(--speed);
-  }
-  .back-btn:hover { background: var(--surface-2); color: var(--text-2); }
-  .page-title {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-  }
+  .topbar-left { display: flex; align-items: center; gap: 10px; }
+  .page-title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
   .theme-toggle {
-    width: 34px; height: 34px;
-    border-radius: 50%;
+    width: 34px; height: 34px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    color: var(--text-2);
-    transition: background var(--speed);
+    background: var(--surface-2); border: 1px solid var(--border);
+    color: var(--text-2); transition: background var(--speed);
   }
   .theme-toggle:hover { background: var(--surface-3); }
 
-  /* ── Category tabs ── */
-  .category-tabs {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 32px;
-  }
-  .cat-tab {
-    padding: 7px 16px;
-    border-radius: 99px;
-    font-size: 13px;
-    font-weight: 500;
-    border: 1.5px solid var(--border);
-    color: var(--text-2);
-    background: var(--surface);
-    transition: all var(--speed);
-    cursor: pointer;
-  }
-  .cat-tab:hover { border-color: var(--accent); color: var(--accent-text); background: var(--accent-soft); }
-  .cat-tab.active {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent-text);
-    font-weight: 600;
-  }
+  /* ══════════════════════════════════════
+     HOME VIEW — category card grid
+  ══════════════════════════════════════ */
+  #homeView { display: block; }
+  #studyView { display: none; }
 
-  /* ── Progress ── */
-  .progress-bar-wrap {
-    height: 4px;
-    background: var(--surface-3);
-    border-radius: 99px;
-    margin-bottom: 32px;
-    overflow: hidden;
-  }
-  .progress-bar {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 99px;
-    transition: width 0.3s ease;
-  }
-  .progress-label {
+  .home-eyebrow {
     font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     color: var(--text-3);
-    margin-bottom: 8px;
-    text-align: right;
+    margin-bottom: 14px;
   }
 
-  /* ── Flashcard ── */
-  .card-area {
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .cat-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    cursor: pointer;
+    transition: border-color var(--speed), box-shadow var(--speed), transform var(--speed);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 24px;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cat-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-2);
+    transform: translateY(-2px);
   }
 
+  .cat-card-icon {
+    font-size: 28px;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .cat-card-label {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--text);
+  }
+  .cat-card-desc {
+    font-size: 13px;
+    color: var(--text-3);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .cat-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  .cat-card-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-text);
+    background: var(--accent-soft);
+    padding: 3px 10px;
+    border-radius: 99px;
+    border: 1px solid var(--accent);
+  }
+  .cat-card-progress {
+    font-size: 11px;
+    color: var(--text-3);
+  }
+  /* thin progress stripe at bottom of card */
+  .cat-card-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 0 0 0 var(--radius-lg);
+    transition: width 0.4s ease;
+  }
+
+  /* ══════════════════════════════════════
+     STUDY VIEW — flashcard
+  ══════════════════════════════════════ */
+  .study-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .back-btn {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--text-3);
+    padding: 6px 12px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); background: var(--surface);
+    transition: all var(--speed);
+  }
+  .back-btn:hover { color: var(--text); border-color: var(--text-3); }
+  .study-title {
+    font-size: 18px; font-weight: 700; letter-spacing: -0.2px;
+  }
+
+  /* Progress */
+  .progress-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .progress-label { font-size: 12px; color: var(--text-3); }
+  .progress-bar-wrap {
+    height: 4px; background: var(--surface-3);
+    border-radius: 99px; margin-bottom: 28px; overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%; background: var(--accent);
+    border-radius: 99px; transition: width 0.3s ease;
+  }
+
+  /* Flashcard */
+  .card-area {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 22px;
+  }
   .flashcard-scene {
-    width: 100%;
-    max-width: 620px;
-    height: 320px;
-    perspective: 1200px;
-    cursor: pointer;
+    width: 100%; max-width: 640px;
+    height: 300px; perspective: 1200px; cursor: pointer;
   }
-  @media (max-width: 600px) {
-    .flashcard-scene { height: 260px; }
-  }
+  @media (max-width: 600px) { .flashcard-scene { height: 260px; } }
 
   .flashcard {
     width: 100%; height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.55s cubic-bezier(0.45, 0, 0.55, 1);
+    transition: transform 0.5s cubic-bezier(0.45, 0, 0.55, 1);
   }
   .flashcard.flipped { transform: rotateY(180deg); }
 
@@ -195,18 +238,11 @@
     border-radius: var(--radius-lg);
     border: 1.5px solid var(--border);
     box-shadow: var(--shadow-2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    gap: 16px;
-    text-align: center;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 36px; gap: 14px; text-align: center;
   }
-
-  .fc-front {
-    background: var(--surface);
-  }
+  .fc-front { background: var(--surface); }
   .fc-back {
     background: var(--accent-soft);
     border-color: var(--accent);
@@ -214,147 +250,75 @@
   }
 
   .fc-badge {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 4px 10px;
-    border-radius: 99px;
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 3px 10px; border-radius: 99px;
     border: 1px solid var(--border);
-    color: var(--text-3);
-    background: var(--surface-2);
+    color: var(--text-3); background: var(--surface-2);
   }
   .fc-back .fc-badge {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent-text);
+    background: transparent; border-color: var(--accent); color: var(--accent-text);
   }
-
   .fc-text {
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 1.5;
-    color: var(--text);
-    max-width: 500px;
+    font-size: 17px; font-weight: 500;
+    line-height: 1.5; color: var(--text); max-width: 520px;
   }
   .fc-back .fc-text {
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--text);
-    line-height: 1.7;
-    text-align: left;
+    font-size: 14px; font-weight: 400;
+    line-height: 1.7; text-align: left;
   }
-
   .fc-hint {
-    font-size: 12px;
-    color: var(--text-3);
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    font-size: 12px; color: var(--text-3);
+    display: flex; align-items: center; gap: 5px;
   }
 
-  /* ── Card navigation ── */
-  .card-nav {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  /* Card nav */
+  .card-nav { display: flex; align-items: center; gap: 16px; }
   .nav-btn {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    border: 1.5px solid var(--border);
-    background: var(--surface);
-    color: var(--text-2);
-    display: flex; align-items: center; justify-content: center;
-    transition: all var(--speed);
-    box-shadow: var(--shadow-1);
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1.5px solid var(--border); background: var(--surface);
+    color: var(--text-2); display: flex; align-items: center; justify-content: center;
+    transition: all var(--speed); box-shadow: var(--shadow-1);
   }
   .nav-btn:hover:not(:disabled) {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent-text);
+    background: var(--accent-soft); border-color: var(--accent); color: var(--accent-text);
   }
-  .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .card-counter {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-2);
-    min-width: 60px;
-    text-align: center;
+    font-size: 14px; font-weight: 600; color: var(--text-2);
+    min-width: 60px; text-align: center;
   }
 
-  /* ── Dot indicators ── */
+  /* Dots */
   .dot-row {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 400px;
+    display: flex; gap: 6px; flex-wrap: wrap;
+    justify-content: center; max-width: 400px;
   }
   .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--border);
-    transition: all var(--speed);
-    cursor: pointer;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--border); transition: all var(--speed); cursor: pointer;
   }
   .dot.active { background: var(--accent); transform: scale(1.3); }
-  .dot.seen { background: var(--accent-2); opacity: 0.5; }
+  .dot.seen   { background: var(--accent-2); opacity: 0.5; }
 
-  /* ── Shuffle / Reset row ── */
-  .action-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 8px;
-  }
+  /* Action row */
+  .action-row { display: flex; gap: 10px; margin-top: 4px; }
   .action-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: 99px;
-    border: 1.5px solid var(--border);
-    background: var(--surface);
-    color: var(--text-2);
-    transition: all var(--speed);
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500;
+    padding: 6px 14px; border-radius: 99px;
+    border: 1.5px solid var(--border); background: var(--surface);
+    color: var(--text-2); transition: all var(--speed);
   }
   .action-btn:hover {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent-text);
-  }
-
-  /* ── Category header ── */
-  .category-header {
-    margin-bottom: 24px;
-  }
-  .category-header h2 {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    margin-bottom: 4px;
-  }
-  .category-header p {
-    font-size: 14px;
-    color: var(--text-3);
-  }
-
-  /* ── Empty state ── */
-  .empty {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--text-3);
-    font-size: 15px;
+    background: var(--accent-soft); border-color: var(--accent); color: var(--accent-text);
   }
 </style>
 </head>
 <body>
-
 <div class="page">
-  <!-- Top bar -->
+
+  <!-- Top bar (always visible) -->
   <div class="topbar">
     <div class="topbar-left">
       <span class="page-title">🧠 Learning Hub</span>
@@ -366,126 +330,110 @@
     </button>
   </div>
 
-  <!-- Category tabs -->
-  <div class="category-tabs" id="categoryTabs"></div>
-
-  <!-- Category header -->
-  <div class="category-header" id="categoryHeader"></div>
-
-  <!-- Progress -->
-  <div class="progress-label" id="progressLabel"></div>
-  <div class="progress-bar-wrap">
-    <div class="progress-bar" id="progressBar" style="width:0%"></div>
+  <!-- ── HOME VIEW ── -->
+  <div id="homeView">
+    <p class="home-eyebrow">Pick a topic</p>
+    <div class="cat-grid" id="catGrid"></div>
   </div>
 
-  <!-- Card area -->
-  <div class="card-area">
-    <div class="flashcard-scene" id="cardScene" onclick="flipCard()">
-      <div class="flashcard" id="flashcard">
-        <div class="fc-face fc-front" id="fcFront">
-          <span class="fc-badge">Question</span>
-          <p class="fc-text" id="fcQuestion"></p>
-          <span class="fc-hint">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-            Click to reveal answer
-          </span>
-        </div>
-        <div class="fc-face fc-back" id="fcBack">
-          <span class="fc-badge">Answer</span>
-          <p class="fc-text" id="fcAnswer"></p>
+  <!-- ── STUDY VIEW ── -->
+  <div id="studyView">
+    <div class="study-header">
+      <button class="back-btn" onclick="goHome()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        All topics
+      </button>
+      <span class="study-title" id="studyTitle"></span>
+    </div>
+
+    <div class="progress-row">
+      <span class="progress-label" id="progressLabel"></span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar" style="width:0%"></div>
+    </div>
+
+    <div class="card-area">
+      <div class="flashcard-scene" onclick="flipCard()">
+        <div class="flashcard" id="flashcard">
+          <div class="fc-face fc-front">
+            <span class="fc-badge">Question</span>
+            <p class="fc-text" id="fcQuestion"></p>
+            <span class="fc-hint">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              Click to reveal answer
+            </span>
+          </div>
+          <div class="fc-face fc-back">
+            <span class="fc-badge">Answer</span>
+            <p class="fc-text" id="fcAnswer"></p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Nav -->
-    <div class="card-nav">
-      <button class="nav-btn" id="prevBtn" onclick="prevCard()" title="Previous">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <span class="card-counter" id="cardCounter">1 / 1</span>
-      <button class="nav-btn" id="nextBtn" onclick="nextCard()" title="Next">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
-    </div>
+      <div class="card-nav">
+        <button class="nav-btn" id="prevBtn" onclick="prevCard()" title="Previous">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span class="card-counter" id="cardCounter">1 / 1</span>
+        <button class="nav-btn" id="nextBtn" onclick="nextCard()" title="Next">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
 
-    <!-- Dots -->
-    <div class="dot-row" id="dotRow"></div>
+      <div class="dot-row" id="dotRow"></div>
 
-    <!-- Actions -->
-    <div class="action-row">
-      <button class="action-btn" onclick="shuffleCards()">
-        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20l16-16M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
-        Shuffle
-      </button>
-      <button class="action-btn" onclick="resetCards()">
-        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-        Reset
-      </button>
+      <div class="action-row">
+        <button class="action-btn" onclick="shuffleCards()">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20l16-16M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+          Shuffle
+        </button>
+        <button class="action-btn" onclick="resetCards()">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
+</div>
 <script>
 // ── Data ──────────────────────────────────────────────────────────────────────
 const CATEGORIES = [
   {
     id: "ai-for-pm",
+    icon: "🤖",
     label: "AI for PMs",
-    description: "Core concepts every product manager should know about AI evaluations and deployment.",
+    description: "Core concepts every PM should know about AI evaluations and deployment.",
     cards: [
-      {
-        q: "What are evals in a product context?",
-        a: "Evals are tests used to measure whether an AI product performs well for real user needs."
-      },
-      {
-        q: "Why should a PM care about evals?",
-        a: "Evals help PMs decide if the product is accurate, safe, useful, reliable, and ready to launch."
-      },
-      {
-        q: "What should a PM evaluate?",
-        a: "User success, answer quality, hallucinations, safety, latency, cost, and business impact."
-      },
-      {
-        q: "What is a good eval set?",
-        a: "A set of realistic user scenarios, including common cases, edge cases, ambiguous inputs, and failure-prone examples."
-      },
-      {
-        q: "PM interview answer for evals?",
-        a: "\"I would define success criteria, build a representative eval set, measure quality with human and automated reviews, track failures, and iterate before launch.\""
-      }
+      { q: "What are evals in a product context?", a: "Evals are tests used to measure whether an AI product performs well for real user needs." },
+      { q: "Why should a PM care about evals?", a: "Evals help PMs decide if the product is accurate, safe, useful, reliable, and ready to launch." },
+      { q: "What should a PM evaluate?", a: "User success, answer quality, hallucinations, safety, latency, cost, and business impact." },
+      { q: "What is a good eval set?", a: "A set of realistic user scenarios, including common cases, edge cases, ambiguous inputs, and failure-prone examples." },
+      { q: "PM interview answer for evals?", a: "\"I would define success criteria, build a representative eval set, measure quality with human and automated reviews, track failures, and iterate before launch.\"" }
     ]
   },
   {
     id: "churn-b2b-saas",
+    icon: "📉",
     label: "Churn in B2B SaaS",
-    description: "5 flashcards on reducing churn in B2B SaaS — with AiSensy as the case study.",
+    description: "Reducing churn in B2B SaaS — with AiSensy as the case study.",
     cards: [
-      {
-        q: "What is the first step to reduce churn?",
-        a: "Define churn clearly.\n\nLogo churn = customers leaving\nRevenue churn = money lost from cancellations/downgrades\nNRR = retained + expanded revenue\n\n💡 \"Know the churn before fixing the churn.\""
-      },
-      {
-        q: "How should a PM analyze churn?",
-        a: "Segment customers.\n\nBreak churn by: industry, plan, usage, lifecycle stage, customer size.\n\nFor AiSensy: ecommerce, education, real estate, healthcare, SMBs.\n\n💡 \"Different customers churn for different reasons.\""
-      },
-      {
-        q: "What are the key churn signals for AiSensy?",
-        a: "Look for low activation and low usage.\n\nSignals: No WhatsApp setup · No contacts imported · No first campaign sent · No automation created · Low campaign replies · Drop in usage\n\n💡 \"No setup, no value, high churn.\""
-      },
-      {
-        q: "What product improvements can reduce churn?",
-        a: "Improve onboarding, ROI, and stickiness.\n\nFor AiSensy: industry-specific onboarding · ready-made WhatsApp templates · faster first campaign · better analytics · automation playbooks · CRM/ecommerce integrations\n\n💡 \"Help users launch, see value, and stay.\""
-      },
-      {
-        q: "What metrics should a PM track to measure churn improvement?",
-        a: "Track retention and activation metrics.\n\nKey metrics: Monthly revenue churn · Activation rate · Time to first campaign · 30-day retention · Automation adoption · Integration usage · Net revenue retention\n\n💡 \"Measure activation, usage, and retained revenue.\""
-      }
+      { q: "What is the first step to reduce churn?", a: "Define churn clearly.\n\nLogo churn = customers leaving\nRevenue churn = money lost from cancellations/downgrades\nNRR = retained + expanded revenue\n\n💡 \"Know the churn before fixing the churn.\"" },
+      { q: "How should a PM analyze churn?", a: "Segment customers.\n\nBreak churn by: industry, plan, usage, lifecycle stage, customer size.\n\nFor AiSensy: ecommerce, education, real estate, healthcare, SMBs.\n\n💡 \"Different customers churn for different reasons.\"" },
+      { q: "What are the key churn signals for AiSensy?", a: "Look for low activation and low usage.\n\nSignals: No WhatsApp setup · No contacts imported · No first campaign sent · No automation created · Low campaign replies · Drop in usage\n\n💡 \"No setup, no value, high churn.\"" },
+      { q: "What product improvements can reduce churn?", a: "Improve onboarding, ROI, and stickiness.\n\nFor AiSensy: industry-specific onboarding · ready-made WhatsApp templates · faster first campaign · better analytics · automation playbooks · CRM/ecommerce integrations\n\n💡 \"Help users launch, see value, and stay.\"" },
+      { q: "What metrics should a PM track to measure churn improvement?", a: "Track retention and activation metrics.\n\nKey metrics: Monthly revenue churn · Activation rate · Time to first campaign · 30-day retention · Automation adoption · Integration usage · Net revenue retention\n\n💡 \"Measure activation, usage, and retained revenue.\"" }
     ]
   }
 ];
 
+// Per-category progress stored in memory
+const progress = {};
+CATEGORIES.forEach(c => { progress[c.id] = new Set(); });
+
 // ── State ─────────────────────────────────────────────────────────────────────
-let activeCatId = CATEGORIES[0].id;
+let activeCatId = null;
 let cards = [];
 let currentIdx = 0;
 let seen = new Set();
@@ -493,34 +441,57 @@ let isFlipped = false;
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 function init() {
-  renderTabs();
-  selectCategory(activeCatId);
   applyTheme();
+  renderHomeGrid();
+  showHome();
 }
 
-function renderTabs() {
-  const el = document.getElementById('categoryTabs');
-  el.innerHTML = CATEGORIES.map(c =>
-    `<button class="cat-tab ${c.id === activeCatId ? 'active' : ''}" onclick="selectCategory('${c.id}')">${c.label}</button>`
-  ).join('');
+// ── Home ──────────────────────────────────────────────────────────────────────
+function renderHomeGrid() {
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = CATEGORIES.map(c => {
+    const seen = progress[c.id].size;
+    const total = c.cards.length;
+    const pct = total ? Math.round((seen / total) * 100) : 0;
+    return `
+      <div class="cat-card" onclick="openCategory('${c.id}')">
+        <div class="cat-card-icon">${c.icon}</div>
+        <div class="cat-card-label">${c.label}</div>
+        <div class="cat-card-desc">${c.description}</div>
+        <div class="cat-card-footer">
+          <span class="cat-card-count">${total} cards</span>
+          <span class="cat-card-progress">${seen > 0 ? pct + '% done' : 'Not started'}</span>
+        </div>
+        <div class="cat-card-bar" style="width:${pct}%"></div>
+      </div>`;
+  }).join('');
 }
 
-function selectCategory(id) {
+function showHome() {
+  document.getElementById('homeView').style.display = 'block';
+  document.getElementById('studyView').style.display = 'none';
+}
+
+function goHome() {
+  // Persist seen progress before leaving
+  if (activeCatId) progress[activeCatId] = new Set(seen);
+  renderHomeGrid(); // refresh progress bars
+  showHome();
+  activeCatId = null;
+}
+
+// ── Study ─────────────────────────────────────────────────────────────────────
+function openCategory(id) {
   activeCatId = id;
   const cat = CATEGORIES.find(c => c.id === id);
   cards = [...cat.cards];
   currentIdx = 0;
-  seen = new Set();
+  seen = new Set(progress[id]); // restore progress
   isFlipped = false;
 
-  // Update tab UI
-  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-  const activeTab = [...document.querySelectorAll('.cat-tab')].find(t => t.textContent === cat.label);
-  if (activeTab) activeTab.classList.add('active');
-
-  // Category header
-  document.getElementById('categoryHeader').innerHTML =
-    `<h2>${cat.label}</h2><p>${cat.description}</p>`;
+  document.getElementById('studyTitle').textContent = cat.label;
+  document.getElementById('homeView').style.display = 'none';
+  document.getElementById('studyView').style.display = 'block';
 
   renderCard();
 }
@@ -529,35 +500,27 @@ function renderCard() {
   const card = cards[currentIdx];
   const flashcard = document.getElementById('flashcard');
 
-  // Reset flip without animation
+  // Snap reset flip
   flashcard.style.transition = 'none';
   flashcard.classList.remove('flipped');
   isFlipped = false;
-  // Re-enable transition after a tick
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      flashcard.style.transition = '';
-    });
-  });
+  requestAnimationFrame(() => requestAnimationFrame(() => { flashcard.style.transition = ''; }));
 
   document.getElementById('fcQuestion').textContent = card.q;
   document.getElementById('fcAnswer').innerHTML = card.a.replace(/\n/g, '<br/>');
   document.getElementById('cardCounter').textContent = `${currentIdx + 1} / ${cards.length}`;
-
-  // Buttons
   document.getElementById('prevBtn').disabled = currentIdx === 0;
   document.getElementById('nextBtn').disabled = currentIdx === cards.length - 1;
 
-  // Progress
   seen.add(currentIdx);
+  progress[activeCatId] = new Set(seen);
+
   const pct = Math.round((seen.size / cards.length) * 100);
   document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressLabel').textContent = `${seen.size} of ${cards.length} viewed`;
+  document.getElementById('progressLabel').textContent = `${seen.size} of ${cards.length} cards viewed`;
 
-  // Dots
-  const dotRow = document.getElementById('dotRow');
-  dotRow.innerHTML = cards.map((_, i) =>
-    `<div class="dot ${i === currentIdx ? 'active' : (seen.has(i) ? 'seen' : '')}" onclick="goTo(${i})"></div>`
+  document.getElementById('dotRow').innerHTML = cards.map((_, i) =>
+    `<div class="dot ${i === currentIdx ? 'active' : seen.has(i) ? 'seen' : ''}" onclick="goTo(${i})"></div>`
   ).join('');
 }
 
@@ -566,47 +529,29 @@ function flipCard() {
   document.getElementById('flashcard').classList.toggle('flipped', isFlipped);
 }
 
-function nextCard() {
-  if (currentIdx < cards.length - 1) {
-    currentIdx++;
-    renderCard();
-  }
-}
-
-function prevCard() {
-  if (currentIdx > 0) {
-    currentIdx--;
-    renderCard();
-  }
-}
-
-function goTo(i) {
-  currentIdx = i;
-  renderCard();
-}
+function nextCard() { if (currentIdx < cards.length - 1) { currentIdx++; renderCard(); } }
+function prevCard() { if (currentIdx > 0) { currentIdx--; renderCard(); } }
+function goTo(i)    { currentIdx = i; renderCard(); }
 
 function shuffleCards() {
   for (let i = cards.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [cards[i], cards[j]] = [cards[j], cards[i]];
   }
-  currentIdx = 0;
-  seen = new Set();
-  renderCard();
+  currentIdx = 0; seen = new Set(); renderCard();
 }
 
 function resetCards() {
-  const cat = CATEGORIES.find(c => c.id === activeCatId);
-  cards = [...cat.cards];
-  currentIdx = 0;
-  seen = new Set();
-  renderCard();
+  cards = [...CATEGORIES.find(c => c.id === activeCatId).cards];
+  currentIdx = 0; seen = new Set(); renderCard();
 }
 
-// ── Keyboard ──────────────────────────────────────────────────────────────────
+// ── Keyboard (study view only) ────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
+  if (document.getElementById('studyView').style.display === 'none') return;
   if (e.key === 'ArrowRight') nextCard();
   else if (e.key === 'ArrowLeft') prevCard();
+  else if (e.key === 'Escape') goHome();
   else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipCard(); }
 });
 
@@ -616,19 +561,13 @@ function applyTheme() {
   document.documentElement.dataset.theme = t;
   updateThemeIcon(t);
 }
-
 function updateThemeIcon(t) {
-  const icon = document.getElementById('themeIcon');
-  if (t === 'dark') {
-    icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
-  } else {
-    icon.innerHTML = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>';
-  }
+  document.getElementById('themeIcon').innerHTML = t === 'dark'
+    ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+    : '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>';
 }
-
 document.getElementById('themeBtn').addEventListener('click', () => {
-  const current = document.documentElement.dataset.theme;
-  const next = current === 'dark' ? 'light' : 'dark';
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
   document.documentElement.dataset.theme = next;
   localStorage.setItem('ak-theme', next);
   updateThemeIcon(next);
