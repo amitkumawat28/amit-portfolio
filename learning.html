@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Learning Hub — Amit Kumawat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --font-sans: "DM Sans", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --font-serif: "Instrument Serif", Georgia, serif;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --radius-lg: 20px;
+    --speed: 240ms;
+  }
+
+  html[data-theme="light"] {
+    --bg:          oklch(0.985 0.004 75);
+    --surface:     oklch(1 0 0);
+    --surface-2:   oklch(0.97 0.005 70);
+    --surface-3:   oklch(0.945 0.006 70);
+    --border:      oklch(0.92 0.005 70);
+    --border-soft: oklch(0.95 0.004 70);
+    --text:        oklch(0.22 0.01 60);
+    --text-2:      oklch(0.42 0.01 55);
+    --text-3:      oklch(0.58 0.01 55);
+    --accent:      oklch(0.62 0.14 38);
+    --accent-2:    oklch(0.72 0.12 40);
+    --accent-soft: oklch(0.94 0.04 40);
+    --accent-text: oklch(0.5 0.16 35);
+    --shadow-1: 0 1px 2px rgba(60,40,20,.04), 0 4px 14px rgba(60,40,20,.04);
+    --shadow-2: 0 2px 8px rgba(60,40,20,.06), 0 12px 36px rgba(60,40,20,.06);
+  }
+  html[data-theme="dark"] {
+    --bg:          oklch(0.155 0.008 60);
+    --surface:     oklch(0.195 0.008 60);
+    --surface-2:   oklch(0.225 0.008 60);
+    --surface-3:   oklch(0.26  0.008 60);
+    --border:      oklch(0.295 0.008 60);
+    --border-soft: oklch(0.245 0.008 60);
+    --text:        oklch(0.96 0.005 70);
+    --text-2:      oklch(0.74 0.008 60);
+    --text-3:      oklch(0.58 0.008 60);
+    --accent:      oklch(0.74 0.13 42);
+    --accent-2:    oklch(0.78 0.12 45);
+    --accent-soft: oklch(0.30 0.06 40);
+    --accent-text: oklch(0.82 0.14 45);
+    --shadow-1: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.2);
+    --shadow-2: 0 2px 8px rgba(0,0,0,.35), 0 12px 36px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100vh; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01","cv11";
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; border: 2px solid var(--bg); }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* ── Page layout ── */
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-3);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    transition: background var(--speed), color var(--speed);
+  }
+  .back-btn:hover { background: var(--surface-2); color: var(--text-2); }
+  .page-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .theme-toggle {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    transition: background var(--speed);
+  }
+  .theme-toggle:hover { background: var(--surface-3); }
+
+  /* ── Category tabs ── */
+  .category-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .cat-tab {
+    padding: 7px 16px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1.5px solid var(--border);
+    color: var(--text-2);
+    background: var(--surface);
+    transition: all var(--speed);
+    cursor: pointer;
+  }
+  .cat-tab:hover { border-color: var(--accent); color: var(--accent-text); background: var(--accent-soft); }
+  .cat-tab.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent-text);
+    font-weight: 600;
+  }
+
+  /* ── Progress ── */
+  .progress-bar-wrap {
+    height: 4px;
+    background: var(--surface-3);
+    border-radius: 99px;
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 99px;
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: var(--text-3);
+    margin-bottom: 8px;
+    text-align: right;
+  }
+
+  /* ── Flashcard ── */
+  .card-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .flashcard-scene {
+    width: 100%;
+    max-width: 620px;
+    height: 320px;
+    perspective: 1200px;
+    cursor: pointer;
+  }
+  @media (max-width: 600px) {
+    .flashcard-scene { height: 260px; }
+  }
+
+  .flashcard {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+
+  .fc-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: var(--radius-lg);
+    border: 1.5px solid var(--border);
+    box-shadow: var(--shadow-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .fc-front {
+    background: var(--surface);
+  }
+  .fc-back {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    transform: rotateY(180deg);
+  }
+
+  .fc-badge {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    color: var(--text-3);
+    background: var(--surface-2);
+  }
+  .fc-back .fc-badge {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent-text);
+  }
+
+  .fc-text {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+    max-width: 500px;
+  }
+  .fc-back .fc-text {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  .fc-hint {
+    font-size: 12px;
+    color: var(--text-3);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ── Card navigation ── */
+  .card-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text-2);
+    display: flex; align-items: center; justify-content: center;
+    transition: all var(--speed);
+    box-shadow: var(--shadow-1);
+  }
+  .nav-btn:hover:not(:disabled) {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent-text);
+  }
+  .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .card-counter {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-2);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  /* ── Dot indicators ── */
+  .dot-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 400px;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all var(--speed);
+    cursor: pointer;
+  }
+  .dot.active { background: var(--accent); transform: scale(1.3); }
+  .dot.seen { background: var(--accent-2); opacity: 0.5; }
+
+  /* ── Shuffle / Reset row ── */
+  .action-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 99px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text-2);
+    transition: all var(--speed);
+  }
+  .action-btn:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent-text);
+  }
+
+  /* ── Category header ── */
+  .category-header {
+    margin-bottom: 24px;
+  }
+  .category-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+  .category-header p {
+    font-size: 14px;
+    color: var(--text-3);
+  }
+
+  /* ── Empty state ── */
+  .empty {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-3);
+    font-size: 15px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="page-title">🧠 Learning Hub</span>
+    </div>
+    <button class="theme-toggle" id="themeBtn" title="Toggle theme">
+      <svg id="themeIcon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Category tabs -->
+  <div class="category-tabs" id="categoryTabs"></div>
+
+  <!-- Category header -->
+  <div class="category-header" id="categoryHeader"></div>
+
+  <!-- Progress -->
+  <div class="progress-label" id="progressLabel"></div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progressBar" style="width:0%"></div>
+  </div>
+
+  <!-- Card area -->
+  <div class="card-area">
+    <div class="flashcard-scene" id="cardScene" onclick="flipCard()">
+      <div class="flashcard" id="flashcard">
+        <div class="fc-face fc-front" id="fcFront">
+          <span class="fc-badge">Question</span>
+          <p class="fc-text" id="fcQuestion"></p>
+          <span class="fc-hint">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            Click to reveal answer
+          </span>
+        </div>
+        <div class="fc-face fc-back" id="fcBack">
+          <span class="fc-badge">Answer</span>
+          <p class="fc-text" id="fcAnswer"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <div class="card-nav">
+      <button class="nav-btn" id="prevBtn" onclick="prevCard()" title="Previous">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="card-counter" id="cardCounter">1 / 1</span>
+      <button class="nav-btn" id="nextBtn" onclick="nextCard()" title="Next">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+    <!-- Dots -->
+    <div class="dot-row" id="dotRow"></div>
+
+    <!-- Actions -->
+    <div class="action-row">
+      <button class="action-btn" onclick="shuffleCards()">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20l16-16M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+        Shuffle
+      </button>
+      <button class="action-btn" onclick="resetCards()">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Data ──────────────────────────────────────────────────────────────────────
+const CATEGORIES = [
+  {
+    id: "ai-for-pm",
+    label: "AI for PMs",
+    description: "Core concepts every product manager should know about AI evaluations and deployment.",
+    cards: [
+      {
+        q: "What are evals in a product context?",
+        a: "Evals are tests used to measure whether an AI product performs well for real user needs."
+      },
+      {
+        q: "Why should a PM care about evals?",
+        a: "Evals help PMs decide if the product is accurate, safe, useful, reliable, and ready to launch."
+      },
+      {
+        q: "What should a PM evaluate?",
+        a: "User success, answer quality, hallucinations, safety, latency, cost, and business impact."
+      },
+      {
+        q: "What is a good eval set?",
+        a: "A set of realistic user scenarios, including common cases, edge cases, ambiguous inputs, and failure-prone examples."
+      },
+      {
+        q: "PM interview answer for evals?",
+        a: "\"I would define success criteria, build a representative eval set, measure quality with human and automated reviews, track failures, and iterate before launch.\""
+      }
+    ]
+  }
+];
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let activeCatId = CATEGORIES[0].id;
+let cards = [];
+let currentIdx = 0;
+let seen = new Set();
+let isFlipped = false;
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+function init() {
+  renderTabs();
+  selectCategory(activeCatId);
+  applyTheme();
+}
+
+function renderTabs() {
+  const el = document.getElementById('categoryTabs');
+  el.innerHTML = CATEGORIES.map(c =>
+    `<button class="cat-tab ${c.id === activeCatId ? 'active' : ''}" onclick="selectCategory('${c.id}')">${c.label}</button>`
+  ).join('');
+}
+
+function selectCategory(id) {
+  activeCatId = id;
+  const cat = CATEGORIES.find(c => c.id === id);
+  cards = [...cat.cards];
+  currentIdx = 0;
+  seen = new Set();
+  isFlipped = false;
+
+  // Update tab UI
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  const activeTab = [...document.querySelectorAll('.cat-tab')].find(t => t.textContent === cat.label);
+  if (activeTab) activeTab.classList.add('active');
+
+  // Category header
+  document.getElementById('categoryHeader').innerHTML =
+    `<h2>${cat.label}</h2><p>${cat.description}</p>`;
+
+  renderCard();
+}
+
+function renderCard() {
+  const card = cards[currentIdx];
+  const flashcard = document.getElementById('flashcard');
+
+  // Reset flip without animation
+  flashcard.style.transition = 'none';
+  flashcard.classList.remove('flipped');
+  isFlipped = false;
+  // Re-enable transition after a tick
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      flashcard.style.transition = '';
+    });
+  });
+
+  document.getElementById('fcQuestion').textContent = card.q;
+  document.getElementById('fcAnswer').textContent = card.a;
+  document.getElementById('cardCounter').textContent = `${currentIdx + 1} / ${cards.length}`;
+
+  // Buttons
+  document.getElementById('prevBtn').disabled = currentIdx === 0;
+  document.getElementById('nextBtn').disabled = currentIdx === cards.length - 1;
+
+  // Progress
+  seen.add(currentIdx);
+  const pct = Math.round((seen.size / cards.length) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${seen.size} of ${cards.length} viewed`;
+
+  // Dots
+  const dotRow = document.getElementById('dotRow');
+  dotRow.innerHTML = cards.map((_, i) =>
+    `<div class="dot ${i === currentIdx ? 'active' : (seen.has(i) ? 'seen' : '')}" onclick="goTo(${i})"></div>`
+  ).join('');
+}
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('flashcard').classList.toggle('flipped', isFlipped);
+}
+
+function nextCard() {
+  if (currentIdx < cards.length - 1) {
+    currentIdx++;
+    renderCard();
+  }
+}
+
+function prevCard() {
+  if (currentIdx > 0) {
+    currentIdx--;
+    renderCard();
+  }
+}
+
+function goTo(i) {
+  currentIdx = i;
+  renderCard();
+}
+
+function shuffleCards() {
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  currentIdx = 0;
+  seen = new Set();
+  renderCard();
+}
+
+function resetCards() {
+  const cat = CATEGORIES.find(c => c.id === activeCatId);
+  cards = [...cat.cards];
+  currentIdx = 0;
+  seen = new Set();
+  renderCard();
+}
+
+// ── Keyboard ──────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') nextCard();
+  else if (e.key === 'ArrowLeft') prevCard();
+  else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipCard(); }
+});
+
+// ── Theme ─────────────────────────────────────────────────────────────────────
+function applyTheme() {
+  const t = localStorage.getItem('ak-theme') || 'light';
+  document.documentElement.dataset.theme = t;
+  updateThemeIcon(t);
+}
+
+function updateThemeIcon(t) {
+  const icon = document.getElementById('themeIcon');
+  if (t === 'dark') {
+    icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  } else {
+    icon.innerHTML = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>';
+  }
+}
+
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const current = document.documentElement.dataset.theme;
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem('ak-theme', next);
+  updateThemeIcon(next);
+});
+
+// ── Run ───────────────────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>

@@ -288,6 +288,9 @@ app.get('/data.js', async (req, res) => {
 app.get('/admin', (_req, res) => res.sendFile(path.join(__dirname, 'admin', 'index.html')));
 app.get('/admin/', (_req, res) => res.sendFile(path.join(__dirname, 'admin', 'index.html')));
 
+app.get('/learning', (_req, res) => res.sendFile(path.join(__dirname, 'learning.html')));
+app.get('/learning/', (_req, res) => res.sendFile(path.join(__dirname, 'learning.html')));
+
 // ── Static files (data.js route above takes priority) ────────────────────────
 
 app.use(express.static(__dirname, { index: 'Portfolio.html' }));
