@@ -238,10 +238,11 @@
     max-width: 500px;
   }
   .fc-back .fc-text {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 400;
     color: var(--text);
-    line-height: 1.65;
+    line-height: 1.7;
+    text-align: left;
   }
 
   .fc-hint {
@@ -453,6 +454,33 @@ const CATEGORIES = [
         a: "\"I would define success criteria, build a representative eval set, measure quality with human and automated reviews, track failures, and iterate before launch.\""
       }
     ]
+  },
+  {
+    id: "churn-b2b-saas",
+    label: "Churn in B2B SaaS",
+    description: "5 flashcards on reducing churn in B2B SaaS — with AiSensy as the case study.",
+    cards: [
+      {
+        q: "What is the first step to reduce churn?",
+        a: "Define churn clearly.\n\nLogo churn = customers leaving\nRevenue churn = money lost from cancellations/downgrades\nNRR = retained + expanded revenue\n\n💡 \"Know the churn before fixing the churn.\""
+      },
+      {
+        q: "How should a PM analyze churn?",
+        a: "Segment customers.\n\nBreak churn by: industry, plan, usage, lifecycle stage, customer size.\n\nFor AiSensy: ecommerce, education, real estate, healthcare, SMBs.\n\n💡 \"Different customers churn for different reasons.\""
+      },
+      {
+        q: "What are the key churn signals for AiSensy?",
+        a: "Look for low activation and low usage.\n\nSignals: No WhatsApp setup · No contacts imported · No first campaign sent · No automation created · Low campaign replies · Drop in usage\n\n💡 \"No setup, no value, high churn.\""
+      },
+      {
+        q: "What product improvements can reduce churn?",
+        a: "Improve onboarding, ROI, and stickiness.\n\nFor AiSensy: industry-specific onboarding · ready-made WhatsApp templates · faster first campaign · better analytics · automation playbooks · CRM/ecommerce integrations\n\n💡 \"Help users launch, see value, and stay.\""
+      },
+      {
+        q: "What metrics should a PM track to measure churn improvement?",
+        a: "Track retention and activation metrics.\n\nKey metrics: Monthly revenue churn · Activation rate · Time to first campaign · 30-day retention · Automation adoption · Integration usage · Net revenue retention\n\n💡 \"Measure activation, usage, and retained revenue.\""
+      }
+    ]
   }
 ];
 
@@ -513,7 +541,7 @@ function renderCard() {
   });
 
   document.getElementById('fcQuestion').textContent = card.q;
-  document.getElementById('fcAnswer').textContent = card.a;
+  document.getElementById('fcAnswer').innerHTML = card.a.replace(/\n/g, '<br/>');
   document.getElementById('cardCounter').textContent = `${currentIdx + 1} / ${cards.length}`;
 
   // Buttons
