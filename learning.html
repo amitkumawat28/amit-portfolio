@@ -414,6 +414,94 @@ const CATEGORIES = [
     ]
   },
   {
+    id: "ai-pm-interview",
+    icon: "🎯",
+    label: "AI PM Interview",
+    description: "20 core AI concepts every PM should nail in interviews — LLMs to guardrails.",
+    cards: [
+      {
+        q: "What is an LLM?",
+        a: "An LLM (Large Language Model) understands and generates text by predicting likely next tokens based on context.\n\n🎯 PM Angle: LLMs power chatbots, copilots, summarizers, support assistants, and content generators.\n\n💡 Example: \"Why was I charged twice?\" — the LLM generates a response based on the question, account data, and product policies.\n\n⚠️ Mistake: Saying LLMs \"know\" facts like a database. They generate answers probabilistically and need grounding."
+      },
+      {
+        q: "What are tokens?",
+        a: "Tokens are small units of text processed by an AI model — a word, part of a word, punctuation, or symbol.\n\n🎯 PM Angle: Tokens affect cost, latency, and context limits. More tokens = higher cost and slower responses.\n\n💡 Example: A long support conversation uses more tokens than a short question, increasing inference cost.\n\n⚠️ Mistake: Ignoring token usage when designing AI features at scale."
+      },
+      {
+        q: "What is a context window?",
+        a: "A context window is the maximum amount of text an AI model can process at one time.\n\n🎯 PM Angle: A larger context window allows more documents or conversation history, but increases cost and latency.\n\n💡 Example: If the AI needs to read a contract, chat history, and policy doc together — all must fit in the context window.\n\n⚠️ Mistake: Assuming a bigger context window always solves quality problems."
+      },
+      {
+        q: "What is RAG?",
+        a: "RAG (Retrieval-Augmented Generation) retrieves relevant information from a knowledge base before the LLM generates an answer.\n\n🎯 PM Angle: RAG helps AI products answer using company-specific, private, or updated data.\n\n💡 Example: A SaaS support bot retrieves the latest refund policy before answering a customer question.\n\n⚠️ Mistake: Treating RAG as automatically accurate. If retrieval is poor, the answer can still be wrong."
+      },
+      {
+        q: "What are embeddings?",
+        a: "Embeddings are numerical representations of text that capture meaning, allowing systems to find similar content.\n\n🎯 PM Angle: Embeddings power semantic search, recommendations, duplicate detection, and RAG retrieval.\n\n💡 Example: A search for \"refund not received\" may retrieve \"payment reversal delay\" because the meanings are similar.\n\n⚠️ Mistake: Thinking embeddings only match exact keywords. They match meaning, not just words."
+      },
+      {
+        q: "What is retrieval quality?",
+        a: "Retrieval quality measures whether the AI system found the right information before generating an answer.\n\n🎯 PM Angle: Good retrieval improves accuracy, trust, and usefulness. Bad retrieval causes irrelevant or hallucinated responses.\n\n💡 Example: User asks about invoice export → system should retrieve billing docs, not general account settings.\n\n⚠️ Mistake: Only evaluating the final AI answer, not whether the correct documents were retrieved."
+      },
+      {
+        q: "What is an AI agent?",
+        a: "An AI agent is an AI system that can reason, decide steps, use tools, and complete tasks instead of only responding with text.\n\n🎯 PM Angle: Agents are useful for scheduling, ticket creation, CRM updates, data lookup, and operational automation.\n\n💡 Example: \"Schedule a demo with Rahul next week.\" → checks calendar, creates invite, sends confirmation.\n\n⚠️ Mistake: Saying agents can automate everything. In production they need narrow scope, permissions, logs, and guardrails."
+      },
+      {
+        q: "What is tool calling?",
+        a: "Tool calling allows an AI model to use external tools, APIs, databases, calendars, CRMs, or search systems.\n\n🎯 PM Angle: Tool calling turns AI from a text generator into an action-oriented product feature.\n\n💡 Example: A support assistant checks order status by calling an order-management API.\n\n⚠️ Mistake: Giving tools too much permission without approval flows or safety checks."
+      },
+      {
+        q: "What are evals?",
+        a: "Evals are tests used to measure the quality, safety, and reliability of AI outputs.\n\n🎯 PM Angle: Evals help PMs measure whether an AI feature is ready for launch and improving over time.\n\n💡 Metrics: Correctness · Helpfulness · Hallucination rate · Tone · Safety · Task completion · Escalation rate\n\n⚠️ Mistake: Only measuring user satisfaction and not measuring factual accuracy or risk."
+      },
+      {
+        q: "What is LLM-as-judge?",
+        a: "LLM-as-judge means using one AI model to evaluate or score another AI model's output.\n\n🎯 PM Angle: It helps scale evaluation when manual review is too slow or expensive.\n\n💡 Example: An LLM scores support responses on correctness, completeness, tone, and policy compliance.\n\n⚠️ Mistake: Trusting LLM-as-judge blindly. It should be calibrated against human judgment."
+      },
+      {
+        q: "What is prompt architecture?",
+        a: "Prompt architecture is the structured design of instructions given to an AI model.\n\n🎯 PM Angle: Good prompts improve consistency, tone, format, safety, and usefulness.\n\n💡 Structure: Role → Context → Task → Format → Constraints\n\n💡 Example: \"You are a B2B SaaS support assistant. Use only retrieved docs. Answer in 3 bullets. If unsure, say so.\"\n\n⚠️ Mistake: Thinking prompt engineering is just writing clever one-line prompts."
+      },
+      {
+        q: "What is the latency vs. quality tradeoff?",
+        a: "Higher-quality AI responses often require more time; faster responses may be cheaper but less accurate.\n\n🎯 PM Angle: PMs must choose the right balance based on use case, user expectations, and business impact.\n\n💡 Example: Autocomplete needs fast responses. Legal document review can tolerate slower but more accurate responses.\n\n⚠️ Mistake: Optimizing only for answer quality while ignoring user wait time."
+      },
+      {
+        q: "What is inference cost?",
+        a: "Inference cost is the cost of running an AI model each time it processes input and generates output.\n\n🎯 PM Angle: AI features can become expensive at scale — track cost per successful task, not per API call.\n\n💡 Cost drivers: Model size · Input tokens · Output tokens · RAG calls · Tool calls · Retries · Eval steps\n\n⚠️ Mistake: Tracking cost per API call instead of cost per completed user outcome."
+      },
+      {
+        q: "What are hallucinations?",
+        a: "Hallucinations are confident but incorrect or made-up AI responses.\n\n🎯 PM Angle: Hallucinations reduce trust and create product, legal, financial, or safety risks.\n\n💡 Example: An AI support bot invents a refund policy that does not exist.\n\n⚠️ Mistake: Assuming hallucinations are only a technical issue. They are a product trust and risk issue."
+      },
+      {
+        q: "What are guardrails?",
+        a: "Guardrails are rules, checks, and constraints that reduce unsafe, incorrect, or unwanted AI behavior.\n\n🎯 PM Angle: Guardrails help manage risk in production AI products.\n\n💡 Examples: Use only approved sources · Refuse unsafe requests · Escalate to a human · Add citations · Block restricted actions\n\n⚠️ Mistake: Believing guardrails completely eliminate risk. They reduce it but don't remove it fully."
+      },
+      {
+        q: "What is fine-tuning?",
+        a: "Fine-tuning means training a model further on specific examples so it behaves better for a repeated task or style.\n\n🎯 PM Angle: Fine-tuning is useful when prompting is not enough and you have high-quality training examples.\n\n💡 Example: Fine-tuning a model to classify customer tickets into consistent support categories.\n\n⚠️ Mistake: Choosing fine-tuning before trying prompting or RAG."
+      },
+      {
+        q: "When should you use prompting, RAG, or fine-tuning?",
+        a: "Prompting → instruction, tone, structure, formatting.\nRAG → current, private, or company-specific knowledge.\nFine-tuning → repeated behavior, style, classification, domain patterns.\n\n🎯 PM Angle: Start simple. Prompting first → add RAG for grounding → fine-tune only when you have quality data.\n\n💡 Too verbose → fix prompt · Doesn't know policy → use RAG · Inconsistent classification → fine-tune\n\n⚠️ Mistake: Using fine-tuning to teach facts that change frequently."
+      },
+      {
+        q: "What is human-in-the-loop?",
+        a: "Human-in-the-loop means a human reviews, approves, corrects, or escalates AI output at important points.\n\n🎯 PM Angle: Essential for high-risk, sensitive, or low-confidence workflows.\n\n💡 Example: AI drafts a refund response, but a support agent approves it before it is sent.\n\n⚠️ Mistake: Thinking human review means the AI product failed. It is often the right design for trust and safety."
+      },
+      {
+        q: "How should a PM think about AI product design?",
+        a: "Balance quality, latency, cost, safety, user trust, and business impact.\n\n🎯 Interview Answer: \"I would start with a clear user problem, use prompting and RAG where appropriate, evaluate quality with offline and online evals, reduce risk with guardrails and human review, and optimize latency and cost before scaling.\"\n\n⚠️ Mistake: Explaining AI only technically without connecting it to user outcomes and business metrics."
+      },
+      {
+        q: "What metrics should a PM track for an AI feature?",
+        a: "Task success rate · User satisfaction · Hallucination rate · Escalation rate · Latency · Cost per successful task · Retention/conversion impact · Human correction rate · Safety violation rate\n\n🎯 PM Angle: AI product success should be measured by useful outcomes, not just model performance.\n\n⚠️ Mistake: Only tracking engagement while ignoring accuracy, cost, and safety."
+      }
+    ]
+  },
+  {
     id: "churn-b2b-saas",
     icon: "📉",
     label: "Churn in B2B SaaS",
