@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tharpure — Growth & Launch Strategy</title>
+<style>
+:root{--db:#2C1005;--cu:#C8622A;--go:#D4A843;--mb:#6B3A1F;--lb:#9E6B3A;--cr:#FAF7F2;--wh:#FFFFFF;--mk:#1A1008;--mt:#9A8070;--bd:#5a3020;--ln:rgba(44,16,5,.08);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#e2d8cc;font-family:'Arial',Helvetica,sans-serif;}
+.pres{position:relative;width:100vw;height:100vh;overflow:hidden;}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transform:translateX(20px);transition:opacity .35s ease,transform .35s ease;}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.slide.exit{opacity:0;transform:translateX(-20px);transition:opacity .22s,transform .22s;}
+
+/* NAV */
+.nav{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(26,16,8,.07);border:1px solid rgba(44,16,5,.1);padding:6px 16px;border-radius:40px;z-index:999;backdrop-filter:blur(8px);}
+.nb{width:28px;height:28px;border-radius:50%;border:1px solid rgba(44,16,5,.2);background:transparent;color:var(--mb);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:Georgia,serif;}
+.nb:hover{background:var(--db);color:#fff;border-color:var(--db);}
+.nb:disabled{opacity:.2;cursor:default;pointer-events:none;}
+#ctr{font-family:'Courier New',monospace;font-size:10px;color:var(--mt);letter-spacing:2px;min-width:48px;text-align:center;}
+.dots{display:flex;gap:5px;}
+.dot{width:5px;height:5px;border-radius:3px;background:rgba(44,16,5,.15);cursor:pointer;transition:all .2s;}
+.dot.on{width:16px;background:var(--cu);}
+.kh{position:fixed;bottom:22px;right:20px;font-family:'Courier New',monospace;font-size:9px;color:rgba(44,16,5,.18);letter-spacing:1px;z-index:999;pointer-events:none;}
+.fsb{position:fixed;top:14px;right:16px;background:transparent;border:1px solid rgba(44,16,5,.1);color:var(--mt);width:26px;height:26px;border-radius:5px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;z-index:999;transition:all .15s;}
+.fsb:hover{background:var(--db);color:#fff;}
+
+/* SHARED HEADER */
+.sh{padding:clamp(14px,2vh,26px) clamp(32px,4.5vw,60px) clamp(10px,1.5vh,20px);flex-shrink:0;border-bottom:1px solid var(--ln);display:flex;align-items:flex-end;justify-content:space-between;gap:12px;}
+.sh.wh{background:var(--wh);}
+.sh.cr{background:var(--cr);}
+.sh-l{}
+.sh-tag{font-size:clamp(8px,.7vw,9px);font-weight:700;letter-spacing:4px;color:var(--cu);text-transform:uppercase;margin-bottom:4px;}
+.sh-title{font-family:Georgia,serif;font-size:clamp(18px,2.4vw,30px);color:var(--db);font-weight:400;line-height:1.1;letter-spacing:.3px;}
+.sh-title em{font-style:normal;color:var(--cu);}
+.sh-sub{font-size:clamp(9px,.85vw,11.5px);color:var(--mt);margin-top:3px;letter-spacing:.2px;}
+.sh-ghost{font-family:Georgia,serif;font-size:clamp(26px,3.5vw,48px);color:rgba(44,16,5,.05);font-weight:700;line-height:1;flex-shrink:0;letter-spacing:-2px;align-self:flex-start;padding-top:3px;}
+
+/* SHARED FOOTER */
+.sf{padding:clamp(8px,1.2vh,13px) clamp(32px,4.5vw,60px);border-top:1px solid var(--ln);display:flex;align-items:center;gap:9px;flex-shrink:0;background:var(--cr);}
+.sf.dk{background:var(--mb);border-color:rgba(255,255,255,.08);}
+.sf-text{font-size:clamp(9px,.85vw,11.5px);color:var(--mt);font-style:italic;}
+.sf.dk .sf-text{color:rgba(255,255,255,.5);}
+.sf-text strong{color:var(--db);font-style:normal;}
+.sf.dk .sf-text strong{color:var(--go);}
+
+/* SHARED BODY */
+.sb{flex:1;overflow:hidden;padding:clamp(14px,2vh,26px) clamp(32px,4.5vw,60px);}
+.sb.np{padding:0;}
+
+/* LAYOUT */
+.two-col{display:grid;grid-template-columns:1fr 1fr;height:100%;}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);height:100%;}
+.four-col{display:grid;grid-template-columns:repeat(4,1fr);height:100%;}
+.five-col{display:grid;grid-template-columns:repeat(5,1fr);height:100%;}
+.col{padding:clamp(14px,2vh,26px) clamp(14px,1.8vw,22px);border-right:1px solid var(--ln);display:flex;flex-direction:column;overflow:hidden;}
+.col:last-child{border-right:none;}
+.col.dk{background:var(--db);border-color:rgba(255,255,255,.06);}
+.col.cr{background:var(--cr);}
+
+/* TYPOGRAPHY */
+.t-tag{font-size:clamp(8px,.7vw,9px);font-weight:700;letter-spacing:4px;color:var(--cu);text-transform:uppercase;margin-bottom:5px;display:block;}
+.t-h2{font-family:Georgia,serif;font-size:clamp(14px,1.5vw,19px);color:var(--db);font-weight:600;margin-bottom:5px;line-height:1.2;}
+.t-h3{font-family:Georgia,serif;font-size:clamp(12px,1.2vw,16px);color:var(--db);font-weight:400;margin-bottom:3px;}
+.t-body{font-size:clamp(10px,.9vw,12px);color:var(--bd);line-height:1.6;}
+.t-muted{font-size:clamp(9px,.8vw,11px);color:var(--mt);}
+.t-cu{color:var(--cu)!important;}
+
+/* RULE */
+.rule{width:22px;height:2.5px;background:var(--cu);border-radius:2px;margin:5px 0 10px;flex-shrink:0;}
+
+/* ICON WRAP */
+.iw{width:clamp(34px,3.8vw,44px);height:clamp(34px,3.8vw,44px);background:var(--db);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:9px;}
+.iw .ic{font-size:clamp(14px,1.6vw,20px);}
+
+/* GHOST NUMBER */
+.ghost{font-family:Georgia,serif;font-weight:700;font-size:clamp(52px,6.5vw,88px);color:rgba(44,16,5,.04);line-height:1;letter-spacing:-3px;margin-bottom:-6px;user-select:none;}
+
+/* DOT LIST */
+.dl{list-style:none;}
+.dl li{display:flex;align-items:flex-start;gap:7px;font-size:clamp(9px,.9vw,12px);color:var(--bd);padding:clamp(3px,.55vh,5px) 0;border-bottom:1px solid rgba(44,16,5,.05);line-height:1.5;}
+.dl li:last-child{border-bottom:none;}
+.dl li::before{content:'—';color:var(--cu);flex-shrink:0;font-family:Georgia;margin-top:1px;}
+.dl.dk li{color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.06);}
+.dl.dk li::before{color:var(--go);}
+
+/* TAGS */
+.tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:clamp(8px,.7vw,9px);letter-spacing:.5px;font-weight:700;text-transform:uppercase;background:rgba(200,98,42,.1);color:var(--cu);border:1px solid rgba(200,98,42,.2);}
+.tag.dk{background:var(--db);color:var(--go);border-color:var(--db);}
+.tag.go{background:rgba(212,168,67,.15);color:#7a5515;border-color:rgba(212,168,67,.3);}
+
+/* CALLOUT */
+.callout{background:rgba(200,98,42,.07);border-left:3px solid var(--cu);padding:8px 12px;border-radius:0 5px 5px 0;font-size:clamp(9px,.85vw,11.5px);color:var(--mb);font-style:italic;margin-top:auto;}
+.callout strong{color:var(--db);font-style:normal;}
+
+/* STAT */
+.stn{font-family:Georgia,serif;font-size:clamp(26px,3vw,40px);color:var(--go);line-height:1;letter-spacing:-1px;}
+.stl{font-size:clamp(8px,.75vw,10px);letter-spacing:2px;text-transform:uppercase;color:rgba(44,16,5,.4);}
+.stn2{font-family:Georgia,serif;font-style:italic;font-size:clamp(9px,.85vw,11px);color:var(--mt);margin-top:1px;}
+.col.dk .stl{color:rgba(255,255,255,.3);}
+.col.dk .stn2{color:rgba(255,255,255,.25);}
+
+/* NUM BADGE */
+.nbadge{width:22px;height:22px;border-radius:50%;background:var(--db);color:var(--go);font-family:'Courier New',monospace;font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:9px;}
+
+/* =========================================================
+   SLIDE 1 — TITLE
+========================================================= */
+#s1{display:grid;grid-template-columns:1fr 1fr;background:var(--cr);}
+.s1l{display:flex;flex-direction:column;justify-content:center;padding:clamp(36px,5.5vw,72px);position:relative;}
+.s1l::before{content:'';position:absolute;left:0;top:15%;bottom:15%;width:3px;background:linear-gradient(180deg,transparent,var(--cu) 30%,var(--cu) 70%,transparent);}
+.s1eye{font-size:clamp(8px,.75vw,10px);font-weight:700;letter-spacing:5px;color:var(--cu);text-transform:uppercase;margin-bottom:14px;}
+.s1brand{font-family:Georgia,serif;font-size:clamp(48px,7.5vw,96px);font-weight:400;color:var(--db);letter-spacing:6px;line-height:.95;margin-bottom:5px;}
+.s1bsub{font-size:clamp(9px,.8vw,11px);letter-spacing:7px;color:var(--mt);text-transform:uppercase;margin-bottom:30px;}
+.s1rule{width:44px;height:2px;background:var(--cu);border-radius:1px;margin-bottom:24px;}
+.s1ptitle{font-family:Georgia,serif;font-size:clamp(15px,1.8vw,22px);color:var(--mk);font-weight:400;line-height:1.35;margin-bottom:6px;letter-spacing:.3px;}
+.s1psub{font-size:clamp(9px,.85vw,11px);color:var(--mt);margin-bottom:28px;letter-spacing:.3px;}
+.s1pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:26px;}
+.s1pill{border:1px solid rgba(44,16,5,.14);padding:4px 11px;border-radius:40px;font-size:clamp(9px,.8vw,10px);color:var(--mb);background:rgba(44,16,5,.03);}
+.s1award{display:inline-flex;align-items:center;gap:9px;background:var(--db);padding:9px 16px;border-radius:7px;align-self:flex-start;}
+.s1award .ic{font-size:14px;}
+.s1award .tx{font-size:clamp(8px,.78vw,10px);color:var(--go);letter-spacing:.3px;line-height:1.4;}
+.s1r{background:var(--db);display:flex;flex-direction:column;justify-content:center;padding:clamp(36px,5.5vw,72px);position:relative;overflow:hidden;}
+.s1r::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 60%,rgba(200,98,42,.2) 0%,transparent 65%);pointer-events:none;}
+.s1stats{position:relative;z-index:1;}
+.s1stat{border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:clamp(10px,1.8vh,18px);margin-bottom:clamp(10px,1.8vh,18px);}
+.s1stat:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0;}
+.s1sn{font-family:Georgia,serif;font-size:clamp(28px,3.5vw,48px);color:var(--go);line-height:1;margin-bottom:2px;letter-spacing:-1px;}
+.s1sl{font-size:clamp(8px,.75vw,10px);letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.32);}
+.s1sn2{font-family:Georgia,serif;font-style:italic;font-size:clamp(9px,.85vw,11px);color:rgba(255,255,255,.26);margin-top:1px;}
+
+/* =========================================================
+   SLIDE 2 — TRUST PILLARS
+========================================================= */
+#s2{background:var(--wh);}
+.s2pillars{display:grid;grid-template-columns:repeat(4,1fr);flex:1;overflow:hidden;}
+.pillar{padding:clamp(18px,2.8vh,36px) clamp(16px,2vw,26px);border-right:1px solid var(--ln);display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .2s;}
+.pillar:last-child{border-right:none;}
+.pillar:hover{background:rgba(200,98,42,.03);}
+.pillar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--cu);transform:scaleX(0);transform-origin:left;transition:transform .25s;}
+.pillar:hover::after{transform:scaleX(1);}
+.p-ghost{font-family:Georgia,serif;font-weight:700;font-size:clamp(52px,6.5vw,86px);color:rgba(44,16,5,.04);line-height:1;margin-bottom:-5px;letter-spacing:-3px;user-select:none;}
+.p-ico{font-size:clamp(20px,2.2vw,26px);margin-bottom:10px;}
+.p-title{font-family:Georgia,serif;font-size:clamp(16px,1.6vw,21px);color:var(--db);font-weight:600;margin-bottom:7px;}
+.p-rule{width:22px;height:2.5px;background:var(--cu);border-radius:2px;margin-bottom:12px;flex-shrink:0;}
+
+/* =========================================================
+   SLIDE 3 — PERSONAS
+========================================================= */
+#s3{background:var(--cr);}
+.personas{display:grid;grid-template-columns:repeat(5,1fr);flex:1;overflow:hidden;}
+.pcard{border-right:1px solid var(--ln);display:flex;flex-direction:column;padding:clamp(14px,2.2vh,26px) clamp(12px,1.5vw,18px);position:relative;overflow:hidden;transition:background .2s;}
+.pcard:last-child{border-right:none;}
+.pcard:hover{background:rgba(44,16,5,.03);}
+.pcard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--cu);transform:scaleX(0);transform-origin:left;transition:transform .25s;}
+.pcard:hover::after{transform:scaleX(1);}
+.pc-ghost{font-family:Georgia,serif;font-weight:700;font-size:clamp(44px,5.5vw,72px);color:rgba(44,16,5,.04);line-height:1;margin-bottom:-4px;letter-spacing:-2px;user-select:none;}
+.pc-emoji{font-size:clamp(22px,2.8vw,32px);margin-bottom:7px;}
+.pc-name{font-family:Georgia,serif;font-size:clamp(13px,1.4vw,17px);color:var(--db);font-weight:600;margin-bottom:2px;line-height:1.2;}
+.pc-demo{font-size:clamp(8px,.75vw,10px);color:var(--cu);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:7px;}
+.pc-rule{width:18px;height:2px;background:var(--cu);margin-bottom:9px;flex-shrink:0;border-radius:1px;}
+.pc-kv{margin-bottom:7px;}
+.pc-klabel{font-size:clamp(8px,.7vw,9px);letter-spacing:2px;text-transform:uppercase;color:var(--mt);margin-bottom:1px;}
+.pc-kval{font-size:clamp(9px,.88vw,11.5px);color:var(--bd);line-height:1.45;}
+
+/* =========================================================
+   SLIDE 4 — CURRENT GAPS
+========================================================= */
+#s4{background:var(--wh);}
+.gap-wrap{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden;}
+.gap-col{display:flex;flex-direction:column;overflow:hidden;}
+.gap-col-head{padding:clamp(10px,1.5vh,16px) clamp(32px,4.5vw,60px);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.gap-col:last-child .gap-col-head{border-left:1px solid var(--ln);}
+.gch-icon{font-size:16px;}
+.gch-label{font-size:clamp(9px,.8vw,11px);font-weight:700;letter-spacing:3px;text-transform:uppercase;}
+.gap-col.left .gch-label{color:#8B3A2A;}
+.gap-col.right .gch-label{color:#2A6B42;}
+.gap-rows{flex:1;overflow:hidden;}
+.gap-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ln);}
+.gap-row:last-child{border-bottom:none;}
+.gc{padding:clamp(10px,1.6vh,16px) clamp(32px,4.5vw,60px);display:flex;align-items:flex-start;gap:8px;font-size:clamp(10px,.92vw,12.5px);line-height:1.5;border-right:1px solid var(--ln);}
+.gc:last-child{border-right:none;}
+.gc.prob{color:#7a3020;background:rgba(180,50,30,.025);}
+.gc.fix{color:#1e5230;background:rgba(30,107,66,.025);}
+.gc-ic{font-size:13px;flex-shrink:0;margin-top:1px;}
+
+/* =========================================================
+   SLIDE 5 — DIGITAL CHANNEL MAP
+========================================================= */
+#s5{background:var(--cr);}
+.funnel{display:flex;flex-direction:column;flex:1;overflow:hidden;}
+.fstage{display:grid;grid-template-columns:clamp(120px,14vw,170px) 1fr;border-bottom:1px solid var(--ln);flex:1;}
+.fstage:last-child{border-bottom:none;}
+.fslabel{background:var(--db);display:flex;flex-direction:column;justify-content:center;padding:clamp(8px,1.2vh,14px) clamp(12px,1.5vw,18px);border-right:1px solid rgba(255,255,255,.06);}
+.fsn{font-family:'Courier New',monospace;font-size:9px;color:var(--cu);letter-spacing:2px;margin-bottom:3px;}
+.fsname{font-family:Georgia,serif;font-size:clamp(13px,1.4vw,17px);color:#fff;font-weight:600;}
+.fsobj{font-size:clamp(8px,.75vw,10px);color:rgba(255,255,255,.35);margin-top:1px;}
+.fchan{display:flex;align-items:center;padding:clamp(7px,1.1vh,12px) clamp(14px,1.8vw,22px);gap:7px;flex-wrap:wrap;background:var(--wh);}
+.fstage:nth-child(even) .fchan{background:var(--cr);}
+.cpill{background:rgba(44,16,5,.06);border:1px solid rgba(44,16,5,.1);padding:4px 10px;border-radius:20px;font-size:clamp(9px,.82vw,11px);color:var(--mb);font-weight:600;letter-spacing:.2px;white-space:nowrap;}
+.cpill.hi{background:var(--db);color:var(--go);border-color:var(--db);}
+.fnote{font-size:clamp(8px,.75vw,10px);color:var(--mt);font-style:italic;margin-left:auto;align-self:center;white-space:nowrap;padding-right:4px;}
+
+/* =========================================================
+   SLIDE 6 — LANDING PAGE CRO
+========================================================= */
+#s6{background:var(--wh);}
+.lp-wrap{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden;}
+.lp-col{display:flex;flex-direction:column;overflow:hidden;}
+.lp-col:last-child .lp-col-head{border-left:1px solid var(--ln);}
+.lp-col-head{padding:clamp(8px,1.2vh,13px) clamp(32px,4.5vw,60px);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.lp-hl{font-size:clamp(9px,.82vw,11px);font-weight:700;letter-spacing:3px;text-transform:uppercase;}
+.lp-col.prob .lp-hl{color:#8B3A2A;}
+.lp-col.fix .lp-hl{color:#2A6B42;}
+.lp-rows{flex:1;}
+.lp-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ln);}
+.lp-row:last-child{border-bottom:none;}
+.lpc{padding:clamp(9px,1.4vh,14px) clamp(32px,4.5vw,60px);display:flex;align-items:flex-start;gap:8px;font-size:clamp(10px,.9vw,12px);line-height:1.5;border-right:1px solid var(--ln);}
+.lpc:last-child{border-right:none;}
+.lpc.bad{color:#7a3020;background:rgba(180,50,30,.02);}
+.lpc.good{color:#1e5230;background:rgba(30,107,66,.02);}
+.lpc-ic{font-size:12px;flex-shrink:0;margin-top:2px;}
+
+/* =========================================================
+   SLIDE 7 — META ADS FUNNEL
+========================================================= */
+#s7{background:var(--cr);}
+.meta-flow{display:grid;grid-template-columns:repeat(4,1fr);flex:1;overflow:hidden;}
+.mstage{border-right:1px solid var(--ln);display:flex;flex-direction:column;padding:clamp(14px,2.2vh,26px) clamp(12px,1.5vw,18px);position:relative;overflow:hidden;}
+.mstage:last-child{border-right:none;}
+.mstage::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.mstage:nth-child(1)::before{background:#7ec8e3;}
+.mstage:nth-child(2)::before{background:#90be6d;}
+.mstage:nth-child(3)::before{background:var(--cu);}
+.mstage:nth-child(4)::before{background:var(--go);}
+.ms-ic{font-size:clamp(20px,2.2vw,28px);margin-bottom:9px;}
+.ms-n{font-family:'Courier New',monospace;font-size:9px;color:var(--mt);letter-spacing:2px;margin-bottom:4px;}
+.ms-title{font-family:Georgia,serif;font-size:clamp(15px,1.6vw,20px);color:var(--db);font-weight:600;margin-bottom:3px;}
+.ms-obj{font-size:clamp(8px,.75vw,10px);color:var(--cu);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;}
+.ms-rule{width:18px;height:2px;background:var(--cu);border-radius:1px;margin-bottom:10px;flex-shrink:0;}
+
+/* =========================================================
+   SLIDE 8 — SEO
+========================================================= */
+#s8{background:var(--wh);}
+.seo-wrap{display:grid;grid-template-columns:2fr 1fr;flex:1;overflow:hidden;}
+.seo-main{display:flex;flex-direction:column;border-right:1px solid var(--ln);}
+.seo-tiers{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.seo-tier{flex:1;display:grid;grid-template-columns:clamp(100px,12vw,140px) 1fr;border-bottom:1px solid var(--ln);}
+.seo-tier:last-child{border-bottom:none;}
+.seo-tier-label{display:flex;flex-direction:column;justify-content:center;padding:clamp(8px,1.2vh,14px) clamp(12px,1.5vw,18px);border-right:1px solid var(--ln);}
+.seo-tier-label.t1{background:var(--db);}
+.seo-tier-label.t2{background:var(--mb);}
+.seo-tier-label.t3{background:var(--lb);}
+.stln{font-size:clamp(9px,.8vw,11px);font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.9);}
+.stlsub{font-size:clamp(8px,.72vw,9.5px);color:rgba(255,255,255,.4);margin-top:2px;letter-spacing:.3px;}
+.seo-tier-body{padding:clamp(8px,1.2vh,14px) clamp(14px,1.8vw,20px);display:flex;flex-direction:column;justify-content:center;}
+.seo-kw{font-size:clamp(9px,.85vw,11.5px);color:var(--bd);line-height:1.5;margin-bottom:4px;}
+.seo-eg{font-size:clamp(8px,.75vw,10px);color:var(--mt);font-style:italic;font-family:Georgia,serif;}
+.seo-side{display:flex;flex-direction:column;padding:clamp(14px,2vh,22px) clamp(14px,1.8vw,20px);gap:clamp(10px,1.5vh,16px);overflow:hidden;}
+
+/* =========================================================
+   SLIDE 9 — WHATSAPP AUTOMATION
+========================================================= */
+#s9{background:var(--cr);}
+.wa-wrap{display:grid;grid-template-columns:1fr 2fr;flex:1;overflow:hidden;}
+.wa-before{background:rgba(180,50,30,.04);border-right:2px dashed rgba(200,98,42,.25);padding:clamp(14px,2vh,24px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;}
+.wa-after{padding:0;display:flex;flex-direction:column;}
+.wa-col-head{padding:clamp(8px,1.2vh,13px) clamp(18px,2.2vw,26px);border-bottom:1px solid var(--ln);flex-shrink:0;}
+.wach-label{font-size:clamp(9px,.8vw,11px);font-weight:700;letter-spacing:3px;text-transform:uppercase;}
+.wa-before .wach-label{color:#8B3A2A;}
+.wa-after .wa-col-head .wach-label{color:#2A6B42;}
+.wa-seq{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.wa-step{display:grid;grid-template-columns:clamp(56px,7vw,80px) 1fr;border-bottom:1px solid var(--ln);flex:1;}
+.wa-step:last-child{border-bottom:none;}
+.was-day{background:var(--db);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 8px;border-right:1px solid rgba(255,255,255,.06);}
+.was-d{font-family:Georgia,serif;font-size:clamp(16px,1.8vw,22px);color:var(--go);line-height:1;}
+.was-dl{font-size:clamp(7px,.68vw,9px);color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase;}
+.was-body{padding:clamp(7px,1.1vh,11px) clamp(10px,1.3vw,16px);display:flex;flex-direction:column;justify-content:center;}
+.was-title{font-size:clamp(10px,.92vw,12.5px);color:var(--db);font-weight:600;margin-bottom:2px;}
+.was-desc{font-size:clamp(9px,.82vw,11px);color:var(--mt);line-height:1.45;}
+
+/* =========================================================
+   SLIDE 10 — INFLUENCER MARKETING
+========================================================= */
+#s10{background:var(--wh);}
+.inf-wrap{display:grid;grid-template-columns:repeat(3,1fr);flex:1;overflow:hidden;}
+.inf-tier{border-right:1px solid var(--ln);display:flex;flex-direction:column;overflow:hidden;}
+.inf-tier:last-child{border-right:none;}
+.inf-head{padding:clamp(12px,1.8vh,20px) clamp(14px,1.8vw,20px);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--ln);flex-shrink:0;}
+.inf-head.t1{background:var(--db);}
+.inf-head.t2{background:var(--mb);}
+.inf-head.t3{background:var(--lb);}
+.inf-h-ic{font-size:clamp(18px,2vw,24px);}
+.inf-h-info{}
+.inf-h-title{font-family:Georgia,serif;font-size:clamp(15px,1.5vw,19px);color:#fff;font-weight:600;}
+.inf-h-sub{font-size:clamp(9px,.8vw,11px);color:rgba(255,255,255,.4);margin-top:1px;}
+.inf-body{flex:1;padding:clamp(12px,1.8vh,20px) clamp(14px,1.8vw,20px);display:flex;flex-direction:column;overflow:hidden;}
+
+/* =========================================================
+   SLIDE 11 — CONTENT MARKETING
+========================================================= */
+#s11{background:var(--cr);}
+.cm-wrap{display:grid;grid-template-columns:repeat(4,1fr);flex:1;overflow:hidden;}
+.cm-col{border-right:1px solid var(--ln);display:flex;flex-direction:column;overflow:hidden;}
+.cm-col:last-child{border-right:none;}
+.cm-col-head{padding:clamp(10px,1.5vh,16px) clamp(14px,1.8vw,20px);border-bottom:1px solid var(--ln);background:var(--db);flex-shrink:0;}
+.cmch-n{font-family:'Courier New',monospace;font-size:9px;color:var(--cu);letter-spacing:2px;margin-bottom:3px;}
+.cmch-title{font-family:Georgia,serif;font-size:clamp(14px,1.4vw,18px);color:#fff;font-weight:600;}
+.cmch-sub{font-size:clamp(8px,.75vw,10px);color:rgba(255,255,255,.38);margin-top:2px;}
+.cm-body{flex:1;padding:clamp(12px,1.8vh,18px) clamp(14px,1.8vw,20px);display:flex;flex-direction:column;overflow:hidden;}
+.cm-ex{margin-top:auto;padding-top:8px;border-top:1px solid var(--ln);}
+.cm-ex-label{font-size:clamp(8px,.72vw,9px);font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cu);margin-bottom:4px;}
+.cm-ex-val{font-size:clamp(9px,.82vw,11px);color:var(--mt);font-style:italic;font-family:Georgia,serif;line-height:1.45;}
+</style>
+</head>
+<body>
+<div class="pres" id="pres">
+
+<!-- ====================================================
+  SLIDE 1 — TITLE
+==================================================== -->
+<div class="slide active" id="s1">
+  <div class="s1l">
+    <div class="s1eye">Est. 1984 · Jaipur, Rajasthan</div>
+    <div class="s1brand">THARPURE</div>
+    <div class="s1bsub">Organic Farms</div>
+    <div class="s1rule"></div>
+    <div class="s1ptitle">Growth &amp; Launch Strategy</div>
+    <div class="s1psub">Marketing · Business Development · Revenue Model</div>
+    <div class="s1pills">
+      <span class="s1pill">June 2026</span>
+      <span class="s1pill">D2C · B2B · Digital</span>
+      <span class="s1pill">6-Month Horizon</span>
+    </div>
+    <div class="s1award">
+      <span class="ic">🏆</span>
+      <span class="tx">National Gopal Ratna Award<br>India's Highest Dairy Honour</span>
+    </div>
+  </div>
+  <div class="s1r">
+    <div class="s1stats">
+      <div class="s1stat"><div class="s1sn">40+</div><div class="s1sl">Years of Heritage</div><div class="s1sn2">Farming since 1984, Rajasthan</div></div>
+      <div class="s1stat"><div class="s1sn">500+</div><div class="s1sl">Indigenous Gir Cows</div><div class="s1sn2">Owned, never outsourced</div></div>
+      <div class="s1stat"><div class="s1sn">100%</div><div class="s1sl">Bilona Method</div><div class="s1sn2">Traditional hand-churning, no shortcuts</div></div>
+      <div class="s1stat"><div class="s1sn">#1</div><div class="s1sl">National Recognition</div><div class="s1sn2">Gopal Ratna Award — ICAR, Govt. of India</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 2 — TRUST PILLARS
+==================================================== -->
+<div class="slide" id="s2">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">02 · Foundation</div>
+      <div class="sh-title">Why People Buy <em>Tharpure</em></div>
+      <div class="sh-sub">4 pillars of purchase conviction — verifiable, not just claimed</div>
+    </div>
+    <div class="sh-ghost">02</div>
+  </div>
+  <div class="s2pillars">
+    <div class="pillar">
+      <div class="p-ghost">01</div>
+      <div class="p-ico">🤝</div>
+      <div class="p-title">Trust</div>
+      <div class="p-rule"></div>
+      <ul class="dl">
+        <li>QR on every batch — scan to see cow, farm &amp; date</li>
+        <li>Farm open to customer visits</li>
+        <li>No middlemen, no blending — 100% traceable</li>
+        <li>Verified reviews with real names &amp; photos</li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <div class="p-ghost">02</div>
+      <div class="p-ico">🌱</div>
+      <div class="p-title">Deep Roots</div>
+      <div class="p-rule"></div>
+      <ul class="dl">
+        <li>40+ years of farming heritage in Rajasthan</li>
+        <li>500+ indigenous A2 Gir cows — owned</li>
+        <li>Third-generation Bilona knowledge</li>
+        <li>Land, cows &amp; process all in-house</li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <div class="p-ghost">03</div>
+      <div class="p-ico">⚗️</div>
+      <div class="p-title">Experience</div>
+      <div class="p-rule"></div>
+      <ul class="dl">
+        <li>Traditional Bilona hand-churning — slow &amp; cold</li>
+        <li>A2 milk → curd → Bilona → ghee. No shortcuts</li>
+        <li>Founder personally oversees every batch</li>
+        <li>Same process since 1984</li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <div class="p-ghost">04</div>
+      <div class="p-ico">🏅</div>
+      <div class="p-title">Certification</div>
+      <div class="p-rule"></div>
+      <ul class="dl">
+        <li>National Gopal Ratna Award — India's highest dairy honour</li>
+        <li>FSSAI certified — food safety compliant</li>
+        <li>Third-party lab reports on every batch</li>
+        <li>A2 breed certification for all cows</li>
+      </ul>
+    </div>
+  </div>
+  <div class="sf">
+    <span class="sf-text">Every competitor <em>claims</em> quality. <strong>Tharpure proves it</strong> — with a QR code, a national award, and an open farm gate.</span>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 3 — PERSONAS
+==================================================== -->
+<div class="slide" id="s3">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">03 · Audience</div>
+      <div class="sh-title">The 5 <em>Buyer Personas</em></div>
+      <div class="sh-sub">Who buys Tharpure, why they buy, and where to reach them</div>
+    </div>
+    <div class="sh-ghost">03</div>
+  </div>
+  <div class="personas">
+    <div class="pcard">
+      <div class="pc-ghost">01</div>
+      <div class="pc-emoji">👩‍👧</div>
+      <div class="pc-name">Health-Conscious Urban Mom</div>
+      <div class="pc-demo">Age 28–38</div>
+      <div class="pc-rule"></div>
+      <div class="pc-kv"><div class="pc-klabel">Core Trigger</div><div class="pc-kval">Safe, chemical-free food for her family</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Key Fear</div><div class="pc-kval">Adulterated ghee harming her children</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Best Channel</div><div class="pc-kval">Instagram, WhatsApp groups</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Message</div><div class="pc-kval">"Scan the QR. Know what your child is eating."</div></div>
+    </div>
+    <div class="pcard">
+      <div class="pc-ghost">02</div>
+      <div class="pc-emoji">👴</div>
+      <div class="pc-name">Traditional Household</div>
+      <div class="pc-demo">Age 40–60</div>
+      <div class="pc-rule"></div>
+      <div class="pc-kv"><div class="pc-klabel">Core Trigger</div><div class="pc-kval">Purity, religious use, taste like childhood</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Key Fear</div><div class="pc-kval">Modern brands lacking authenticity</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Best Channel</div><div class="pc-kval">WhatsApp, word-of-mouth, family referral</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Message</div><div class="pc-kval">"Made the way your grandmother knew."</div></div>
+    </div>
+    <div class="pcard">
+      <div class="pc-ghost">03</div>
+      <div class="pc-emoji">💼</div>
+      <div class="pc-name">Premium Quality Seeker</div>
+      <div class="pc-demo">Age 30–45, HNI</div>
+      <div class="pc-rule"></div>
+      <div class="pc-kv"><div class="pc-klabel">Core Trigger</div><div class="pc-kval">I pay for what is genuinely real</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Key Fear</div><div class="pc-kval">Paying premium for a fake product</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Best Channel</div><div class="pc-kval">Google search, Society events, LinkedIn</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Message</div><div class="pc-kval">"Award. Lab report. Open farm. That's the proof."</div></div>
+    </div>
+    <div class="pcard">
+      <div class="pc-ghost">04</div>
+      <div class="pc-emoji">🏋️</div>
+      <div class="pc-name">Fitness &amp; Keto Buyer</div>
+      <div class="pc-demo">Age 25–35</div>
+      <div class="pc-rule"></div>
+      <div class="pc-kv"><div class="pc-klabel">Core Trigger</div><div class="pc-kval">Ghee as performance nutrition</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Key Fear</div><div class="pc-kval">Impure ghee ruining their macro goals</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Best Channel</div><div class="pc-kval">Instagram, YouTube fitness creators</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Message</div><div class="pc-kval">"Pure A2 fat. No additives. Clean fuel."</div></div>
+    </div>
+    <div class="pcard">
+      <div class="pc-ghost">05</div>
+      <div class="pc-emoji">🎁</div>
+      <div class="pc-name">Festive &amp; Gift Buyer</div>
+      <div class="pc-demo">Any Age</div>
+      <div class="pc-rule"></div>
+      <div class="pc-kv"><div class="pc-klabel">Core Trigger</div><div class="pc-kval">Premium, meaningful gifting occasion</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Key Fear</div><div class="pc-kval">Gifting something generic</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Best Channel</div><div class="pc-kval">Instagram ads, Corporate outreach</div></div>
+      <div class="pc-kv"><div class="pc-klabel">Message</div><div class="pc-kval">"The gift of real ghee. Award-winning."</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 4 — CURRENT GAPS
+==================================================== -->
+<div class="slide" id="s4">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">04 · Current State</div>
+      <div class="sh-title">Where We Are Today — <em>The Gaps</em></div>
+      <div class="sh-sub">These are not weaknesses. They are unrealised revenue waiting to be unlocked.</div>
+    </div>
+    <div class="sh-ghost">04</div>
+  </div>
+  <div class="gap-wrap">
+    <div class="gap-col left">
+      <div class="gap-col-head">
+        <span class="gch-icon">⚠️</span>
+        <span class="gch-label">Current Problem</span>
+      </div>
+      <div></div>
+    </div>
+    <div class="gap-col right">
+      <div class="gap-col-head" style="border-left:1px solid var(--ln);">
+        <span class="gch-icon">✅</span>
+        <span class="gch-label">What We Fix</span>
+      </div>
+      <div></div>
+    </div>
+  </div>
+  <!-- Rows rendered as full-width grid for alignment -->
+  <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden;">
+      <div style="border-right:1px solid var(--ln);">
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#7a3020;background:rgba(180,50,30,.02);">❌ <span>National award buried below the fold — most visitors never see it</span></div>
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#7a3020;background:rgba(180,50,30,.02);">❌ <span>No lead capture — traffic arrives, no email or WhatsApp collected</span></div>
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#7a3020;background:rgba(180,50,30,.02);">❌ <span>WhatsApp replies take 24h — leads go cold and order elsewhere</span></div>
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#7a3020;background:rgba(180,50,30,.02);">❌ <span>Zero SEO presence — "A2 bilona ghee" queries going to competitors</span></div>
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#7a3020;background:rgba(180,50,30,.02);">❌ <span>No Meta ads running — no scalable acquisition channel</span></div>
+        <div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#7a3020;background:rgba(180,50,30,.02);">❌ <span>No reorder automation — repeat purchase left to chance</span></div>
+      </div>
+      <div>
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#1e5230;background:rgba(30,107,66,.02);">✅ <span>Award above fold + hero section rewrite = instant trust signal</span></div>
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#1e5230;background:rgba(30,107,66,.02);">✅ <span>Exit popup + WhatsApp opt-in = owned list for remarketing</span></div>
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#1e5230;background:rgba(30,107,66,.02);">✅ <span>Interakt/Wati setup = instant replies, 0 leads lost to delay</span></div>
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#1e5230;background:rgba(30,107,66,.02);">✅ <span>SEO strategy: 20 blogs + local pages = 500+ organic visits by M6</span></div>
+        <div style="border-bottom:1px solid var(--ln);padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#1e5230;background:rgba(30,107,66,.02);">✅ <span>Meta 4-stage funnel = predictable, scalable ROAS &gt;3×</span></div>
+        <div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);display:flex;gap:8px;align-items:flex-start;font-size:clamp(10px,.9vw,12.5px);color:#1e5230;background:rgba(30,107,66,.02);">✅ <span>Day 35 WhatsApp reorder trigger = 30%+ repeat purchase rate</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 5 — DIGITAL CHANNEL MAP
+==================================================== -->
+<div class="slide" id="s5">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">05 · Digital Strategy</div>
+      <div class="sh-title">Digital Channel <em>Overview</em></div>
+      <div class="sh-sub">Every channel mapped to its funnel stage — no random posting, no wasted spend</div>
+    </div>
+    <div class="sh-ghost">05</div>
+  </div>
+  <div class="funnel" style="flex:1;">
+    <div class="fstage">
+      <div class="fslabel"><div class="fsn">STAGE 01</div><div class="fsname">Awareness</div><div class="fsobj">Reach cold audiences. Build recognition.</div></div>
+      <div class="fchan">
+        <span class="cpill hi">Meta Video Ads</span>
+        <span class="cpill">SEO Editorial</span>
+        <span class="cpill">Influencer (Nano)</span>
+        <span class="cpill">Content Reels</span>
+        <span class="cpill">YouTube Shorts</span>
+        <span class="fnote">Target: 8 cities, health interest</span>
+      </div>
+    </div>
+    <div class="fstage">
+      <div class="fslabel"><div class="fsn">STAGE 02</div><div class="fsname">Trust</div><div class="fsobj">Educate. Prove quality. Overcome objections.</div></div>
+      <div class="fchan">
+        <span class="cpill hi">Meta Education Ads</span>
+        <span class="cpill">WhatsApp Nurture</span>
+        <span class="cpill">Blog Content</span>
+        <span class="cpill">Influencer (Micro)</span>
+        <span class="cpill">QR Demo Content</span>
+        <span class="fnote">Audience: video viewers 50%+</span>
+      </div>
+    </div>
+    <div class="fstage">
+      <div class="fslabel"><div class="fsn">STAGE 03</div><div class="fsname">Conversion</div><div class="fsobj">Drive first purchase. Remove friction.</div></div>
+      <div class="fchan">
+        <span class="cpill hi">Landing Page CRO</span>
+        <span class="cpill hi">Meta Offer Ads</span>
+        <span class="cpill">WhatsApp CTA</span>
+        <span class="cpill">Starter Pack</span>
+        <span class="cpill">COD option</span>
+        <span class="fnote">Audience: website visitors, engaged</span>
+      </div>
+    </div>
+    <div class="fstage">
+      <div class="fslabel"><div class="fsn">STAGE 04</div><div class="fsname">Retention</div><div class="fsobj">Reorder, upsell, referral, subscription.</div></div>
+      <div class="fchan">
+        <span class="cpill hi">WhatsApp Day 35</span>
+        <span class="cpill hi">Retargeting Ads</span>
+        <span class="cpill">Subscription SKU</span>
+        <span class="cpill">Referral Program</span>
+        <span class="cpill">Win-back Day 90</span>
+        <span class="fnote">LTV target: ₹26,400/year</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 6 — LANDING PAGE CRO
+==================================================== -->
+<div class="slide" id="s6">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">06 · Digital — Website</div>
+      <div class="sh-title">Landing Page <em>CRO Fix</em></div>
+      <div class="sh-sub">The website is not converting. Six changes that fix that — most cost nothing.</div>
+    </div>
+    <div class="sh-ghost">06</div>
+  </div>
+  <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ln);flex-shrink:0;">
+      <div style="padding:clamp(8px,1.2vh,13px) clamp(32px,4.5vw,60px);border-right:1px solid var(--ln);display:flex;align-items:center;gap:8px;background:rgba(180,50,30,.03);">
+        <span style="font-size:14px;">⚠️</span><span style="font-size:clamp(9px,.82vw,11px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#8B3A2A;">Current Problem</span>
+      </div>
+      <div style="padding:clamp(8px,1.2vh,13px) clamp(32px,4.5vw,60px);display:flex;align-items:center;gap:8px;background:rgba(30,107,66,.03);">
+        <span style="font-size:14px;">✅</span><span style="font-size:clamp(9px,.82vw,11px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#2A6B42;">The Fix</span>
+      </div>
+    </div>
+    <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;border-bottom:1px solid var(--ln);"><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);border-right:1px solid var(--ln);font-size:clamp(10px,.9vw,12.5px);color:#7a3020;display:flex;gap:8px;align-items:flex-start;">❌ <span>Award hidden below the fold — most visitors scroll away without seeing it</span></div><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);font-size:clamp(10px,.9vw,12.5px);color:#1e5230;display:flex;gap:8px;align-items:flex-start;">✅ <span>Award as hero headline: "Winner — National Gopal Ratna Award 2024" above the fold</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;border-bottom:1px solid var(--ln);"><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);border-right:1px solid var(--ln);font-size:clamp(10px,.9vw,12.5px);color:#7a3020;display:flex;gap:8px;align-items:flex-start;">❌ <span>No farm story video — product feels like any other ghee brand</span></div><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);font-size:clamp(10px,.9vw,12.5px);color:#1e5230;display:flex;gap:8px;align-items:flex-start;">✅ <span>Autoplay 90-second farm video: cows, bilona process, founder on-camera</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;border-bottom:1px solid var(--ln);"><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);border-right:1px solid var(--ln);font-size:clamp(10px,.9vw,12.5px);color:#7a3020;display:flex;gap:8px;align-items:flex-start;">❌ <span>No lead capture — traffic comes and goes with no way to follow up</span></div><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);font-size:clamp(10px,.9vw,12.5px);color:#1e5230;display:flex;gap:8px;align-items:flex-start;">✅ <span>Exit-intent popup: "Get the farm story video + 10% off your first order"</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;border-bottom:1px solid var(--ln);"><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);border-right:1px solid var(--ln);font-size:clamp(10px,.9vw,12.5px);color:#7a3020;display:flex;gap:8px;align-items:flex-start;">❌ <span>No objection FAQ — "How is this different from other A2 ghee?" goes unanswered</span></div><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);font-size:clamp(10px,.9vw,12.5px);color:#1e5230;display:flex;gap:8px;align-items:flex-start;">✅ <span>FAQ section answering top 5 buyer objections with farm proof for each</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;border-bottom:1px solid var(--ln);"><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);border-right:1px solid var(--ln);font-size:clamp(10px,.9vw,12.5px);color:#7a3020;display:flex;gap:8px;align-items:flex-start;">❌ <span>Only one purchase option — no way to lock in recurring revenue</span></div><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);font-size:clamp(10px,.9vw,12.5px);color:#1e5230;display:flex;gap:8px;align-items:flex-start;">✅ <span>Add Subscribe &amp; Save SKU (monthly 1kg): ₹200 discount, auto-deliver</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;"><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);border-right:1px solid var(--ln);font-size:clamp(10px,.9vw,12.5px);color:#7a3020;display:flex;gap:8px;align-items:flex-start;">❌ <span>Single generic landing page for all traffic sources</span></div><div style="padding:clamp(8px,1.3vh,13px) clamp(32px,4.5vw,60px);font-size:clamp(10px,.9vw,12.5px);color:#1e5230;display:flex;gap:8px;align-items:flex-start;">✅ <span>Two dedicated pages: cold traffic (story-first) vs. search intent (proof-first)</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 7 — META ADS FUNNEL
+==================================================== -->
+<div class="slide" id="s7">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">07 · Digital — Paid Social</div>
+      <div class="sh-title">Meta Ads — <em>4-Stage Funnel</em></div>
+      <div class="sh-sub">Awareness to reorder in one connected system. Budget flows to winners, paused on losers.</div>
+    </div>
+    <div class="sh-ghost">07</div>
+  </div>
+  <div class="meta-flow">
+    <div class="mstage">
+      <div class="ms-ic">📡</div>
+      <div class="ms-n">STAGE 01</div>
+      <div class="ms-title">Awareness</div>
+      <div class="ms-obj">Reach · Video Views</div>
+      <div class="ms-rule"></div>
+      <ul class="dl">
+        <li>Farm origin story, 60-sec video</li>
+        <li>Award reveal format (hook: "India's best ghee is...")</li>
+        <li>Bilona process — ASMR style</li>
+      </ul>
+      <div style="margin-top:auto;">
+        <div class="t-tag" style="margin-top:10px;">Audience</div>
+        <div class="t-body">Ages 25–45, health/organic interest, 8 Tier-1 cities</div>
+        <div class="t-tag" style="margin-top:8px;">Budget Split</div>
+        <div class="t-body">20% of total spend</div>
+      </div>
+    </div>
+    <div class="mstage">
+      <div class="ms-ic">🎓</div>
+      <div class="ms-n">STAGE 02</div>
+      <div class="ms-title">Trust Building</div>
+      <div class="ms-obj">Engagement · Traffic</div>
+      <div class="ms-rule"></div>
+      <ul class="dl">
+        <li>A2 vs A1 science explanation</li>
+        <li>Founder credibility story</li>
+        <li>Customer testimonial (real face, real name)</li>
+      </ul>
+      <div style="margin-top:auto;">
+        <div class="t-tag" style="margin-top:10px;">Audience</div>
+        <div class="t-body">Video viewers 50%+, page engagers</div>
+        <div class="t-tag" style="margin-top:8px;">Budget Split</div>
+        <div class="t-body">25% of total spend</div>
+      </div>
+    </div>
+    <div class="mstage">
+      <div class="ms-ic">🛒</div>
+      <div class="ms-n">STAGE 03</div>
+      <div class="ms-title">Conversion</div>
+      <div class="ms-obj">Purchase · Add to Cart</div>
+      <div class="ms-rule"></div>
+      <ul class="dl">
+        <li>Starter Pack offer (250g trial)</li>
+        <li>Social proof carousel (reviews)</li>
+        <li>COD + free delivery hook</li>
+      </ul>
+      <div style="margin-top:auto;">
+        <div class="t-tag" style="margin-top:10px;">Audience</div>
+        <div class="t-body">Website visitors, engaged followers</div>
+        <div class="t-tag" style="margin-top:8px;">Budget Split</div>
+        <div class="t-body">35% of total spend</div>
+      </div>
+    </div>
+    <div class="mstage">
+      <div class="ms-ic">🔁</div>
+      <div class="ms-n">STAGE 04</div>
+      <div class="ms-title">Retargeting</div>
+      <div class="ms-obj">Reactivation · Win-back</div>
+      <div class="ms-rule"></div>
+      <ul class="dl">
+        <li>Cart abandoners — 24h reminder</li>
+        <li>Lapsed buyers Day 90 — win-back offer</li>
+        <li>Upsell 1kg to 250g buyers</li>
+      </ul>
+      <div style="margin-top:auto;">
+        <div class="t-tag" style="margin-top:10px;">Audience</div>
+        <div class="t-body">Custom audience: cart, purchasers, lapsed</div>
+        <div class="t-tag" style="margin-top:8px;">Budget Split</div>
+        <div class="t-body">20% of total spend</div>
+      </div>
+    </div>
+  </div>
+  <div class="sf">
+    <span class="sf-text">Month 1 test budget: <strong>₹15,000.</strong> Double down on the ad set with lowest CPP after Week 2. Pause everything else.</span>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 8 — SEO
+==================================================== -->
+<div class="slide" id="s8">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">08 · Digital — SEO</div>
+      <div class="sh-title">SEO — <em>Compounding Free Traffic</em></div>
+      <div class="sh-sub">Paid ads stop when budget stops. SEO compounds for years. Start Month 1, harvest Month 4+.</div>
+    </div>
+    <div class="sh-ghost">08</div>
+  </div>
+  <div class="seo-wrap" style="flex:1;overflow:hidden;">
+    <div class="seo-main">
+      <div style="padding:clamp(8px,1.2vh,13px) clamp(14px,1.8vw,20px) clamp(6px,1vh,10px);background:var(--db);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;">
+        <div style="font-size:clamp(8px,.72vw,9px);font-weight:700;letter-spacing:3px;color:var(--cu);text-transform:uppercase;margin-bottom:3px;">3-TIER KEYWORD STRATEGY</div>
+      </div>
+      <div class="seo-tiers">
+        <div class="seo-tier">
+          <div class="seo-tier-label t1"><div class="stln">TIER 1</div><div class="stlsub">Commercial<br>High intent, buy-ready</div></div>
+          <div class="seo-tier-body">
+            <div class="seo-kw">Target when buyer is ready to purchase — direct product keywords</div>
+            <div class="seo-eg">"buy A2 bilona ghee online", "Tharpure ghee price", "A2 ghee 1kg order"</div>
+          </div>
+        </div>
+        <div class="seo-tier">
+          <div class="seo-tier-label t2"><div class="stln">TIER 2</div><div class="stlsub">Comparison<br>Evaluating options</div></div>
+          <div class="seo-tier-body">
+            <div class="seo-kw">Target when buyer is comparing brands — positions Tharpure as the winner</div>
+            <div class="seo-eg">"best A2 ghee brand India", "Tharpure vs Anveshan", "bilona ghee review"</div>
+          </div>
+        </div>
+        <div class="seo-tier">
+          <div class="seo-tier-label t3"><div class="stln">TIER 3</div><div class="stlsub">Educational<br>High volume, builds authority</div></div>
+          <div class="seo-tier-body">
+            <div class="seo-kw">Target at awareness stage — earns trust before they're ready to buy</div>
+            <div class="seo-eg">"A2 vs A1 milk difference", "bilona ghee benefits", "why is ghee good for immunity"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="seo-side">
+      <div>
+        <div class="t-tag">Local Pages</div>
+        <div class="rule"></div>
+        <ul class="dl">
+          <li>"A2 ghee delivery Jaipur"</li>
+          <li>"best desi ghee Rajasthan"</li>
+          <li>1 page per city, Month 2–3</li>
+        </ul>
+      </div>
+      <div>
+        <div class="t-tag">Pillar + Cluster</div>
+        <div class="rule"></div>
+        <ul class="dl">
+          <li>1 pillar: "Complete Guide to A2 Bilona Ghee"</li>
+          <li>20 cluster posts linked to pillar</li>
+          <li>2 posts/week from Month 1</li>
+        </ul>
+      </div>
+      <div style="margin-top:auto;background:var(--db);padding:clamp(10px,1.5vh,16px) clamp(12px,1.5vw,16px);border-radius:7px;">
+        <div style="font-family:Georgia,serif;font-size:clamp(22px,2.5vw,30px);color:var(--go);line-height:1;margin-bottom:3px;">500+</div>
+        <div style="font-size:clamp(8px,.75vw,10px);letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">Organic Visitors / Month</div>
+        <div style="font-family:Georgia,serif;font-style:italic;font-size:clamp(9px,.85vw,11px);color:rgba(255,255,255,.28);margin-top:2px;">Target by Month 6</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 9 — WHATSAPP AUTOMATION
+==================================================== -->
+<div class="slide" id="s9">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">09 · Digital — WhatsApp</div>
+      <div class="sh-title">WhatsApp <em>Automation</em></div>
+      <div class="sh-sub">Biggest quick win. Fix this first — every other channel sends leads here. Tool: Interakt or Wati (₹2,500/month).</div>
+    </div>
+    <div class="sh-ghost">09</div>
+  </div>
+  <div class="wa-wrap" style="flex:1;overflow:hidden;">
+    <div class="wa-before">
+      <div style="font-size:clamp(9px,.82vw,11px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#8B3A2A;margin-bottom:12px;">⚠️ Before</div>
+      <ul class="dl" style="margin-bottom:16px;">
+        <li>Manual replies, 12–24h delays</li>
+        <li>No follow-up system</li>
+        <li>No nurture sequence</li>
+        <li>No reorder reminders</li>
+        <li>Leads go cold every day</li>
+      </ul>
+      <div style="margin-top:auto;background:rgba(180,50,30,.08);border-left:3px solid #c85040;padding:10px 12px;border-radius:0 5px 5px 0;font-size:clamp(9px,.85vw,11.5px);color:#7a3020;font-style:italic;">
+        Estimated monthly loss: <strong>20–30 orders</strong> from delayed or missed replies
+      </div>
+    </div>
+    <div class="wa-after">
+      <div class="wa-col-head" style="background:var(--wh);">
+        <div class="wach-label">✅ After — 6-Message Automated Sequence</div>
+      </div>
+      <div class="wa-seq">
+        <div class="wa-step">
+          <div class="was-day"><div class="was-d">0s</div><div class="was-dl">Instant</div></div>
+          <div class="was-body"><div class="was-title">Auto-welcome + Farm Video</div><div class="was-desc">Instant reply with farm story video link + "Here's what makes our ghee different"</div></div>
+        </div>
+        <div class="wa-step">
+          <div class="was-day"><div class="was-d">3</div><div class="was-dl">Days</div></div>
+          <div class="was-body"><div class="was-title">A2 Science + QR Demo</div><div class="was-desc">Education message: "Do you know the difference between A2 and regular ghee?"</div></div>
+        </div>
+        <div class="wa-step">
+          <div class="was-day"><div class="was-d">5</div><div class="was-dl">Days</div></div>
+          <div class="was-body"><div class="was-title">Testimonials + First-Order Offer</div><div class="was-desc">3 customer reviews + "Order your trial pack with 10% off — code FIRST10"</div></div>
+        </div>
+        <div class="wa-step">
+          <div class="was-day"><div class="was-d">7</div><div class="was-dl">Days</div></div>
+          <div class="was-body"><div class="was-title">Starter Pack CTA</div><div class="was-desc">Final push: "250g starter pack — try before committing to 1kg"</div></div>
+        </div>
+        <div class="wa-step">
+          <div class="was-day"><div class="was-d">35</div><div class="was-dl">Days</div></div>
+          <div class="was-body"><div class="was-title">Reorder Reminder (Post-Purchase)</div><div class="was-desc">"Running low? Your next batch is ready. Reorder in 2 taps." — sent 35 days after purchase</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 10 — INFLUENCER MARKETING
+==================================================== -->
+<div class="slide" id="s10">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">10 · Digital — Influencer</div>
+      <div class="sh-title">Influencer Marketing — <em>3-Tier System</em></div>
+      <div class="sh-sub">One mandatory brief across all tiers: QR scan on camera + taste test. Non-negotiable.</div>
+    </div>
+    <div class="sh-ghost">10</div>
+  </div>
+  <div class="inf-wrap" style="flex:1;overflow:hidden;">
+    <div class="inf-tier">
+      <div class="inf-head t1">
+        <div class="inf-h-ic">📺</div>
+        <div class="inf-h-info"><div class="inf-h-title">Macro (1–2)</div><div class="inf-h-sub">300K – 1M followers</div></div>
+      </div>
+      <div class="inf-body">
+        <div class="t-tag" style="margin-bottom:6px;">Platform</div>
+        <div class="t-body" style="margin-bottom:10px;">YouTube (Ayurveda, organic food, nutrition)</div>
+        <div class="t-tag" style="margin-bottom:6px;">Approach</div>
+        <div class="t-body" style="margin-bottom:10px;">Paid partnership — ₹15K–30K per dedicated video</div>
+        <div class="t-tag" style="margin-bottom:6px;">Content Brief</div>
+        <ul class="dl" style="margin-bottom:10px;">
+          <li>QR scan walkthrough on camera</li>
+          <li>Bilona process explanation</li>
+          <li>Taste test with family reaction</li>
+          <li>Award mention as credibility anchor</li>
+        </ul>
+        <div class="callout">Best for: <strong>Tier 2 cities, traditional household, 40+ demo</strong></div>
+      </div>
+    </div>
+    <div class="inf-tier">
+      <div class="inf-head t2">
+        <div class="inf-h-ic">📱</div>
+        <div class="inf-h-info"><div class="inf-h-title">Micro (5–8)</div><div class="inf-h-sub">30K – 150K followers</div></div>
+      </div>
+      <div class="inf-body">
+        <div class="t-tag" style="margin-bottom:6px;">Platform</div>
+        <div class="t-body" style="margin-bottom:10px;">Instagram (food, parenting, keto, wellness)</div>
+        <div class="t-tag" style="margin-bottom:6px;">Approach</div>
+        <div class="t-body" style="margin-bottom:10px;">Gifting first → affiliate 10% commission on tracked orders</div>
+        <div class="t-tag" style="margin-bottom:6px;">Content Brief</div>
+        <ul class="dl" style="margin-bottom:10px;">
+          <li>Recipe Reel using Tharpure ghee</li>
+          <li>Unboxing with QR scan moment</li>
+          <li>Swipe-up link to product page</li>
+        </ul>
+        <div class="callout">Best for: <strong>Urban moms, fitness buyers, keto community</strong></div>
+      </div>
+    </div>
+    <div class="inf-tier">
+      <div class="inf-head t3">
+        <div class="inf-h-ic">🏘️</div>
+        <div class="inf-h-info"><div class="inf-h-title">Nano (10–15)</div><div class="inf-h-sub">5K – 30K followers</div></div>
+      </div>
+      <div class="inf-body">
+        <div class="t-tag" style="margin-bottom:6px;">Platform</div>
+        <div class="t-body" style="margin-bottom:10px;">Instagram / WhatsApp (local Jaipur food, lifestyle)</div>
+        <div class="t-tag" style="margin-bottom:6px;">Approach</div>
+        <div class="t-body" style="margin-bottom:10px;">Gifting only — zero paid fee. Farm visit content preferred.</div>
+        <div class="t-tag" style="margin-bottom:6px;">Why Nano Works</div>
+        <ul class="dl" style="margin-bottom:10px;">
+          <li>Highest trust per follower</li>
+          <li>Local validation for society targeting</li>
+          <li>Farm visit = 3 weeks of organic content</li>
+        </ul>
+        <div class="callout">Best for: <strong>Local brand legitimacy, offline-to-online proof</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 11 — CONTENT MARKETING
+==================================================== -->
+<div class="slide" id="s11">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">11 · Digital — Content</div>
+      <div class="sh-title">Content Marketing — <em>4 Pillars</em></div>
+      <div class="sh-sub">One farm visit produces 4 weeks of content across all channels. Every piece serves a funnel stage.</div>
+    </div>
+    <div class="sh-ghost">11</div>
+  </div>
+  <div class="cm-wrap" style="flex:1;overflow:hidden;">
+    <div class="cm-col">
+      <div class="cm-col-head"><div class="cmch-n">PILLAR 01</div><div class="cmch-title">Farm Heritage</div><div class="cmch-sub">Funnel stage: Awareness</div></div>
+      <div class="cm-body">
+        <ul class="dl">
+          <li>Farm tour walkthroughs — drone &amp; ground</li>
+          <li>Cow stories — each animal has a name</li>
+          <li>Founder family legacy narrative</li>
+          <li>40-year archive content (old photos)</li>
+          <li>"Day in the life" of the farm at 5am</li>
+        </ul>
+        <div class="cm-ex">
+          <div class="cm-ex-label">Best Format</div>
+          <div class="cm-ex-val">Instagram Reels, YouTube Shorts, Stories</div>
+        </div>
+      </div>
+    </div>
+    <div class="cm-col">
+      <div class="cm-col-head"><div class="cmch-n">PILLAR 02</div><div class="cmch-title">Science of A2</div><div class="cmch-sub">Funnel stage: Trust</div></div>
+      <div class="cm-body">
+        <ul class="dl">
+          <li>A2 vs A1 protein structure — visual explainer</li>
+          <li>Butyric acid &amp; gut health science</li>
+          <li>Bilona vs commercial process comparison</li>
+          <li>Lab report walkthrough video</li>
+          <li>"Why cheap ghee is expensive for your health"</li>
+        </ul>
+        <div class="cm-ex">
+          <div class="cm-ex-label">Best Format</div>
+          <div class="cm-ex-val">Blog posts (SEO), Instagram carousels, YouTube</div>
+        </div>
+      </div>
+    </div>
+    <div class="cm-col">
+      <div class="cm-col-head"><div class="cmch-n">PILLAR 03</div><div class="cmch-title">Recipes &amp; Use Cases</div><div class="cmch-sub">Funnel stage: Desire</div></div>
+      <div class="cm-body">
+        <ul class="dl">
+          <li>Winter laddoo recipe with ghee</li>
+          <li>Bulletproof coffee (keto angle)</li>
+          <li>Traditional dal-tadka with bilona ghee</li>
+          <li>Ghee for skin &amp; hair (Ayurveda)</li>
+          <li>Seasonal recipes: Navratri, Diwali sweets</li>
+        </ul>
+        <div class="cm-ex">
+          <div class="cm-ex-label">Best Format</div>
+          <div class="cm-ex-val">Instagram Reels, Pinterest, recipe blogs</div>
+        </div>
+      </div>
+    </div>
+    <div class="cm-col">
+      <div class="cm-col-head"><div class="cmch-n">PILLAR 04</div><div class="cmch-title">Proof &amp; Transparency</div><div class="cmch-sub">Funnel stage: Conversion</div></div>
+      <div class="cm-body">
+        <ul class="dl">
+          <li>QR batch scan walkthrough — screen recording</li>
+          <li>Lab report explained in 60 seconds</li>
+          <li>Customer farm visit vlogs</li>
+          <li>Award ceremony footage + certificate</li>
+          <li>Before/after: adulterated vs. pure ghee test</li>
+        </ul>
+        <div class="cm-ex">
+          <div class="cm-ex-label">Best Format</div>
+          <div class="cm-ex-val">YouTube, Instagram Stories, WhatsApp Status</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sf">
+    <span class="sf-text">Repurpose engine: <strong>1 farm visit</strong> → 2 Reels + 4 Stories + 1 YT Short + 1 Blog + 4 WhatsApp statuses = <strong>4 weeks of content at near-zero cost.</strong></span>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 12 — SEASONAL MARKETING
+==================================================== -->
+<div class="slide" id="s12">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">12 · Digital — Seasonal</div>
+      <div class="sh-title">Seasonal Marketing <em>Calendar</em></div>
+      <div class="sh-sub">Plan 6 weeks ahead. A ghee brand that isn't seasonal is leaving 40% of annual revenue on the table.</div>
+    </div>
+    <div class="sh-ghost">12</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);border-bottom:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(22px,2.8vw,36px);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="width:38px;height:38px;background:var(--db);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">❄️</div><div><div class="t-tag">Oct – Feb</div><div class="t-h2">Winter Immunity</div></div></div>
+      <div class="rule"></div>
+      <ul class="dl">
+        <li>Hero product: 1kg ghee + recipe card (laddoo, halwa)</li>
+        <li>Campaign: "Winter without pure ghee is incomplete"</li>
+        <li>WhatsApp recipe drops every 10 days</li>
+        <li>Meta video: mom makes winter laddoo in 60 seconds</li>
+        <li>Bundle: Ghee + Buffalo Makkhan winter combo</li>
+      </ul>
+      <div class="callout" style="margin-top:auto;">Target revenue: <strong>₹1.8L–₹2.5L in Dec alone.</strong></div>
+    </div>
+    <div style="border-bottom:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(22px,2.8vw,36px);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="width:38px;height:38px;background:var(--mb);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🪔</div><div><div class="t-tag">Sep – Nov</div><div class="t-h2">Diwali &amp; Festive</div></div></div>
+      <div class="rule"></div>
+      <ul class="dl">
+        <li>Premium gift boxes: 500g ghee + brass diya + message card</li>
+        <li>Price points: ₹599 / ₹899 / ₹1,499 gift packs</li>
+        <li>Bulk corporate orders — pre-order by Sept 30</li>
+        <li>Campaign: "Give them what's actually pure"</li>
+        <li>Free personalised packing (MOQ 10 units)</li>
+      </ul>
+      <div class="callout" style="margin-top:auto;">Target: <strong>₹5–₹20L corporate gifting</strong> in Diwali window.</div>
+    </div>
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(22px,2.8vw,36px);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="width:38px;height:38px;background:var(--lb);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">💍</div><div><div class="t-tag">Nov – Feb, May – Jun</div><div class="t-h2">Wedding Season</div></div></div>
+      <div class="rule"></div>
+      <ul class="dl">
+        <li>Family packs: 2kg + 500g combo for wedding households</li>
+        <li>"Pure ghee for the purest moments" — campaign</li>
+        <li>Caterer B2B partnerships — 5kg tins</li>
+        <li>Venue partner placement: Jaipur wedding palaces</li>
+        <li>Shaadi.com and local event planner tie-ins</li>
+      </ul>
+      <div class="callout" style="margin-top:auto;">Opportunity: <strong>avg 40 weddings/month</strong> in Jaipur during season.</div>
+    </div>
+    <div style="padding:clamp(14px,2.2vh,26px) clamp(22px,2.8vw,36px);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div style="width:38px;height:38px;background:var(--cu);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">☀️</div><div><div class="t-tag">Mar – Jun</div><div class="t-h2">Summer Keto &amp; Wellness</div></div></div>
+      <div class="rule"></div>
+      <ul class="dl">
+        <li>Bulletproof coffee campaign — keto/fitness audience</li>
+        <li>Collab with nutrition coaches for "summer cut" content</li>
+        <li>250g starter pack — lower entry barrier for new buyers</li>
+        <li>Ghee for hair &amp; skin — Ayurveda angle</li>
+        <li>Navratri (March): pure ghee fasting puja use-case</li>
+      </ul>
+      <div class="callout" style="margin-top:auto;">Low-volume season — <strong>use to build email list</strong> for festive push.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 13 — HNI SOCIETY TARGETING
+==================================================== -->
+<div class="slide" id="s13">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">13 · Offline — Hyperlocal</div>
+      <div class="sh-title">HNI Society <em>Targeting</em></div>
+      <div class="sh-sub">The fastest path to ₹1L/month offline. One RWA president can unlock 200 households in one meeting.</div>
+    </div>
+    <div class="sh-ghost">13</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1.6fr;flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">Target Zones — Jaipur</div>
+      <div class="rule"></div>
+      <ul class="dl" style="margin-bottom:14px;">
+        <li><strong>C-Scheme</strong> — affluent residential, avg HHI ₹5L+</li>
+        <li><strong>Vaishali Nagar</strong> — large gated societies</li>
+        <li><strong>Jagatpura</strong> — tech park proximity</li>
+        <li><strong>Malviya Nagar</strong> — education hub</li>
+        <li><strong>Mansarovar</strong> — mid-HNI, large volume</li>
+      </ul>
+      <div class="t-tag" style="margin-bottom:8px;">Target Profile</div>
+      <ul class="dl">
+        <li>500+ units per society</li>
+        <li>Active RWA / Facebook group</li>
+        <li>Health-conscious demographic</li>
+      </ul>
+      <div style="margin-top:auto;background:var(--db);padding:clamp(10px,1.5vh,16px);border-radius:7px;">
+        <div style="font-family:Georgia,serif;font-size:clamp(22px,2.5vw,30px);color:var(--go);line-height:1;">10</div>
+        <div style="font-size:clamp(8px,.75vw,10px);letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:2px;">Societies by Day 45</div>
+        <div style="font-family:Georgia,serif;font-style:italic;font-size:clamp(9px,.85vw,11px);color:rgba(255,255,255,.28);margin-top:2px;">2 visits/week cadence</div>
+      </div>
+    </div>
+    <div style="padding:clamp(14px,2.2vh,26px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">Society Entry Model — 6 Steps</div>
+      <div class="rule"></div>
+      <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:clamp(52px,6.5vw,72px) 1fr;border-bottom:1px solid var(--ln);flex:1;"><div style="background:var(--db);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:9px;color:var(--cu);letter-spacing:2px;border-right:1px solid rgba(255,255,255,.06);">01</div><div style="padding:clamp(5px,.9vh,9px) clamp(10px,1.3vw,14px);display:flex;flex-direction:column;justify-content:center;"><div style="font-size:clamp(10px,.92vw,12.5px);color:var(--db);font-weight:600;margin-bottom:1px;">Book a slot</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Contact RWA president — request 30 min at society event.</div></div></div>
+        <div style="display:grid;grid-template-columns:clamp(52px,6.5vw,72px) 1fr;border-bottom:1px solid var(--ln);flex:1;"><div style="background:var(--mb);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:9px;color:var(--go);letter-spacing:2px;border-right:1px solid rgba(255,255,255,.06);">02</div><div style="padding:clamp(5px,.9vh,9px) clamp(10px,1.3vw,14px);display:flex;flex-direction:column;justify-content:center;"><div style="font-size:clamp(10px,.92vw,12.5px);color:var(--db);font-weight:600;margin-bottom:1px;">Live taste test</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Bring ghee, makkhan, sample spoons. Let them smell and taste. Nothing converts like this.</div></div></div>
+        <div style="display:grid;grid-template-columns:clamp(52px,6.5vw,72px) 1fr;border-bottom:1px solid var(--ln);flex:1;"><div style="background:var(--lb);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:9px;color:#fff;letter-spacing:2px;border-right:1px solid rgba(255,255,255,.06);">03</div><div style="padding:clamp(5px,.9vh,9px) clamp(10px,1.3vw,14px);display:flex;flex-direction:column;justify-content:center;"><div style="font-size:clamp(10px,.92vw,12.5px);color:var(--db);font-weight:600;margin-bottom:1px;">QR scan demo</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Scan batch QR live. Show the cow, date, lab report. Nobody else can do this.</div></div></div>
+        <div style="display:grid;grid-template-columns:clamp(52px,6.5vw,72px) 1fr;border-bottom:1px solid var(--ln);flex:1;"><div style="background:var(--cu);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:9px;color:#fff;letter-spacing:2px;border-right:1px solid rgba(255,255,255,.06);">04</div><div style="padding:clamp(5px,.9vh,9px) clamp(10px,1.3vw,14px);display:flex;flex-direction:column;justify-content:center;"><div style="font-size:clamp(10px,.92vw,12.5px);color:var(--db);font-weight:600;margin-bottom:1px;">Group order slot</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">"Order now for delivery this Saturday." WhatsApp form. MOQ 10 units.</div></div></div>
+        <div style="display:grid;grid-template-columns:clamp(52px,6.5vw,72px) 1fr;border-bottom:1px solid var(--ln);flex:1;"><div style="background:var(--go);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:9px;color:var(--db);letter-spacing:2px;border-right:1px solid rgba(255,255,255,.06);">05</div><div style="padding:clamp(5px,.9vh,9px) clamp(10px,1.3vw,14px);display:flex;flex-direction:column;justify-content:center;"><div style="font-size:clamp(10px,.92vw,12.5px);color:var(--db);font-weight:600;margin-bottom:1px;">WhatsApp community</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Add every buyer to "Tharpure Jaipur" group. Monthly recipes, farm updates, reorder offers.</div></div></div>
+        <div style="display:grid;grid-template-columns:clamp(52px,6.5vw,72px) 1fr;flex:1;"><div style="background:var(--db);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:9px;color:var(--cu);letter-spacing:2px;border-right:1px solid rgba(255,255,255,.06);">06</div><div style="padding:clamp(5px,.9vh,9px) clamp(10px,1.3vw,14px);display:flex;flex-direction:column;justify-content:center;"><div style="font-size:clamp(10px,.92vw,12.5px);color:var(--db);font-weight:600;margin-bottom:1px;">Monthly reorder</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Day 35 WhatsApp: "Your ghee is running out. Reorder with the society batch this Friday."</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 14 — B2B HOTELS
+==================================================== -->
+<div class="slide" id="s14">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">14 · Offline — B2B</div>
+      <div class="sh-title">B2B — <em>Premium Hotels &amp; Resorts</em></div>
+      <div class="sh-sub">A national award is your sales pitch. Hotels want provenance stories on their menu. Tharpure is that story.</div>
+    </div>
+    <div class="sh-ghost">14</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1.6fr;flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">Priority Targets — Jaipur</div>
+      <div class="rule"></div>
+      <ul class="dl" style="margin-bottom:14px;">
+        <li><strong>Rambagh Palace</strong> — Taj Hotels flagship</li>
+        <li><strong>Oberoi Rajvilas</strong> — ultra-luxury, 5-star</li>
+        <li><strong>ITC Rajputana</strong> — F&amp;B-focused, high volume</li>
+        <li><strong>Samode Haveli</strong> — heritage property</li>
+        <li><strong>Dera Amer, Alsisar Haveli</strong> — boutique luxury</li>
+      </ul>
+      <div class="t-tag" style="margin-bottom:8px;">Expansion (Month 4+)</div>
+      <ul class="dl">
+        <li>Udaipur — Leela, Trident</li>
+        <li>Jodhpur — RAAS, Umaid Bhawan</li>
+      </ul>
+      <div style="margin-top:auto;background:var(--db);padding:clamp(10px,1.5vh,16px);border-radius:7px;">
+        <div style="font-family:Georgia,serif;font-size:clamp(22px,2.5vw,30px);color:var(--go);line-height:1;">5</div>
+        <div style="font-size:clamp(8px,.75vw,10px);letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:2px;">Accounts by Day 60</div>
+        <div style="font-family:Georgia,serif;font-style:italic;font-size:clamp(9px,.85vw,11px);color:rgba(255,255,255,.28);margin-top:2px;">₹25K–₹80K / account / month</div>
+      </div>
+    </div>
+    <div style="padding:clamp(14px,2.2vh,26px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">The 5-Minute Pitch Kit</div>
+      <div class="rule"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;flex:1;overflow:hidden;">
+        <div style="background:var(--cr);border:1px solid var(--ln);border-radius:8px;padding:clamp(10px,1.5vh,16px) clamp(10px,1.3vw,14px);"><div class="t-tag" style="margin-bottom:5px;">Leave-Behind Kit</div><ul class="dl"><li>100g ghee + makkhan sample tray</li><li>Printed award certificate (laminated)</li><li>Lab report (QR linked)</li><li>Product menu card</li></ul></div>
+        <div style="background:var(--cr);border:1px solid var(--ln);border-radius:8px;padding:clamp(10px,1.5vh,16px) clamp(10px,1.3vw,14px);"><div class="t-tag" style="margin-bottom:5px;">The Pitch Angle</div><ul class="dl"><li>"The only ghee with India's #1 dairy award"</li><li>Menu copy: "Bilona ghee from 500-cow Jaipur farm"</li><li>Provenance story for in-room welcome note</li><li>Farm visit for chef experience</li></ul></div>
+        <div style="background:var(--cr);border:1px solid var(--ln);border-radius:8px;padding:clamp(10px,1.5vh,16px) clamp(10px,1.3vw,14px);"><div class="t-tag" style="margin-bottom:5px;">Pricing Model</div><ul class="dl"><li>5kg tins: monthly supply contract</li><li>Net 30 payment terms</li><li>Free first-month sample supply</li><li>Volume discount at 20kg/month+</li></ul></div>
+        <div style="background:var(--cr);border:1px solid var(--ln);border-radius:8px;padding:clamp(10px,1.5vh,16px) clamp(10px,1.3vw,14px);"><div class="t-tag" style="margin-bottom:5px;">Who to Contact</div><ul class="dl"><li>Executive Chef (product decision)</li><li>F&amp;B Manager (procurement)</li><li>LinkedIn cold outreach works well</li><li>Warm intro via Jaipur food community</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 15 — CORPORATE GIFTING
+==================================================== -->
+<div class="slide" id="s15">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">15 · Offline — Corporate</div>
+      <div class="sh-title">Corporate Gifting — <em>₹5L–₹20L Opportunity</em></div>
+      <div class="sh-sub">Companies replace generic gift sets with meaningful, premium alternatives. A2 bilona ghee with an award is exactly that.</div>
+    </div>
+    <div class="sh-ghost">15</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(14px,1.8vw,20px);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="background:var(--db);padding:clamp(10px,1.5vh,16px);border-radius:8px;margin-bottom:12px;flex-shrink:0;"><div class="t-tag" style="color:var(--cu);margin-bottom:5px;">TIER 1 — ₹499</div><div style="font-family:Georgia,serif;font-size:clamp(15px,1.6vw,20px);color:#fff;font-weight:600;">Starter Gift</div><div style="font-size:clamp(8px,.75vw,10px);color:rgba(255,255,255,.4);margin-top:2px;">Team gifts, client thank-you</div></div>
+      <ul class="dl"><li>250g A2 ghee in premium jar</li><li>Tharpure story card</li><li>QR batch scan card</li><li>Award sticker on box</li></ul>
+      <div class="callout" style="margin-top:auto;">MOQ: <strong>25 units.</strong> Personalised note included.</div>
+    </div>
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(14px,1.8vw,20px);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="background:var(--mb);padding:clamp(10px,1.5vh,16px);border-radius:8px;margin-bottom:12px;flex-shrink:0;"><div class="t-tag" style="color:var(--go);margin-bottom:5px;">TIER 2 — ₹899</div><div style="font-family:Georgia,serif;font-size:clamp(15px,1.6vw,20px);color:#fff;font-weight:600;">Premium Gift</div><div style="font-size:clamp(8px,.75vw,10px);color:rgba(255,255,255,.4);margin-top:2px;">Client gifting, senior team</div></div>
+      <ul class="dl"><li>500g A2 ghee + 100g buffalo makkhan</li><li>Wooden gift box with ribbon</li><li>Recipe card + farm photo</li><li>Lab report &amp; award certificate inside</li></ul>
+      <div class="callout" style="margin-top:auto;">MOQ: <strong>15 units.</strong> Custom box branding ₹50 extra/unit.</div>
+    </div>
+    <div style="padding:clamp(14px,2.2vh,26px) clamp(14px,1.8vw,20px);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="background:var(--cu);padding:clamp(10px,1.5vh,16px);border-radius:8px;margin-bottom:12px;flex-shrink:0;"><div class="t-tag" style="color:#fff;margin-bottom:5px;">TIER 3 — ₹1,499</div><div style="font-family:Georgia,serif;font-size:clamp(15px,1.6vw,20px);color:#fff;font-weight:600;">Luxury Gift</div><div style="font-size:clamp(8px,.75vw,10px);color:rgba(255,255,255,.65);margin-top:2px;">C-suite, Diwali, board members</div></div>
+      <ul class="dl"><li>1kg ghee + 200g makkhan + 100g buffalo ghee</li><li>Hand-crafted wooden crate</li><li>Personalised wax-sealed letter</li><li>Farm visit invitation card</li></ul>
+      <div class="callout" style="margin-top:auto;">MOQ: <strong>10 units.</strong> Guaranteed delivery SLA 5 business days.</div>
+    </div>
+  </div>
+  <div class="sf"><span class="sf-text">LinkedIn outreach: identify HR / Admin heads at IT parks and law firms in Jaipur. Goal: <strong>₹5L in corporate gifting by Diwali 2026.</strong></span></div>
+</div>
+
+<!-- ====================================================
+  SLIDE 16 — OFFLINE→ONLINE BRIDGE
+==================================================== -->
+<div class="slide" id="s16">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">16 · Integration</div>
+      <div class="sh-title">Offline → Online <em>Bridge</em></div>
+      <div class="sh-sub">Every offline touchpoint should feed the digital funnel. One society visit should generate 50 online followers.</div>
+    </div>
+    <div class="sh-ghost">16</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(12px,1.5vw,18px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="ghost" style="font-size:clamp(40px,5.5vw,64px);margin-bottom:-3px;">01</div>
+      <div class="iw"><span class="ic">📱</span></div>
+      <div class="t-h2" style="margin-bottom:5px;">Society QR</div>
+      <div class="rule"></div>
+      <ul class="dl"><li>Every sample jar has a QR → WhatsApp opt-in</li><li>QR on printed recipe cards at events</li><li>RWA notice board poster with QR</li></ul>
+      <div class="callout" style="margin-top:auto;"><strong>Outcome:</strong> 200 WhatsApp subscribers from 10 societies</div>
+    </div>
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(12px,1.5vw,18px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="ghost" style="font-size:clamp(40px,5.5vw,64px);margin-bottom:-3px;">02</div>
+      <div class="iw"><span class="ic">💼</span></div>
+      <div class="t-h2" style="margin-bottom:5px;">B2B Retargeting</div>
+      <div class="rule"></div>
+      <ul class="dl"><li>Hotel menu card has website URL + QR</li><li>LinkedIn connection after every meeting</li><li>Meta hotel-manager audience for top-of-funnel</li></ul>
+      <div class="callout" style="margin-top:auto;"><strong>Outcome:</strong> 30% hotel contacts follow on Instagram</div>
+    </div>
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(12px,1.5vw,18px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="ghost" style="font-size:clamp(40px,5.5vw,64px);margin-bottom:-3px;">03</div>
+      <div class="iw"><span class="ic">⭐</span></div>
+      <div class="t-h2" style="margin-bottom:5px;">Testimonials</div>
+      <div class="rule"></div>
+      <ul class="dl"><li>Offline buyers filmed for 30-sec testimonial</li><li>Posted on Instagram + website reviews section</li><li>WhatsApp shares drive word-of-mouth</li></ul>
+      <div class="callout" style="margin-top:auto;"><strong>Outcome:</strong> 5 new video testimonials/month</div>
+    </div>
+    <div style="padding:clamp(14px,2.2vh,26px) clamp(12px,1.5vw,18px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="ghost" style="font-size:clamp(40px,5.5vw,64px);margin-bottom:-3px;">04</div>
+      <div class="iw"><span class="ic">🚜</span></div>
+      <div class="t-h2" style="margin-bottom:5px;">Farm Visit Funnel</div>
+      <div class="rule"></div>
+      <ul class="dl"><li>Invite nano influencers + HNI buyers to farm</li><li>Instagram reels from every farm visit</li><li>Farm visitor tagged = social proof</li></ul>
+      <div class="callout" style="margin-top:auto;"><strong>Outcome:</strong> 1 farm visit = 3 weeks of content</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 17 — QUICK COMMERCE
+==================================================== -->
+<div class="slide" id="s17">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">17 · Distribution — Quick Commerce</div>
+      <div class="sh-title">Quick Commerce — <em>Discovery Play</em></div>
+      <div class="sh-sub">Not the primary channel. But visible on Blinkit = "this brand is real." Launch Month 3–4.</div>
+    </div>
+    <div class="sh-ghost">17</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1.4fr;flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">Target Platforms</div>
+      <div class="rule"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+        <div style="background:var(--cr);border:1px solid var(--ln);border-radius:7px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🟡</span><div><div style="font-size:clamp(11px,1.1vw,13.5px);color:var(--db);font-weight:600;">Blinkit</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Highest urban penetration, Delhi-Jaipur</div></div></div>
+        <div style="background:var(--cr);border:1px solid var(--ln);border-radius:7px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🔴</span><div><div style="font-size:clamp(11px,1.1vw,13.5px);color:var(--db);font-weight:600;">Zepto</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Strong in health/organic category</div></div></div>
+        <div style="background:var(--cr);border:1px solid var(--ln);border-radius:7px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🟠</span><div><div style="font-size:clamp(11px,1.1vw,13.5px);color:var(--db);font-weight:600;">Swiggy Instamart</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Premium grocery segment</div></div></div>
+      </div>
+      <div style="background:var(--db);padding:clamp(10px,1.5vh,16px);border-radius:7px;margin-top:auto;">
+        <div class="t-tag" style="margin-bottom:5px;">Launch Target</div>
+        <div style="font-family:Georgia,serif;font-size:clamp(20px,2.2vw,28px);color:var(--go);line-height:1;">Month 3</div>
+        <div style="font-size:clamp(9px,.85vw,11px);color:rgba(255,255,255,.4);margin-top:2px;">Post offline proof-of-concept</div>
+      </div>
+    </div>
+    <div style="padding:clamp(14px,2.2vh,26px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">Strategy — Use Quick Commerce the Right Way</div>
+      <div class="rule"></div>
+      <ul class="dl" style="margin-bottom:14px;">
+        <li><strong>Purpose:</strong> Discovery and impulse trial — not the main revenue channel</li>
+        <li><strong>SKU selection:</strong> 250g trial pack only — lower commitment, lower logistics cost</li>
+        <li><strong>Package insert:</strong> Every Blinkit order includes a QR → WhatsApp opt-in card</li>
+        <li><strong>Objective:</strong> Convert quick commerce buyers to direct D2C WhatsApp repeat customers</li>
+        <li><strong>Category placement:</strong> "Organic Dairy", "Premium Ghee", "Health Food" subcategories</li>
+        <li><strong>Listing optimisation:</strong> Award mentioned in product title, farm photos in images</li>
+      </ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto;">
+        <div style="background:rgba(200,98,42,.07);border-left:3px solid var(--cu);padding:9px 12px;border-radius:0 5px 5px 0;"><div class="t-tag" style="margin-bottom:3px;">Margin Warning</div><div style="font-size:clamp(9px,.85vw,11.5px);color:var(--mb);">Qcom margin thin (30–40%). Price the 250g pack accordingly. Primary goal = <strong>trial, not profit.</strong></div></div>
+        <div style="background:rgba(212,168,67,.1);border-left:3px solid var(--go);padding:9px 12px;border-radius:0 5px 5px 0;"><div class="t-tag" style="margin-bottom:3px;">D2C Bridge</div><div style="font-size:clamp(9px,.85vw,11.5px);color:var(--mb);">Every Qcom buyer who joins WhatsApp = <strong>20× higher LTV</strong> than staying on platform.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 18 — ECOMMERCE
+==================================================== -->
+<div class="slide" id="s18">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">18 · Distribution — Ecommerce</div>
+      <div class="sh-title">E-Commerce — <em>Discovery, Not Margin</em></div>
+      <div class="sh-sub">Amazon/Flipkart = low margins, high visibility. Be there for the search. Win them back to D2C.</div>
+    </div>
+    <div class="sh-ghost">18</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1.4fr;flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">Platforms</div>
+      <div class="rule"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+        <div style="background:var(--wh);border:1px solid var(--ln);border-radius:7px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">📦</span><div><div style="font-size:clamp(11px,1.1vw,13.5px);color:var(--db);font-weight:600;">Amazon India</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Organic grocery + FBA for fast delivery</div></div></div>
+        <div style="background:var(--wh);border:1px solid var(--ln);border-radius:7px;padding:10px 14px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🛍️</span><div><div style="font-size:clamp(11px,1.1vw,13.5px);color:var(--db);font-weight:600;">Flipkart</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Tier 2 reach, brand visibility play</div></div></div>
+      </div>
+      <div style="background:rgba(180,50,30,.06);border-left:3px solid #c85040;padding:8px 12px;border-radius:0 5px 5px 0;font-size:clamp(9px,.85vw,11.5px);color:#7a3020;">Amazon takes 25–35% + FBA fees. Net margin 15–20% vs 55–65% on D2C. Use sparingly.</div>
+      <div style="margin-top:auto;background:var(--db);padding:clamp(10px,1.5vh,16px);border-radius:7px;">
+        <div class="t-tag" style="margin-bottom:5px;">Real Goal</div>
+        <div style="font-family:Georgia,serif;font-size:clamp(14px,1.4vw,17px);color:#fff;line-height:1.3;">Use Amazon for discovery.<br>Win them back via QR.</div>
+      </div>
+    </div>
+    <div style="padding:clamp(14px,2.2vh,26px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">The D2C Funnel Inside the Amazon Box</div>
+      <div class="rule"></div>
+      <ul class="dl" style="margin-bottom:14px;">
+        <li><strong>Package insert:</strong> "You bought award-winning ghee. Here's how to get it cheaper next time." → QR to WhatsApp</li>
+        <li><strong>Listing copy:</strong> "Scan QR on jar to trace batch origin" — differentiator in search results</li>
+        <li><strong>Review strategy:</strong> 100+ verified reviews by Month 3 = organic rank lift</li>
+        <li><strong>SEO keywords in listing:</strong> "A2 bilona ghee", "Gir cow ghee", "Gopal Ratna award"</li>
+        <li><strong>A+ content:</strong> Farm photos, founder story, bilona process graphic</li>
+        <li><strong>Subscribe &amp; Save:</strong> Amazon subscription removes from D2C funnel — keep insert QR prominent</li>
+      </ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto;">
+        <div style="background:rgba(200,98,42,.07);border-left:3px solid var(--cu);padding:9px 12px;border-radius:0 5px 5px 0;"><div class="t-tag" style="margin-bottom:3px;">KPI to Track</div><div style="font-size:clamp(9px,.85vw,11.5px);color:var(--mb);"># of Amazon buyers who join WhatsApp via insert QR. Target: <strong>15% conversion.</strong></div></div>
+        <div style="background:rgba(212,168,67,.1);border-left:3px solid var(--go);padding:9px 12px;border-radius:0 5px 5px 0;"><div class="t-tag" style="margin-bottom:3px;">Launch Timeline</div><div style="font-size:clamp(9px,.85vw,11.5px);color:var(--mb);">Month 2. Get 30 reviews by Month 3 to start ranking organically.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 19 — 6-MONTH ROADMAP
+==================================================== -->
+<div class="slide" id="s19">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">19 · Execution</div>
+      <div class="sh-title">6-Month <em>Execution Roadmap</em></div>
+      <div class="sh-sub">Month 1–2 = foundation. Month 3–4 = scale. Month 5–6 = compound. Don't skip stages.</div>
+    </div>
+    <div class="sh-ghost">19</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(6,1fr);flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="background:var(--db);padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;"><div style="font-family:'Courier New',monospace;font-size:9px;color:var(--cu);letter-spacing:2px;">MONTH 01</div><div style="font-family:Georgia,serif;font-size:clamp(13px,1.3vw,17px);color:#fff;font-weight:600;margin-top:2px;">Foundation</div></div>
+      <div style="padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);flex:1;overflow:hidden;"><ul class="dl"><li>Website CRO — award above fold, video, FAQ</li><li>WhatsApp tool (Interakt) setup</li><li>Meta pixel + 1 awareness ad</li><li>Society visits #1–#3</li><li>First 5 blog posts live</li><li>Amazon listing live</li></ul></div>
+    </div>
+    <div style="border-right:1px solid var(--ln);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="background:var(--mb);padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;"><div style="font-family:'Courier New',monospace;font-size:9px;color:var(--go);letter-spacing:2px;">MONTH 02</div><div style="font-family:Georgia,serif;font-size:clamp(13px,1.3vw,17px);color:#fff;font-weight:600;margin-top:2px;">Launch</div></div>
+      <div style="padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);flex:1;overflow:hidden;"><ul class="dl"><li>Full Meta funnel (4 stages) live</li><li>First micro influencer activation</li><li>Hotel pitch to 5 properties</li><li>Society visits #4–#7</li><li>WhatsApp nurture sequence running</li><li>30 Amazon reviews target</li></ul></div>
+    </div>
+    <div style="border-right:1px solid var(--ln);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="background:var(--lb);padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;"><div style="font-family:'Courier New',monospace;font-size:9px;color:#fff;letter-spacing:2px;">MONTH 03</div><div style="font-family:Georgia,serif;font-size:clamp(13px,1.3vw,17px);color:#fff;font-weight:600;margin-top:2px;">Scale</div></div>
+      <div style="padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);flex:1;overflow:hidden;"><ul class="dl"><li>Blinkit / Zepto listing live</li><li>2 hotels signed, supply running</li><li>Meta budget doubled on winners</li><li>First 100 D2C orders/month</li><li>Society #8–#10 done</li><li>Referral program launch</li></ul></div>
+    </div>
+    <div style="border-right:1px solid var(--ln);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="background:var(--cu);padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;"><div style="font-family:'Courier New',monospace;font-size:9px;color:#fff;letter-spacing:2px;">MONTH 04</div><div style="font-family:Georgia,serif;font-size:clamp(13px,1.3vw,17px);color:#fff;font-weight:600;margin-top:2px;">Expand</div></div>
+      <div style="padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);flex:1;overflow:hidden;"><ul class="dl"><li>Macro influencer video (YouTube)</li><li>Corporate gifting — first 10 inquiries</li><li>Udaipur / Jodhpur hotel outreach</li><li>Subscribe &amp; Save SKU launch</li><li>200 D2C orders/month target</li><li>SEO: 200 organic visits/month</li></ul></div>
+    </div>
+    <div style="border-right:1px solid var(--ln);display:flex;flex-direction:column;overflow:hidden;">
+      <div style="background:var(--go);padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;"><div style="font-family:'Courier New',monospace;font-size:9px;color:var(--db);letter-spacing:2px;">MONTH 05</div><div style="font-family:Georgia,serif;font-size:clamp(13px,1.3vw,17px);color:var(--db);font-weight:600;margin-top:2px;">Compound</div></div>
+      <div style="padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);flex:1;overflow:hidden;"><ul class="dl"><li>Diwali pre-orders open</li><li>Corporate gifting — 3 signed accounts</li><li>Retargeting for festive push</li><li>5 hotels, 2 cities in supply</li><li>WhatsApp community: 500 members</li><li>250 orders/month run rate</li></ul></div>
+    </div>
+    <div style="display:flex;flex-direction:column;overflow:hidden;">
+      <div style="background:var(--mk);padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;"><div style="font-family:'Courier New',monospace;font-size:9px;color:var(--cu);letter-spacing:2px;">MONTH 06</div><div style="font-family:Georgia,serif;font-size:clamp(13px,1.3vw,17px);color:#fff;font-weight:600;margin-top:2px;">Review</div></div>
+      <div style="padding:clamp(8px,1.3vh,14px) clamp(8px,1.1vw,12px);flex:1;overflow:hidden;"><ul class="dl"><li>Diwali season peak — execute flawlessly</li><li>Full channel audit — cut underperformers</li><li>300+ D2C orders/month</li><li>500 organic visits/month (SEO)</li><li>ROAS &gt;3× on Meta</li><li>Plan Year 2 strategy</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 20 — REVENUE TARGETS
+==================================================== -->
+<div class="slide" id="s20">
+  <div class="sh cr">
+    <div class="sh-l">
+      <div class="sh-tag">20 · Numbers</div>
+      <div class="sh-title">Revenue <em>Targets</em></div>
+      <div class="sh-sub">Conservative scenario. These are floors, not ceilings. Each channel is independently achievable.</div>
+    </div>
+    <div class="sh-ghost">20</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);display:flex;flex-direction:column;">
+      <div style="padding:clamp(10px,1.5vh,16px) clamp(18px,2.2vw,26px);border-bottom:1px solid var(--ln);flex-shrink:0;background:var(--wh);"><div class="t-tag">Offline — Month 3 Run Rate</div></div>
+      <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ln);flex:1;">
+          <div style="padding:clamp(12px,1.8vh,20px) clamp(18px,2.2vw,26px);border-right:1px solid var(--ln);"><div style="font-size:clamp(9px,.82vw,11px);color:var(--cu);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Societies (10 × 20 orders)</div><div style="font-family:Georgia,serif;font-size:clamp(22px,2.5vw,32px);color:var(--db);line-height:1;margin-bottom:2px;">₹3,60,000</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">200 orders × ₹1,800 avg order value</div></div>
+          <div style="padding:clamp(12px,1.8vh,20px) clamp(18px,2.2vw,26px);"><div style="font-size:clamp(9px,.82vw,11px);color:var(--cu);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Hotels (5 accounts)</div><div style="font-family:Georgia,serif;font-size:clamp(22px,2.5vw,32px);color:var(--db);line-height:1;margin-bottom:2px;">₹1,75,000</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">₹25K–₹50K per account/month</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;">
+          <div style="padding:clamp(12px,1.8vh,20px) clamp(18px,2.2vw,26px);border-right:1px solid var(--ln);"><div style="font-size:clamp(9px,.82vw,11px);color:var(--cu);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Corporate Gifting</div><div style="font-family:Georgia,serif;font-size:clamp(22px,2.5vw,32px);color:var(--db);line-height:1;margin-bottom:2px;">₹60,000</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">3–4 accounts at ₹15K–₹20K avg</div></div>
+          <div style="padding:clamp(12px,1.8vh,20px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;justify-content:center;background:var(--db);"><div style="font-size:clamp(9px,.82vw,11px);color:var(--cu);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Total Offline</div><div style="font-family:Georgia,serif;font-size:clamp(24px,2.8vw,36px);color:var(--go);line-height:1;margin-bottom:2px;">₹5,95,000</div><div style="font-size:clamp(9px,.82vw,11px);color:rgba(255,255,255,.4);">Per month by Month 3</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;">
+      <div style="padding:clamp(10px,1.5vh,16px) clamp(18px,2.2vw,26px);border-bottom:1px solid var(--ln);flex-shrink:0;background:var(--wh);"><div class="t-tag">Online — Month 6 Target</div></div>
+      <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ln);flex:1;">
+          <div style="padding:clamp(12px,1.8vh,20px) clamp(18px,2.2vw,26px);border-right:1px solid var(--ln);"><div style="font-size:clamp(9px,.82vw,11px);color:var(--cu);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">D2C Orders</div><div style="font-family:Georgia,serif;font-size:clamp(22px,2.5vw,32px);color:var(--db);line-height:1;margin-bottom:2px;">300+</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">Orders/month at ₹1,800 avg = ₹5.4L</div></div>
+          <div style="padding:clamp(12px,1.8vh,20px) clamp(18px,2.2vw,26px);"><div style="font-size:clamp(9px,.82vw,11px);color:var(--cu);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Meta ROAS Target</div><div style="font-family:Georgia,serif;font-size:clamp(22px,2.5vw,32px);color:var(--db);line-height:1;margin-bottom:2px;">&gt;3×</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">₹15K spend → ₹45K+ revenue</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;">
+          <div style="padding:clamp(12px,1.8vh,20px) clamp(18px,2.2vw,26px);border-right:1px solid var(--ln);"><div style="font-size:clamp(9px,.82vw,11px);color:var(--cu);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Customer LTV / Year</div><div style="font-family:Georgia,serif;font-size:clamp(22px,2.5vw,32px);color:var(--db);line-height:1;margin-bottom:2px;">₹26,400</div><div style="font-size:clamp(9px,.82vw,11px);color:var(--mt);">₹2,200/month × 12 (subscriber)</div></div>
+          <div style="padding:clamp(12px,1.8vh,20px) clamp(18px,2.2vw,26px);display:flex;flex-direction:column;justify-content:center;background:var(--db);"><div style="font-size:clamp(9px,.82vw,11px);color:var(--cu);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">CAC Target</div><div style="font-family:Georgia,serif;font-size:clamp(24px,2.8vw,36px);color:var(--go);line-height:1;margin-bottom:2px;">&lt;₹350</div><div style="font-size:clamp(9px,.82vw,11px);color:rgba(255,255,255,.4);">LTV:CAC ratio &gt;75×</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 21 — REFERRAL + COMMUNITY
+==================================================== -->
+<div class="slide" id="s21">
+  <div class="sh wh">
+    <div class="sh-l">
+      <div class="sh-tag">21 · Retention &amp; Growth</div>
+      <div class="sh-title">Referral Program &amp; <em>Community</em></div>
+      <div class="sh-sub">A Tharpure customer who refers is worth 4× a first-time buyer. Build the machine that compounds word-of-mouth.</div>
+    </div>
+    <div class="sh-ghost">21</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden;">
+    <div style="border-right:1px solid var(--ln);padding:clamp(14px,2.2vh,26px) clamp(22px,2.8vw,36px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">WhatsApp Community — "Tharpure Family"</div>
+      <div class="rule"></div>
+      <ul class="dl" style="margin-bottom:14px;">
+        <li>Private WhatsApp group for all buyers — invite after first order</li>
+        <li>Monthly farm update video — behind the scenes, calf births, harvest</li>
+        <li>Seasonal recipe drops 2× per month</li>
+        <li>Early access to new SKUs and seasonal packs</li>
+        <li>Community-exclusive discounts (not available publicly)</li>
+        <li>Personal WhatsApp from the founder on festivals</li>
+      </ul>
+      <div class="callout" style="margin-top:auto;">Target: <strong>500 active community members</strong> by Month 6. This group IS your retention engine.</div>
+    </div>
+    <div style="padding:clamp(14px,2.2vh,26px) clamp(22px,2.8vw,36px);display:flex;flex-direction:column;overflow:hidden;">
+      <div class="t-tag" style="margin-bottom:8px;">Referral Program — "Pure Recommends"</div>
+      <div class="rule"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px;">
+        <div style="background:var(--cr);border:1px solid var(--ln);border-radius:8px;padding:clamp(10px,1.5vh,16px) clamp(12px,1.5vw,16px);"><div style="font-family:Georgia,serif;font-size:clamp(22px,2.8vw,36px);color:var(--cu);line-height:1;margin-bottom:3px;">₹150</div><div style="font-size:clamp(8px,.75vw,10px);letter-spacing:2px;text-transform:uppercase;color:var(--mt);margin-bottom:5px;">Referrer Gets</div><div style="font-size:clamp(9px,.85vw,11.5px);color:var(--bd);">Store credit on your next order for each friend who buys</div></div>
+        <div style="background:var(--cr);border:1px solid var(--ln);border-radius:8px;padding:clamp(10px,1.5vh,16px) clamp(12px,1.5vw,16px);"><div style="font-family:Georgia,serif;font-size:clamp(22px,2.8vw,36px);color:var(--cu);line-height:1;margin-bottom:3px;">₹100</div><div style="font-size:clamp(8px,.75vw,10px);letter-spacing:2px;text-transform:uppercase;color:var(--mt);margin-bottom:5px;">New Buyer Gets</div><div style="font-size:clamp(9px,.85vw,11.5px);color:var(--bd);">Discount on first order — reduces trial friction to near zero</div></div>
+      </div>
+      <ul class="dl">
+        <li>Each buyer gets a unique WhatsApp share link post-purchase</li>
+        <li>Tracked via Interakt / custom short URL</li>
+        <li>Double rewards during Diwali (₹300 / ₹200)</li>
+        <li>"Top 3 referrers" get a farm visit invitation each quarter</li>
+      </ul>
+      <div class="callout" style="margin-top:auto;">If 10% of buyers refer 1 person: <strong>30 extra orders/month at ₹0 CAC</strong> by Month 4.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================
+  SLIDE 22 — CLOSE / ASK
+==================================================== -->
+<div class="slide" id="s22">
+  <div style="background:var(--db);flex:1;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 15% 50%,rgba(200,98,42,.22) 0%,transparent 65%);pointer-events:none;z-index:0;"></div>
+    <div style="display:flex;flex-direction:column;justify-content:center;padding:clamp(36px,5.5vw,72px);position:relative;z-index:1;">
+      <div style="font-size:clamp(8px,.75vw,10px);font-weight:700;letter-spacing:5px;color:var(--cu);text-transform:uppercase;margin-bottom:16px;">Start This Week</div>
+      <div style="font-family:Georgia,serif;font-size:clamp(28px,3.8vw,52px);color:#fff;font-weight:400;line-height:1.1;margin-bottom:8px;">Three moves.<br>This <em style="color:var(--go);font-style:normal;">Monday.</em></div>
+      <div style="width:40px;height:2px;background:var(--cu);border-radius:1px;margin-bottom:22px;"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;"><div style="width:22px;height:22px;border-radius:50%;background:var(--cu);color:#fff;font-family:'Courier New',monospace;font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">01</div><div style="font-size:clamp(10px,.95vw,13px);color:rgba(255,255,255,.8);line-height:1.5;">Fix the landing page — move the award above fold, add a WhatsApp button. <strong style="color:#fff;">2 hours.</strong></div></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;"><div style="width:22px;height:22px;border-radius:50%;background:var(--cu);color:#fff;font-family:'Courier New',monospace;font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">02</div><div style="font-size:clamp(10px,.95vw,13px);color:rgba(255,255,255,.8);line-height:1.5;">Sign up for Interakt — set up the 5-message WhatsApp sequence. <strong style="color:#fff;">₹2,500/month.</strong></div></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;"><div style="width:22px;height:22px;border-radius:50%;background:var(--cu);color:#fff;font-family:'Courier New',monospace;font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">03</div><div style="font-size:clamp(10px,.95vw,13px);color:rgba(255,255,255,.8);line-height:1.5;">Launch ₹15K Meta awareness campaign — 1 farm video ad, health interest targeting. <strong style="color:#fff;">Week 1.</strong></div></div>
+      </div>
+      <div style="background:var(--cu);padding:12px 18px;border-radius:8px;display:inline-flex;align-items:center;gap:9px;align-self:flex-start;"><span style="font-size:16px;">🏆</span><span style="font-size:clamp(9px,.88vw,12px);color:#fff;font-weight:600;letter-spacing:.3px;">India's #1 Dairy Award — Gopal Ratna</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;justify-content:center;padding:clamp(36px,5.5vw,72px);position:relative;z-index:1;border-left:1px solid rgba(255,255,255,.07);">
+      <div style="font-size:clamp(8px,.75vw,10px);font-weight:700;letter-spacing:4px;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:20px;">Month 1 Investment</div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
+        <div style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;"><div style="font-size:clamp(10px,.95vw,13px);color:rgba(255,255,255,.6);">Meta Ads Budget</div><div style="font-family:Georgia,serif;font-size:clamp(16px,1.8vw,22px);color:var(--go);">₹15,000</div></div>
+        <div style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;"><div style="font-size:clamp(10px,.95vw,13px);color:rgba(255,255,255,.6);">WhatsApp Tool (Interakt)</div><div style="font-family:Georgia,serif;font-size:clamp(16px,1.8vw,22px);color:var(--go);">₹2,500</div></div>
+        <div style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;"><div style="font-size:clamp(10px,.95vw,13px);color:rgba(255,255,255,.6);">Society samples (10 visits)</div><div style="font-family:Georgia,serif;font-size:clamp(16px,1.8vw,22px);color:var(--go);">₹5,000</div></div>
+        <div style="border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;"><div style="font-size:clamp(10px,.95vw,13px);color:rgba(255,255,255,.6);">Website CRO (dev)</div><div style="font-family:Georgia,serif;font-size:clamp(16px,1.8vw,22px);color:var(--go);">₹8,000</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:4px;"><div style="font-size:clamp(10px,.95vw,13px);color:rgba(255,255,255,.6);">Influencer gifting</div><div style="font-family:Georgia,serif;font-size:clamp(16px,1.8vw,22px);color:var(--go);">₹3,000</div></div>
+      </div>
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(212,168,67,.3);padding:clamp(12px,1.8vh,18px) clamp(14px,1.8vw,20px);border-radius:8px;">
+        <div style="font-size:clamp(8px,.75vw,10px);letter-spacing:3px;text-transform:uppercase;color:var(--cu);margin-bottom:5px;">Month 1 Total</div>
+        <div style="font-family:Georgia,serif;font-size:clamp(24px,3vw,40px);color:var(--go);line-height:1;margin-bottom:3px;">₹33,500</div>
+        <div style="font-size:clamp(9px,.85vw,11px);color:rgba(255,255,255,.35);">Conservative target return: ₹1.2L+ by Month 2</div>
+      </div>
+    </div>
+  </div>
+  <div style="background:rgba(0,0,0,.3);padding:clamp(8px,1.2vh,13px) clamp(32px,4.5vw,60px);display:flex;align-items:center;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;">
+    <span style="font-size:clamp(9px,.85vw,11.5px);color:rgba(255,255,255,.3);font-style:italic;">Tharpure Organic Farms · Jaipur, Rajasthan · <strong style="color:rgba(255,255,255,.5);font-style:normal;">Strategy Deck — June 2026</strong></span>
+  </div>
+</div>
+
+</div><!-- /.pres -->
+
+<div class="nav">
+  <button class="nb" id="btn-prev" onclick="go(-1)" disabled>&#8249;</button>
+  <div class="dots" id="dots"></div>
+  <span id="ctr">01 / 11</span>
+  <button class="nb" id="btn-next" onclick="go(1)">&#8250;</button>
+</div>
+<span class="kh">← → keys</span>
+<button class="fsb" title="Fullscreen" onclick="toggleFS()">⛶</button>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let cur=0;
+const dotsEl=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);});
+function goTo(n){if(n===cur)return;slides[cur].classList.add('exit');slides[cur].classList.remove('active');setTimeout(()=>slides[cur].classList.remove('exit'),250);cur=Math.max(0,Math.min(n,slides.length-1));slides[cur].classList.add('active');document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));document.getElementById('ctr').textContent=String(cur+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===slides.length-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(-1);}if(e.key==='f'||e.key==='F')toggleFS();});
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen();}
+goTo(0);
+</script>
+</body>
+</html>

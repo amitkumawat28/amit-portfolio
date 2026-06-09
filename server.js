@@ -291,6 +291,9 @@ app.get('/admin/', (_req, res) => res.sendFile(path.join(__dirname, 'admin', 'in
 app.get('/learning', (_req, res) => res.sendFile(path.join(__dirname, 'learning.html')));
 app.get('/learning/', (_req, res) => res.sendFile(path.join(__dirname, 'learning.html')));
 
+app.get('/thar-pure-strategy', (_req, res) => res.sendFile(path.join(__dirname, 'tharpure-strategy.html')));
+app.get('/thar-pure-strategy/', (_req, res) => res.sendFile(path.join(__dirname, 'tharpure-strategy.html')));
+
 // ── Static files (data.js route above takes priority) ────────────────────────
 
 app.use(express.static(__dirname, { index: 'Portfolio.html' }));
