@@ -12,7 +12,8 @@
           "data.js",
           "admin/**",
           "assets/**",
-          "data/**"
+          "data/**",
+          "pbcase-study/**"
         ]
       }
     }

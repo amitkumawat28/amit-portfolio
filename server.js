@@ -294,6 +294,9 @@ app.get('/learning/', (_req, res) => res.sendFile(path.join(__dirname, 'learning
 app.get('/thar-pure-strategy', (_req, res) => res.sendFile(path.join(__dirname, 'tharpure-strategy.html')));
 app.get('/thar-pure-strategy/', (_req, res) => res.sendFile(path.join(__dirname, 'tharpure-strategy.html')));
 
+app.get('/pbcase-study', (_req, res) => res.sendFile(path.join(__dirname, 'pbcase-study', 'index.html')));
+app.get('/pbcase-study/', (_req, res) => res.sendFile(path.join(__dirname, 'pbcase-study', 'index.html')));
+
 // ── Static files (data.js route above takes priority) ────────────────────────
 
 app.use(express.static(__dirname, { index: 'Portfolio.html' }));
